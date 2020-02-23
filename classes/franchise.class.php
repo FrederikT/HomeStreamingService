@@ -1,0 +1,46 @@
+public class Franchise
+{
+private string name;
+private int id;
+
+public Franchise(string name, int id)
+{
+this.name = name ?? throw new ArgumentNullException(nameof(name));
+this.id = id;
+}
+
+public string Name
+{
+get => name;
+set => name = value;
+}
+
+public int Id
+{
+get => id;
+set => id = value;
+}
+
+
+//!!DEPENDENCY: Other classes use comparison only by id!
+public override bool Equals(object obj)
+{
+Franchise franchise = null;
+try
+{
+franchise = (Franchise)obj;
+}
+catch
+{
+return false;
+}
+
+if (this.id == franchise.id)
+{
+return true;
+}
+
+return false;
+
+}
+}
