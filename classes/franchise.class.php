@@ -1,46 +1,41 @@
-public class Franchise
-{
-private string name;
-private int id;
+<?php
 
-public Franchise(string name, int id)
-{
-this.name = name ?? throw new ArgumentNullException(nameof(name));
-this.id = id;
-}
+class Franchise {
+    private string $name;
+    private int $id;
 
-public string Name
-{
-get => name;
-set => name = value;
-}
-
-public int Id
-{
-get => id;
-set => id = value;
-}
+    public function __construct(int $id = NULL, string $name)
+    {
+        $this->name = $name;
+        $this->id = $id;
+    }
 
 
-//!!DEPENDENCY: Other classes use comparison only by id!
-public override bool Equals(object obj)
-{
-Franchise franchise = null;
-try
-{
-franchise = (Franchise)obj;
-}
-catch
-{
-return false;
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function equals(franchise $franchise){
+        if($this->id == $franchise->getId()){
+            return true;
+        }
+        return false;
+    }
 }
 
-if (this.id == franchise.id)
-{
-return true;
-}
-
-return false;
-
-}
-}
+?>

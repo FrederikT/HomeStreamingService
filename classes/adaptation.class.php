@@ -1,57 +1,38 @@
-public class Adaptation : MetaData
-{
-private List<Genre> genre = new List<Genre>();
-        private Franchise franchise;
+<?php
+    class Adaptation extends MetaData {
+        private array $genre;
+        private Franchise $franchise;
 
-        public Adaptation(int id, string title, string originalTitle, string description, List<Genre> genre, Franchise franchise) : base(id, title, originalTitle, description)
-            {
-            this.genre = genre;
-            this.franchise = franchise;
-            }
+        public function __construct(int $id, string $title, string $originalTitle = null, string $description = null, array $genre = null, Franchise $franchise = null)
+        {
+            parent::__construct($id, $title, $originalTitle, $description);
+            $this->genre = $genre;
+            $this->franchise = $franchise;
+        }
 
-            public Adaptation(int id, string title, List<Genre> genre, Franchise franchise) : base(id, title)
-                {
-                this.genre = genre;
-                this.franchise = franchise;
-                }
+        public function setGenre(array $genre)
+        {
+            $this->genre = $genre;
+        }
 
-                public Adaptation(int id, string title, string originalTitle, string description, List<Genre> genre) : base(id, title, originalTitle, description)
-                    {
-                    this.genre = genre;
-                    }
+        public function setFranchise(string $franchise)
+        {
+            $this->franchise = $franchise;
+        }
 
-                    public Adaptation(int id, string title, List<Genre> genre) : base(id, title)
-                        {
-                        this.genre = genre;
-                        }
-                        public Adaptation(int id, string title, string originalTitle) : base(id, title)
-                        {
-                        this.OriginalTitle = originalTitle;
-                        }
+        public function getGenre()
+        {
+            return $this->genre;
+        }
 
-                        public Adaptation(MetaData meta, Franchise adaptationFranchise) : base(meta)
-                        {
-                        this.franchise = adaptationFranchise;
-                        }
+        public function getFranchise()
+        {
+            return $this->franchise;
+        }
 
-                        protected Adaptation(Adaptation adaptation) : base((MetaData) adaptation)
-                        {
-                        this.genre = adaptation.genre;
-                        this.franchise = adaptation.franchise;
-                        }
+        public function addGenre(Genre $genre){
+            array_push($this->genre, $genre);
+        }
+ }
 
-                        public List<Genre> Genre => genre;
-
-                            public Franchise Franchise => franchise;
-
-                            public override string ToString()
-                            {
-                            return base.ToString();
-                            }
-
-                            public override bool Equals(object obj)
-                            {
-                            //should compare by id
-                            return base.Equals(obj);
-                            }
-                            }
+ ?>

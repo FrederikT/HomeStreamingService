@@ -1,56 +1,43 @@
-public class Episode : MetaData
-{
-private int duration;
-private string filePath;
-private Season season;
+<?php
+ class Episode extends MetaData{
+    private int $duration;
+    private string $filePath;
+    private Season $season;
 
-public Episode(int id, Season season, string title, string originalTitle, string description, int duration) : base(id, title, originalTitle, description)
-{
-this.duration = duration;
-this.season = season;
-}
 
-public Episode(int id, Season season, string title, int duration) : base(id, title)
-{
-this.duration = duration;
-this.season = season;
-}
+    public function  __construct(int $id, string $title, string $originalTitle = Null, string $description = Null, int $duration = Null, string $filePath = Null, Season $season = Null)
+    {
+        parent::__construct($id, $title, $originalTitle, $description);
+        $this->duration = $duration;
+        $this->filePath = $filePath;
+        $this->season = $season;
+    }
 
-public Episode(int id, Season season, string title, string originalTitle, string description, int duration, string filePath) : base(id, title, originalTitle, description)
-{
-this.duration = duration;
-this.filePath = filePath;
-this.season = season;
-}
+     public function setDuration(int $duration)
+     {
+         $this->duration = $duration;
+     }
+     public function setFilePath(string $filePath)
+     {
+         $this->filePath = $filePath;
+     }
+     public function setSeason(Season $season)
+     {
+         $this->season = $season;
+     }
 
-public Episode(int id, Season season, string title, int duration, string filePath) : base(id, title)
-{
-this.duration = duration;
-this.filePath = filePath;
-this.season = season;
-}
+     public function getDuration()
+     {
+         return $this->duration;
+     }
+     public function getFilePath()
+     {
+         return $this->filePath;
+     }
+     public function getSeason()
+     {
+         return $this->season;
+     }
 
-public Episode(MetaData meta, Season season, int duration) : base(meta)
-{
-this.duration = duration;
-this.season = season;
-}
-
-public int Duration
-{
-get => duration;
-set => duration = value;
-}
-
-public string FilePath
-{
-get => filePath;
-set => filePath = value;
 }
 
-public Season Season
-{
-get => season;
-set => season = value;
-}
-}

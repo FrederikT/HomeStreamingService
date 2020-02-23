@@ -41,6 +41,12 @@ Author: Webstrot
 	<link rel="shortcut icon" type="image/png" href="images/header/favicon.ico" />
 </head>
 
+<!-- include Autoloader, which automatically includes all used classes-->
+<?php
+ include 'includes/autoloader.inc.php'
+?>
+
+
 <body>
 	<!-- preloader Start -->
 	<div id="preloader">
@@ -103,9 +109,10 @@ Author: Webstrot
 								<li class="parent"><a href="#">Home</a>
 									<ul class="lg-submenu">
 										<?php
-											$response = file_get_contents('http://localhost/api/api/Episode');
-											$response = json_decode($response);
-											echo $response;
+
+
+
+
 										?>
 									</ul>
 								</li>
