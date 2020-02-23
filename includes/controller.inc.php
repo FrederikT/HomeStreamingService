@@ -18,97 +18,102 @@ class Controller{
 
 
     static function getEpisodes(){
-        $episodes = array();
-        $json = Controller::getJson("Episode");
-        $jsonArray = json_decode($json);
+
+        if(empty(Controller::$episodeList)) {
+            $json = Controller::getJson("Episode");
+            $jsonArray = json_decode($json);
+            foreach ($jsonArray as $jsonEpisode) {
+                //associative arrays
+                $assArrEpisode = json_decode($jsonEpisode, true);
+                $assArrSeason = $assArrEpisode["Season"];
+                $assArrShow = $assArrEpisode["Season"]["Show"];
 
 
-
-        foreach ($jsonArray as $jsonEpisode){
-            //associative arrays
-            $assArrEpisode = json_decode($jsonEpisode, true);
-            $assArrSeason = $assArrEpisode["Season"];
-            $assArrShow = $assArrEpisode["Season"]["Show"];
-
-
-            $franchise = $assArrShow["Franchise"];
-            if(is_null($franchise)){
-                $franchise = new Franchise(-1, "");
-            };
+                $franchise = $assArrShow["Franchise"];
+                if (is_null($franchise)) {
+                    $franchise = new Franchise(-1, "");
+                } else {
+                    Controller::addFranchise($franchise);
+                }
 
 
-            $show = new Adaptation(
-                (int) $assArrShow["Id"],
-                (string) $assArrShow["Title"],
-                (string) $assArrShow["OriginalTitle"],
-                (string) $assArrShow["Description"],
-                (array) $assArrShow["Genre"],
-                $franchise
-            );
+                $show = new Adaptation(
+                    (int)$assArrShow["Id"],
+                    (string)$assArrShow["Title"],
+                    (string)$assArrShow["OriginalTitle"],
+                    (string)$assArrShow["Description"],
+                    (array)$assArrShow["Genre"],
+                    $franchise
+                );
 
-            Controller::addShow($show);
+                Controller::addShow($show);
 
-            $season = new Season(
-                (int) $assArrSeason["Id"],
-                (string) $assArrSeason["Title"],
-                (string) $assArrSeason["OriginalTitle"],
-                (string) $assArrSeason["Description"],
-                $show
-            );
+                $season = new Season(
+                    (int)$assArrSeason["Id"],
+                    (string)$assArrSeason["Title"],
+                    (string)$assArrSeason["OriginalTitle"],
+                    (string)$assArrSeason["Description"],
+                    $show
+                );
 
-            $episode = new Episode(
-                (int) $assArrEpisode["Id"],
-                (string) $assArrEpisode["Title"],
-                (string) $assArrEpisode["OriginalTitle"],
-                (string) $assArrEpisode["Description"],
-                (int) $assArrEpisode["Duration"],
-                (string) $assArrEpisode["FilePath"],
-                $season
-            );
+                Controller::addSeason($season);
 
-            /*
-             *
-            print($episode->toString());
-            print("<br><br>");
-            */
+                $episode = new Episode(
+                    (int)$assArrEpisode["Id"],
+                    (string)$assArrEpisode["Title"],
+                    (string)$assArrEpisode["OriginalTitle"],
+                    (string)$assArrEpisode["Description"],
+                    (int)$assArrEpisode["Duration"],
+                    (string)$assArrEpisode["FilePath"],
+                    $season
+                );
 
-            array_push($episodes, $episode);
+                Controller::addEpisode($episode);
 
 
-            /*
+                /*
 
-            Example of $assArrEpisode [23/02/2020 21:23]
+                Example of $assArrEpisode [23/02/2020 21:23]
 
-            [Duration] => 25
-            [FilePath] =>
-            [Season] => Array (
-                [Show] => Array (
-                    [Genre] => Array ( )
-                    [Franchise] =>
-                    [Id] => 1
-                    [Title] => that time i got reincarnated as a slime
-                    [OriginalTitle] => Tensei Shitara slime datta ken
+                [Duration] => 25
+                [FilePath] =>
+                [Season] => Array (
+                    [Show] => Array (
+                        [Genre] => Array ( )
+                        [Franchise] =>
+                        [Id] => 1
+                        [Title] => that time i got reincarnated as a slime
+                        [OriginalTitle] => Tensei Shitara slime datta ken
+                        [Description] =>
+                    )
+                    [Id] => 16
+                    [Title] => that time I got reincarnated as slime S1
+                    [OriginalTitle] => tensura 1
                     [Description] =>
                 )
-                [Id] => 16
-                [Title] => that time I got reincarnated as slime S1
-                [OriginalTitle] => tensura 1
+                [Id] => 2
+                [Title] => The storm dragon, verudora
+                [OriginalTitle] => boufuu ryuu verudora
                 [Description] =>
-            )
-            [Id] => 2
-            [Title] => The storm dragon, verudora
-            [OriginalTitle] => boufuu ryuu verudora
-            [Description] =>
 
-            */
+                */
+            }
         }
 
-        print_r(Controller::$showList);
-        return $episodes;
+        return Controller::$episodeList;
     }
 
+    // get Franchise
+    // get Genre
+    // get Movie
+    // get season
+    // get Show
 
-    // Duplicate Code to insure correct types (e.g. no episodes in movies)
+
+
+
+
+    // redundant Code to insure correct types (e.g. no episodes in movies)
     // Methods add object to list, if not already exists
 
     private static function addMetaData(MetaData $metaData){
