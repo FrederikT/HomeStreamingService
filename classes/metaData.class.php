@@ -58,7 +58,7 @@
     public function toString()
     {
         $str = $this->originalTitle . " , " . $this->title . " , " . $this->description . "; \n";
-        return s;
+        return $str;
     }
 
 
