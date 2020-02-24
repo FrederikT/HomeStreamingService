@@ -4,8 +4,8 @@ require 'autoloader.inc.php';
 class Controller{
 
     //static arrays with data
-    static $metaDataList = array();
-    static $adaptationList = array();
+    static $metaDataList = array(); //Currently unused
+    static $adaptationList = array(); //Currently unused
 
     static $episodeList = array();
     static $seasonList = array();
@@ -29,11 +29,15 @@ class Controller{
                 $assArrShow = $assArrEpisode["Season"]["Show"];
 
 
-                $franchise = $assArrShow["Franchise"];
-                if (is_null($franchise)) {
+                $assArrFranchise = $assArrShow["Franchise"];
+                if (is_null($assArrFranchise)) {
                     $franchise = new Franchise(-1, "");
                 } else {
-                    Controller::addFranchise($franchise);
+                    $franchise = new Franchise(
+                        (int)$assArrFranchise["Id"],
+                        (string)$assArrFranchise["Name"]);
+                    // Adding to list here will deactivate if(empty), therefore currently not used
+                    //Controller::addFranchise($franchise);
                 }
 
 
@@ -46,7 +50,8 @@ class Controller{
                     $franchise
                 );
 
-                Controller::addShow($show);
+                // Adding to list here will deactivate if(empty), therefore currently not used
+                //Controller::addShow($show);
 
                 $season = new Season(
                     (int)$assArrSeason["Id"],
@@ -56,7 +61,8 @@ class Controller{
                     $show
                 );
 
-                Controller::addSeason($season);
+                // Adding to list here will deactivate if(empty), therefore currently not used
+                //Controller::addSeason($season);
 
                 $episode = new Episode(
                     (int)$assArrEpisode["Id"],
@@ -103,12 +109,249 @@ class Controller{
         return Controller::$episodeList;
     }
 
-    // get Franchise
-    // get Genre
-    // get Movie
-    // get season
-    // get Show
+    static function getFranchises(){
 
+        if(empty(Controller::$franchiseList)) {
+            $json = Controller::getJson("Franchise");
+            $jsonArray = json_decode($json);
+
+            foreach ($jsonArray as $jsonFranchise) {
+                //associative array
+                $assArrFranchise = json_decode($jsonFranchise, true);
+
+                $franchise = new Franchise(
+                    (int)$assArrFranchise["Id"],
+                    (string)$assArrFranchise["Name"]);
+                Controller::addFranchise($franchise);
+
+
+                /*
+                Example of $assArrFranchise [24/02/2020 16:44]
+                [Name] => Fate
+                [Id] => 12
+
+                */
+            }
+        }
+
+        return Controller::$franchiseList;
+    }
+
+    static function getGenre(){
+
+        if(empty(Controller::$genreList)) {
+            $json = Controller::getJson("Genre");
+            $jsonArray = json_decode($json);
+
+            foreach ($jsonArray as $jsonGenre) {
+                //associative array
+                $assArrGenre = json_decode($jsonGenre, true);
+
+                $genre = new Genre((string)$assArrGenre["Name"]);
+                Controller::addGenre($genre);
+
+                /*
+                Example of $assArrGenre [24/02/2020 16:47]
+                [Name] => Anime
+                */
+            }
+        }
+
+        return Controller::$genreList;
+    }
+
+    static function getMovies(){
+
+        if(empty(Controller::$movieList)) {
+            $json = Controller::getJson("Movie");
+            $jsonArray = json_decode($json);
+            foreach ($jsonArray as $jsonMovie) {
+                //associative arrays
+                $assArrMovie = json_decode($jsonMovie, true);
+                print_r($assArrMovie);
+                $assArrFranchise = $assArrMovie["Franchise"];
+                if (is_null($assArrFranchise)) {
+                    $franchise = new Franchise(-1, "");
+                } else {
+                    $franchise = new Franchise(
+                        (int)$assArrFranchise["Id"],
+                        (string)$assArrFranchise["Name"]);
+                    // Adding to list here will deactivate if(empty), therefore currently not used
+                    //Controller::addFranchise($franchise);
+                }
+
+
+                $movie = new Movie(
+                    (int)$assArrMovie["Id"],
+                    (string)$assArrMovie["Title"],
+                    (string)$assArrMovie["OriginalTitle"],
+                    (string)$assArrMovie["Description"],
+                    (array)$assArrMovie["Genre"],
+                    $franchise,
+                    (int)$assArrMovie["Duration"],
+                    (string)$assArrMovie["FilePath"],
+                );
+
+                Controller::addMovie($movie);
+
+
+                /*
+
+                Example of $assArrMovie [24/02/2020 16:58]
+
+                [FilePath] =>
+                [Duration] => 120
+                [Genre] => Array (
+                    [0] => Array (
+                        [Name] => Anime
+                    )
+                )
+                [Franchise] => Array (
+                    [Name] => Fate
+                    [Id] => 12
+                )
+                [Id] => 15
+                [Title] => Fate/stay night: Heaven's Feel - I. Presage Flower
+                [OriginalTitle] => 劇場版
+                [Description] =>
+
+                */
+            }
+        }
+
+        return Controller::$movieList;
+    }
+
+    static function getSeasons(){
+
+        if(empty(Controller::$seasonList)) {
+            $json = Controller::getJson("Season");
+            $jsonArray = json_decode($json);
+            foreach ($jsonArray as $jsonSeason) {
+                //associative arrays
+                $assArrSeason = json_decode($jsonSeason, true);
+                $assArrShow = $assArrSeason["Show"];
+
+                $assArrFranchise = $assArrShow["Franchise"];
+                if (is_null($assArrFranchise)) {
+                    $franchise = new Franchise(-1, "");
+                } else {
+                    $franchise = new Franchise(
+                        (int)$assArrFranchise["Id"],
+                        (string)$assArrFranchise["Name"]);
+                    // Adding to list here will deactivate if(empty), therefore currently not used
+                    //Controller::addFranchise($franchise);
+                }
+
+                $show = new Adaptation(
+                    (int)$assArrShow["Id"],
+                    (string)$assArrShow["Title"],
+                    (string)$assArrShow["OriginalTitle"],
+                    (string)$assArrShow["Description"],
+                    (array)$assArrShow["Genre"],
+                    $franchise
+                );
+
+                // Adding to list here will deactivate if(empty), therefore currently not used
+                //Controller::addShow($show);
+
+                $season = new Season(
+                    (int)$assArrSeason["Id"],
+                    (string)$assArrSeason["Title"],
+                    (string)$assArrSeason["OriginalTitle"],
+                    (string)$assArrSeason["Description"],
+                    $show
+                );
+
+                Controller::addSeason($season);
+
+                /*
+
+                Example of $assArrSeason [24/02/2020 17:07]
+
+                [Show] => Array (
+                    [Genre] => Array ( )
+                    [Franchise] =>
+                    [Id] => 1
+                    [Title] => that time i got reincarnated as a slime
+                    [OriginalTitle] => Tensei Shitara slime datta ken
+                    [Description] =>
+                )
+                [Id] => 16
+                [Title] => that time I got reincarnated as slime S1
+                [OriginalTitle] => tensura 1
+                [Description] =>
+
+                */
+            }
+        }
+
+        return Controller::$seasonList;
+    }
+
+    static function getShows()
+    {
+
+        if (empty(Controller::$showList)) {
+            $json = Controller::getJson("Show");
+            $jsonArray = json_decode($json);
+            foreach ($jsonArray as $jsonShow) {
+                //associative arrays
+                $assArrShow = json_decode($jsonShow, true);
+
+                $assArrFranchise = $assArrShow["Franchise"];
+                if (is_null($assArrFranchise)) {
+                    $franchise = new Franchise(-1, "");
+                } else {
+                    $franchise = new Franchise(
+                        (int)$assArrFranchise["Id"],
+                        (string)$assArrFranchise["Name"]);
+                    // Adding to list here will deactivate if(empty), therefore currently not used
+                    //Controller::addFranchise($franchise);
+                }
+
+                $show = new Adaptation(
+                    (int)$assArrShow["Id"],
+                    (string)$assArrShow["Title"],
+                    (string)$assArrShow["OriginalTitle"],
+                    (string)$assArrShow["Description"],
+                    (array)$assArrShow["Genre"],
+                    $franchise
+                );
+
+                Controller::addShow($show);
+
+
+                /*
+
+                Example of $assArrShow [24/02/2020 17:15]
+
+                [Genre] => Array ( )
+                [Franchise] =>
+                [Id] => 1
+                [Title] => that time i got reincarnated as a slime
+                [OriginalTitle] => Tensei Shitara slime datta ken
+                [Description] =>
+
+                */
+            }
+        }
+        return Controller::$showList;
+    }
+
+    static function loadAll(){
+        Controller::getEpisodes();
+        Controller::getFranchises();
+        Controller::getGenre();
+        Controller::getMovies();
+        Controller::getSeasons();
+        Controller::getShows();
+    }
+
+
+
+    //Get Specific of Each Type
+    //From List instead of API (Faster)
 
 
 
