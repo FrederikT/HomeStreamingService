@@ -5,12 +5,15 @@
     private Season $season;
 
 
-    public function  __construct(int $id, string $title, string $originalTitle = Null, string $description = Null, int $duration = Null, string $filePath = Null, Season $season = Null)
+    public function  __construct(int $id, string $title, string $originalTitle = "", string $description = "", int $duration = -1, string $filePath = "", $season = Null)
     {
         parent::__construct($id, $title, $originalTitle, $description);
         $this->duration = $duration;
         $this->filePath = $filePath;
-        $this->season = $season;
+        if(!is_null($season)){
+            $this->season = $season;
+        }
+
     }
 
      public function setDuration(int $duration)

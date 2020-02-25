@@ -1,5 +1,5 @@
 <?php
-require 'autoloader.inc.php';
+include_once 'autoloader.inc.php';
 
 class Controller{
 
@@ -168,7 +168,6 @@ class Controller{
             foreach ($jsonArray as $jsonMovie) {
                 //associative arrays
                 $assArrMovie = json_decode($jsonMovie, true);
-                print_r($assArrMovie);
                 $assArrFranchise = $assArrMovie["Franchise"];
                 if (is_null($assArrFranchise)) {
                     $franchise = new Franchise(-1, "");

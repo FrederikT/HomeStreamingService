@@ -5,9 +5,16 @@ class Movie extends Adaptation
     private int $duration;
     private string $filePath;
 
-    public function __construct(int $id, string $title, string $originalTitle = null, string $description = null, array $genre = null, Franchise $franchise = null, int $duration = null, string $filePath = null)
+    public function __construct(int $id, string $title, string $originalTitle = "", string $description = "", array $genre = array(),  $franchise = null, int $duration = -1, string $filePath = "")
     {
-        parent::__construct($id, $title, $originalTitle, $description, $genre, $franchise);
+        try {
+            parent::__construct($id, $title, $originalTitle, $description, $genre, $franchise);
+        }catch (TypeError $e){
+            //Only $franchise can be of wrong type [if null defenitly is]
+            $fra = NullClasses::getFranchise();
+            parent::__construct($id, $title, $originalTitle, $description, $genre, $fra);
+        }
+
         $this->filePath = $filePath;
         $this->duration = $duration;
     }
@@ -37,5 +44,7 @@ class Movie extends Adaptation
     {
         return parent::toString() . "  duration: " . duration;
     }
+
+
 }
 

@@ -6,7 +6,7 @@
     private  string $originalTitle;
     private  string $description;
 
-    public function __construct(int $id, string $title, string $originalTitle = Null, string $description = Null)
+    public function __construct(int $id, string $title, string $originalTitle = "", string $description = "")
     {
         $this->id = $id;
         $this->title = $title;
