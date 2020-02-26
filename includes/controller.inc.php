@@ -350,6 +350,7 @@ class Controller{
 
 
 
+    //TODO return something if not exist.. should be clear that it doesnt exits -> null? (--> type errors)
     //Get Specific of Each Type
     //From List instead of API (Faster)
     static function getEpisode(int $id){
@@ -393,6 +394,32 @@ class Controller{
         }
     }
 
+
+    static function getSeasonsForShow(int $id){
+        $seasons = array();
+        foreach (self::$seasonList as $season){
+            $show = NullClasses::getAdaptation();
+            $show = $season->getShow();
+            if($show->getId() == $id){
+                array_push($seasons, $season);
+            }
+        }
+
+        return $seasons;
+    }
+
+    static function getEpisodesForSeason(int $id){
+        $episodes = array();
+        foreach (self::$episodeList as $episode){
+            $season = NullClasses::getSeason();
+            $season = $episode->getSeason();
+            if($season->getId() == $id){
+                array_push($episodes, $episode);
+            }
+        }
+
+        return $episodes;
+    }
 
 
     // redundant Code to insure correct types (e.g. no episodes in movies)

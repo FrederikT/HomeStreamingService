@@ -60,8 +60,12 @@ class HtmlElements
         $show = NullClasses::getAdaptation();
         for ($i = 0; $i < 10; $i++) {
             if ($i < count($showList)) {
-                print('<li><a href="#">');
                 $show = $showList[$i];
+                print('<li><a href="gallery.html?show=');
+                print($show->getTitle());
+                print('&id=');
+                print($show->getId());
+                print('">');
                 echo $show->getTitle();
                 print('</a></li>');
             }
