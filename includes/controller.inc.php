@@ -338,6 +338,7 @@ class Controller{
         return Controller::$showList;
     }
 
+    // gets all info from api into static lists -> could be loaded at beginning in background to minimize load time
     static function loadAll(){
         Controller::getEpisodes();
         Controller::getFranchises();
@@ -351,7 +352,46 @@ class Controller{
 
     //Get Specific of Each Type
     //From List instead of API (Faster)
+    static function getEpisode(int $id){
 
+        foreach (self::$episodeList as $episode){
+            if($episode->getId() == $id){
+                return $episode;
+            }
+        }
+    }
+
+    static function getFranchise(int $id){
+        foreach (self::$franchiseList as $franchise){
+            if($franchise->getId() == $id){
+                return $franchise;
+            }
+        }
+    }
+
+    static function getMovie(int $id){
+        foreach (self::$movieList as $movie){
+            if($movie->getId() == $id){
+                return $movie;
+            }
+        }
+    }
+
+    static function getSeason(int $id){
+        foreach (self::$seasonList as $season){
+            if($season->getId() == $id){
+                return $season;
+            }
+        }
+    }
+
+    static function getShow(int $id){
+        foreach (self::$showList as $show){
+            if($show->getId() == $id){
+                return $show;
+            }
+        }
+    }
 
 
 
