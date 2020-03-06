@@ -57,39 +57,14 @@ include_once 'includes/htmlElements.inc.php';
     HtmlElements::printStyleSwitcher();
     HtmlElements::printHeader();
     ?>
-	<!-- prs title wrapper Start -->
-	<div class="prs_title_main_sec_wrapper">
-		<div class="prs_title_img_overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="prs_title_heading_wrapper">
-						<h2>our gallery</h2>
-						<ul>
-							<li><a href="#">Home</a>
-							</li>
-							<li>&nbsp;&nbsp; >&nbsp;&nbsp; Gallery</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- prs title wrapper End -->
+
 	<!-- prs gallery wrapper Start -->
 	<div class="prs_gallery_main_section_wrapper">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="prs_heading_section_wrapper">
-						<h2>
-                            <?php
-                            $showId = $_GET['id'];
-                            $show = NullClasses::getAdaptation();
-                            $show = Controller::getShow($showId);
-                            echo $show->getTitle();
-                            ?>
-                        </h2>
+						<h2>Insert new</h2>
 					</div>
 
 				</div>
@@ -97,56 +72,178 @@ include_once 'includes/htmlElements.inc.php';
 					<div class="container">
 						<div class="portfolio-filter clearfix text-center">
 							<ul class="list-inline" id="filter">
-                                <!-- seasons - group = id; -->
-                                <?php
-                                    Controller::loadAll();
-                                    $seasons = Controller::getSeasonsForShow($showId);
-                                    $season = NullClasses::getSeason();
-                                    $season = $seasons[0];
-                                    print('<li><a class="active" data-group="');
-                                    print($season->getId());
-                                    print('">Season 1</a></li>');
-                                    for($i=1; $i < count($seasons); $i++){
-                                        print('<li><a data-group="');
-                                        print($season->getId());
-                                        print('">Season ');
-                                        print($i+1);
-                                        print('</a></li>');
-                                    }
-
-                                ?>
+                                <li><a class="active" data-group="Show">Show</a></li>
+                                <li><a data-group="Season">Season</a>
+                                <li><a data-group="Episode">Episode</a></li>
+                                <li><a data-group="Movie">Movie</a></li>
+                                <li><a data-group="Franchise">Franchise</a></li>
+                                <li><a data-group="Genre">Genre</a></li>
 							</ul>
 						</div>
 						<div class="row three-column">
+
+                            <?php
+                            // define variables and set to empty values
+                            $durationErr = $genreErr = $nameErr = $seasonIdErr = $showIdErr = $titleErr = $typeErr = "";
+                            $description = $duration = $franchiseId = $filePath = $genre = $id = $name = $originalTitle = $seasonId = $showId = $title = $type = "";
+
+                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                                if (empty($_POST["description"])) {
+                                    // do nothing
+                                } else {
+                                    $description = clean_input($_POST["description"]);
+                                }
+
+                                if (empty($_POST["duration"])) {
+                                    $durationErr = "Duration is required";
+                                } else {
+                                    $description = clean_input($_POST["duration"]);
+                                }
+
+                                if (empty($_POST["franchiseID"])) {
+                                    //do nothing
+                                } else {
+                                    $franchiseId = clean_input($_POST["franchiseID"]);
+                                }
+
+
+                                if (empty($_POST["filePath"])) {
+                                    // do nothing
+                                } else {
+                                    $filePath = clean_input($_POST["filePath"]);
+                                }
+
+                                if (empty($_POST["genre"])) {
+                                    $genreErr = "Genre is required";
+                                } else {
+                                    $genre = clean_input($_POST["genre"]);
+                                }
+
+                                if (empty($_POST["id"])) {
+                                    $id= "-5"; // in API <0 will use next available id
+                                } else {
+                                    $id = clean_input($_POST["id"]);
+                                }
+
+                                if (empty($_POST["name"])) {
+                                    $nameErr = "Name is required";
+                                } else {
+                                    $name = clean_input($_POST["name"]);
+                                }
+
+                                if (empty($_POST["originalTitle"])) {
+                                   // do nothing
+                                } else {
+                                    $originalTitle = clean_input($_POST["originalTitle"]);
+                                }
+
+                                if (empty($_POST["seasonId"])) {
+                                    $originalTitleErr = "Season ID is required";
+                                } else {
+                                    $originalTitle = clean_input($_POST["seasonId"]);
+                                }
+
+                                if (empty($_POST["showId"])) {
+                                    $originalTitleErr = "Show ID is required";
+                                } else {
+                                    $originalTitle = clean_input($_POST["showId"]);
+                                }
+
+                                if (empty($_POST["title"])) {
+                                    $titleErr = "Title is required";
+                                } else {
+                                    $title = clean_input($_POST["title"]);
+                                }
+
+                                if (empty($_POST["type"])) {
+                                    $originalTitleErr = "Error : no Type";
+                                } else {
+                                    $originalTitle = clean_input($_POST["originalTitle"]);
+                                }
+
+
+
+                            }
+
+                            function clean_input($data) {
+                                $data = trim($data);
+                                $data = stripslashes($data);
+                                $data = htmlspecialchars($data);
+                                return $data;
+                            }
+                            ?>
+
+
 							<div id="gridWrapper" class="clearfix">
-                                <?php
-                                    foreach ($seasons as $ssn){
-                                        $episodes = Controller::getEpisodesForSeason($ssn->getId());
-                                        $episode = NullClasses::getEpisode();
-                                        foreach ($episodes as $episode){
-                                            print('
-                                                    <!-- Episode..  datagroup = season id-->
-                                                    <div class="col-xs-12 col-sm-6 col-md-4 portfolio-wrapper III_column" data-groups=\'["'); print($ssn->getId()); print('"]\'>');
-                                                       print(' <div class="portfolio-thumb">
-                                                            <div class="gc_filter_cont_overlay_wrapper prs_ms_scene_slider_img">
-                                                                <img src="images/content/gallery/g1.jpg" class="zoom image img-responsive" alt="service_img" />
-                                                                <div class="prs_ms_scene_img_overlay">	<a href="movie_single_second.html?episode=');
-                                                                                                        print($episode->getTitle());
-                                                                                                        print('&id=');
-                                                                                                        print($episode->getId());
-                                                                                                         print( '"> <i class="flaticon-tool"></i></a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /.portfolio-thumb -->
-                                                    </div>
-								            ');
-                                        }
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper III_column" data-groups='["Show"]'>
+                                    <p><span class="error">* required field</span></p>
+                                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                                        ID: <input type="text" name="id">
+                                        <br><br>
+                                        Title: <input type="text" name="title">
+                                        <span class="error">* <?php echo $titleErr;?></span>
+                                        <br><br>
+                                        Original Title: <input type="text" name="originalTitle">
+                                        <span class="error">
+                                        <br><br>
+                                        Description: <textarea name="description" rows="5" cols="40"></textarea>
+                                        <br><br>
+                                        Franchise-ID: <input type="text" name="franchiseID">
+                                        <br><br>
+                                        Genres: <input type="text" name="genre">
+                                        <br><br>
+                                        <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
+                                    </form>
+                                    <?php
+                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
+                                if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr)){
+
+                                    $postfields = array();
+                                    if(!empty($id))
+                                        $postfields['Id'] = $id;
+
+                                    $postfields['Title'] = $title;
+
+                                    if(!empty($originalTitle))
+                                        $postfields['OriginalTitle'] = $originalTitle;
+
+                                    if(!empty($description))
+                                        $postfields['Description'] = $description;
+
+                                    if(!empty($franchiseId))
+                                        $postfields['FranchiseID'] = $franchiseId;
+
+                                    if(!empty($genre))
+                                        $postfields['Genre'] = $genre;
+
+                                    $url = 'http://localhost/api/api/Show';
+                                    $ch = curl_init($url);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_POST, true);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+                                    $response = curl_exec($ch);
+                                    echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                    echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
+                                    var_dump($response);
+                                    curl_close($ch);
                                     }
+                                    ?>
+
+                                    <!--steal format/css from here:
+                                    <div>
+                                        <h3>Add Show</h3>
+                                        <div class="st_profile_input float_left">
+                                            <label>Title</label>
+                                            <input type="text" placeholder="Title">
+                                        </div>
 
 
-
-                                ?>
+                                        <div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">ADD</a>
+                                        </div>
+                                    </div>-->
+                                 </div>
 
 
 
@@ -155,16 +252,6 @@ include_once 'includes/htmlElements.inc.php';
 							<!--/#gridWrapper-->
 						</div>
 						<!-- /.row -->
-						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="prs_animate_btn1 prs_upcom_main_wrapper prs_gallery_btn_wrapper">
-									<ul>
-										<li><a href="#" class="button button--tamaya prs_upcom_main_btn" data-text="view all"><span>View All</span></a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
 					</div>
 					<!-- /.container -->
 				</div>

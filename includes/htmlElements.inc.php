@@ -105,7 +105,7 @@ class HtmlElements
                                             <option>TV-Show</option>
                                         </select>
                                         <input type="text" placeholder="Search Movie , Video , Music">
-                                        <button type="submit"><i class="flaticon-tool"></i>
+                                        <button type="submit"><i class="flaticon-tool"></i> 
                                         </button>
                                     </div>
                                 </div>
