@@ -97,13 +97,17 @@ class HtmlElements
                                 </div>
                                 <div class="product-heading">
                                     <div class="con">
-                                        <select>
-                                            <option>All Categories</option>
-                                            <option>Movie</option>
-                                            <option>TV-Show</option>
-                                        </select><!--ToDO: Add input to button -->
-                                        <input type="text" placeholder="Search Movie , Show, Episode">
-                                        <button type="submit" onclick="location.href=\'search.html\'"><i class="flaticon-tool"></i> 
+                                        <select name="category" form="searchForm">
+                                            <option value="All">All Categories</option>
+                                            <option value="movie">Movie</option>
+                                            <option value="show">TV-Show</option>
+                                        </select>
+                                       
+                                         <form id="searchForm" method="get" action="');
+                                                echo htmlspecialchars("search.html");
+                                                print('"><input type="text" placeholder="Search Movie , Show, Episode" name="Title">
+                                        </form>
+                                        <button form="searchForm" type="submit" ><i class="flaticon-tool"></i> 
                                         </button>
                                     </div>
                                 </div>

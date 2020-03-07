@@ -77,7 +77,7 @@ include_once 'includes/htmlElements.inc.php';
                                 $genres = Controller::getGenre();
                                 foreach($genres as $genre){
                                     // # of entries(placed within a) <span>23,124</span>
-                                    print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?genre=');print $genre->getName(); print ('">'); print $genre->getName(); print ('</a> </li>');
+                                    print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?genre=');print $genre->getName(); print ('&category=All">'); print $genre->getName(); print ('</a> </li>');
                                 }
 
                                 ?>
@@ -95,8 +95,8 @@ include_once 'includes/htmlElements.inc.php';
                                             $keys = array_keys($_GET);
                                             $values = array_values($_GET);
                                             $searchCategory = $_GET["category"]; // all, movies, shows, (seasons, episodes [title only])
-                                            $searchType = $keys[0]; //title/genre
-                                            $searchValue = $values[0];
+                                            $searchType = $keys[1]; //title/genre
+                                            $searchValue = $values[1];
                                             //V1: only Title and Genre - (search for movie, show, season and episode), Categorie can be given.
                                             print($searchCategory . " -> " . $searchType . " : " . $searchValue);
                                             //get List of all matching objects
@@ -160,13 +160,48 @@ include_once 'includes/htmlElements.inc.php';
                                                    $objectClass = get_class($searchResultItem);
                                                    $title = $searchResultItem->getTitle();
                                                    $id = $searchResultItem->getId();
+                                                   //print($searchResultItem->getDescription());
                                                    printCard($objectClass, $title, $id);
 
                                                 }
+
+
+                                                printPaginator();
+                                                print ('</div>
+									                    </div>
+									                    <div id="list" class="tab-pane fade">
+										                <div class="row">');
+
+                                                foreach ($searchResult as $searchResultItem) {
+                                                    $objectClass = get_class($searchResultItem);
+                                                    $title = $searchResultItem->getTitle();
+                                                    $id = $searchResultItem->getId();
+                                                    printListCard($objectClass, $title, $id);
+
+                                                }
                                             }
+                                           printPaginator();
 
-
-
+                                            function printPaginator(){
+                                                print ('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+												<div class="pager_wrapper gc_blog_pagination">
+													<ul class="pagination">
+														<li><a href="#"><i class="flaticon-left-arrow"></i></a>
+														</li>
+														<li><a href="#">1</a>
+														</li>
+														<li><a href="#">2</a>
+														</li>
+														<li class="prs_third_page"><a href="#">3</a>
+														</li>
+														<li class="hidden-xs"><a href="#">4</a>
+														</li>
+														<li><a href="#"><i class="flaticon-right-arrow"></i></a>
+														</li>
+													</ul>
+												</div>
+											</div>');
+                                            }
 
                                             function printCard($type, $title, $id){
                                                 print ('<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 prs_upcom_slide_first">
@@ -186,19 +221,19 @@ include_once 'includes/htmlElements.inc.php';
                                                                 <div class="prs_upcom_movie_content_box">
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
-                                                                            if(strcasecmp($type, "Adaptation") == 0){
-                                                                                print "gallery.html?show=";
-                                                                                print $title;
-                                                                                print "&id=";
-                                                                                print $id;
-                                                                            }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
-                                                                                print "movie_single_second.html?".$type."=";
-                                                                                print $title;
-                                                                                print "&id=";
-                                                                                print $id;
-                                                                            }
-                                                                        print ('">');
-                                                                        print $title; print ('</a></h2>
+                                                if(strcasecmp($type, "Adaptation") == 0){
+                                                    print "gallery.html?show=";
+                                                    print $title;
+                                                    print "&id=";
+                                                    print $id;
+                                                }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
+                                                    print "movie_single_second.html?".$type."=";
+                                                    print $title;
+                                                    print "&id=";
+                                                    print $id;
+                                                }
+                                                print ('">');
+                                                print $title; print ('</a></h2>
                                                                         <p>Drama , Acation</p>
                                                                         <!--
                                                                         <i class="fa fa-star"></i>
@@ -219,205 +254,52 @@ include_once 'includes/htmlElements.inc.php';
                                                 ');
                                             }
 
+                                            function printListCard($type, $title, $id){
+                                                print('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <div class="prs_mcc_list_movie_main_wrapper">
+                                                                <div class="prs_mcc_list_movie_img_wrapper">
+                                                                    <img src="images/content/movie_category/up1.jpg" alt="categoty_img">
+                                                                </div>
+                                                                <div class="prs_mcc_list_movie_img_cont_wrapper">
+                                                                    <div class="prs_mcc_list_left_cont_wrapper">
+                                                                        <h2><a href="');
+                                                                                if(strcasecmp($type, "Adaptation") == 0){
+                                                                                    print "gallery.html?show=";
+                                                                                    print $title;
+                                                                                    print "&id=";
+                                                                                    print $id;
+                                                                                }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
+                                                                                    print "movie_single_second.html?".$type."=";
+                                                                                    print $title;
+                                                                                    print "&id=";
+                                                                                    print $id;
+                                                                                }
+                                                                                print ('">');
+                                                                                print $title; print ('</a></h2>
+                                                                        <p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
+                                                                        </p>
+                                                                        <h4>Movie Director - Jhon Doe</h4>
+                                                                    </div>
+                                                                    <div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
+                                                                    </div>
+                                                                    <div class="prs_mcc_list_bottom_cont_wrapper">
+                                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
+                                                                        <ul>
+                                                                            <li><a href="#">View Trailer</a>
+                                                                            </li>
+                                                                            <li><a href="#">View Details</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+											     ');
+                                            }
 
                                             ?>
 
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="pager_wrapper gc_blog_pagination">
-													<ul class="pagination">
-														<li><a href="#"><i class="flaticon-left-arrow"></i></a>
-														</li>
-														<li><a href="#">1</a>
-														</li>
-														<li><a href="#">2</a>
-														</li>
-														<li class="prs_third_page"><a href="#">3</a>
-														</li>
-														<li class="hidden-xs"><a href="#">4</a>
-														</li>
-														<li><a href="#"><i class="flaticon-right-arrow"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="list" class="tab-pane fade">
-										<div class="row">
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="prs_mcc_list_movie_main_wrapper">
-													<div class="prs_mcc_list_movie_img_wrapper">
-														<img src="images/content/movie_category/up1.jpg" alt="categoty_img">
-													</div>
-													<div class="prs_mcc_list_movie_img_cont_wrapper">
-														<div class="prs_mcc_list_left_cont_wrapper">
-															<h2>Busting Car</h2>
-															<p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-															</p>
-															<h4>Movie Director - Jhon Doe</h4>
-														</div>
-														<div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
-														</div>
-														<div class="prs_mcc_list_bottom_cont_wrapper">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
-															<ul>
-																<li><a href="#">View Trailer</a>
-																</li>
-																<li><a href="#">View Details</a>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="prs_mcc_list_movie_main_wrapper">
-													<div class="prs_mcc_list_movie_img_wrapper">
-														<img src="images/content/movie_category/up2.jpg" alt="categoty_img">
-													</div>
-													<div class="prs_mcc_list_movie_img_cont_wrapper">
-														<div class="prs_mcc_list_left_cont_wrapper">
-															<h2>Busting Car</h2>
-															<p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-															</p>
-															<h4>Movie Director - Jhon Doe</h4>
-														</div>
-														<div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
-														</div>
-														<div class="prs_mcc_list_bottom_cont_wrapper">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
-															<ul>
-																<li><a href="#">View Trailer</a>
-																</li>
-																<li><a href="#">View Details</a>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="prs_mcc_list_movie_main_wrapper">
-													<div class="prs_mcc_list_movie_img_wrapper">
-														<img src="images/content/movie_category/up3.jpg" alt="categoty_img">
-													</div>
-													<div class="prs_mcc_list_movie_img_cont_wrapper">
-														<div class="prs_mcc_list_left_cont_wrapper">
-															<h2>Busting Car</h2>
-															<p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-															</p>
-															<h4>Movie Director - Jhon Doe</h4>
-														</div>
-														<div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
-														</div>
-														<div class="prs_mcc_list_bottom_cont_wrapper">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
-															<ul>
-																<li><a href="#">View Trailer</a>
-																</li>
-																<li><a href="#">View Details</a>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="prs_mcc_list_movie_main_wrapper">
-													<div class="prs_mcc_list_movie_img_wrapper">
-														<img src="images/content/movie_category/up4.jpg" alt="categoty_img">
-													</div>
-													<div class="prs_mcc_list_movie_img_cont_wrapper">
-														<div class="prs_mcc_list_left_cont_wrapper">
-															<h2>Busting Car</h2>
-															<p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-															</p>
-															<h4>Movie Director - Jhon Doe</h4>
-														</div>
-														<div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
-														</div>
-														<div class="prs_mcc_list_bottom_cont_wrapper">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
-															<ul>
-																<li><a href="#">View Trailer</a>
-																</li>
-																<li><a href="#">View Details</a>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="prs_mcc_list_movie_main_wrapper">
-													<div class="prs_mcc_list_movie_img_wrapper">
-														<img src="images/content/movie_category/up5.jpg" alt="categoty_img">
-													</div>
-													<div class="prs_mcc_list_movie_img_cont_wrapper">
-														<div class="prs_mcc_list_left_cont_wrapper">
-															<h2>Busting Car</h2>
-															<p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-															</p>
-															<h4>Movie Director - Jhon Doe</h4>
-														</div>
-														<div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
-														</div>
-														<div class="prs_mcc_list_bottom_cont_wrapper">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
-															<ul>
-																<li><a href="#">View Trailer</a>
-																</li>
-																<li><a href="#">View Details</a>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="prs_mcc_list_movie_main_wrapper">
-													<div class="prs_mcc_list_movie_img_wrapper">
-														<img src="images/content/movie_category/up6.jpg" alt="categoty_img">
-													</div>
-													<div class="prs_mcc_list_movie_img_cont_wrapper">
-														<div class="prs_mcc_list_left_cont_wrapper">
-															<h2>Busting Car</h2>
-															<p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-															</p>
-															<h4>Movie Director - Jhon Doe</h4>
-														</div>
-														<div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
-														</div>
-														<div class="prs_mcc_list_bottom_cont_wrapper">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
-															<ul>
-																<li><a href="#">View Trailer</a>
-																</li>
-																<li><a href="#">View Details</a>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="pager_wrapper gc_blog_pagination">
-													<ul class="pagination">
-														<li><a href="#"><i class="flaticon-left-arrow"></i></a>
-														</li>
-														<li><a href="#">1</a>
-														</li>
-														<li><a href="#">2</a>
-														</li>
-														<li class="prs_third_page"><a href="#">3</a>
-														</li>
-														<li class="hidden-xs"><a href="#">4</a>
-														</li>
-														<li><a href="#"><i class="flaticon-right-arrow"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
+
 										</div>
 									</div>
 								</div>
@@ -433,33 +315,18 @@ include_once 'includes/htmlElements.inc.php';
 							</button>
 						</div>
 						<div class="prs_mcc_bro_title_wrapper">
-							<h2>browse title</h2>
-							<ul>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">All <span>23,124</span></a> 
-								</li>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">Action <span>512</span></a> 
-								</li>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">Romantic <span>548</span></a> 
-								</li>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">Love <span>557</span></a> 
-								</li>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">Musical <span>554</span></a> 
-								</li>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">Drama <span>567</span></a> 
-								</li>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">Thriller <span>689</span></a> 
-								</li>
-								<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">Horror <span>478</span></a> 
-								</li>
-							</ul>
-						</div>
-						<div class="prs_mcc_event_title_wrapper">
-							<h2>Top Events</h2>
-							<img src="images/content/movie_category/event_img.jpg" alt="event_img">
-							<h3><a href="#">Music Event in india</a></h3>
-							<p>Mumbai & Pune <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></span>
-							</p>
-							<h4>June 07 <span>08:00-12:00 pm</span></h4>
+                            <h2>browse by genre</h2>
+                            <ul>
+                                <?php
+
+                                $genres = Controller::getGenre();
+                                foreach($genres as $genre){
+                                    // # of entries(placed within a) <span>23,124</span>
+                                    print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print $genre->getName(); print ('">'); print $genre->getName(); print ('</a> </li>');
+                                }
+
+                                ?>
+                            </ul>
 						</div>
 					</div>
 				</div>

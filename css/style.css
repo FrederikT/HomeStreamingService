@@ -995,6 +995,9 @@ a.navbar-brand img { padding-right: 15px; }
 	padding-right:20px;
 	border:0;
 }
+.product-heading .con form{
+	display: contents;
+}
 .product-heading .con button{
 	width:50px;
 	height:50px;
