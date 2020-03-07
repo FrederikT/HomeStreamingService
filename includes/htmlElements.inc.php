@@ -89,7 +89,7 @@ class HtmlElements
                                 </div>
                                 <div class="prs_top_login_btn_wrapper">
                                     <div class="prs_animate_btn1">
-                                        <ul>
+                                        <ul><!-- ToDo: Login?  (Login only at start, so that site not accessible? preloader? -->
                                             <li><a href="#" class="button button--tamaya" data-text="sign up" data-toggle="modal" data-target="#myModal"><span>sign up</span></a>
                                             </li>
                                         </ul>
@@ -100,12 +100,10 @@ class HtmlElements
                                         <select>
                                             <option>All Categories</option>
                                             <option>Movie</option>
-                                            <option>Video</option>
-                                            <option>Music</option>
                                             <option>TV-Show</option>
-                                        </select>
-                                        <input type="text" placeholder="Search Movie , Video , Music">
-                                        <button type="submit"><i class="flaticon-tool"></i> 
+                                        </select><!--ToDO: Add input to button -->
+                                        <input type="text" placeholder="Search Movie , Show, Episode">
+                                        <button type="submit" onclick="location.href=\'search.html\'"><i class="flaticon-tool"></i> 
                                         </button>
                                     </div>
                                 </div>

@@ -422,6 +422,168 @@ class Controller{
     }
 
 
+
+    static function getAllFullMatchByTitle(string $title){
+        $matching = array();
+
+        array_push($matching, ...self::getMovieFullMatchByTitle($title));
+        array_push($matching, ...self::getShowFullMatchByTitle($title));
+        array_push($matching, ...self::getSeasonFullMatchByTitle($title));
+        array_push($matching, ...self::getEpisodeFullMatchByTitle($title));
+
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+    static function getAllPartialMatchByTitle(string $title){
+        // full match only at start.
+        $matching = array();
+        array_push($matching, ...self::getAllFullMatchByTitle($title));
+        array_push($matching, ...self::getMoviePartialMatchByTitle($title));
+        array_push($matching, ...self::getShowPartialMatchByTitle($title));
+        array_push($matching, ...self::getSeasonPartialMatchByTitle($title));
+        array_push($matching, ...self::getEpisodePartialMatchByTitle($title));
+
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+
+    static function getShowFullMatchByTitle(string $title){
+        $matching = array();
+        foreach (self::$showList as $show){
+            if (strcasecmp($show->getTitle(), $title) == 0 || strcasecmp($show->getOriginalTitle(), $title) == 0) {
+                array_push($matching, $show);
+            }
+        }
+
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+    static function getShowPartialMatchByTitle(string $title){
+        // full match only at start.
+        $matching = array();
+        array_push($matching, ...self::getShowFullMatchByTitle($title));
+        foreach (self::$showList as $show){
+            if (stripos($show->getTitle(), $title)!==false || stripos($show->getOriginalTitle(), $title)!==false ) {
+                array_push($matching, $show);
+            }
+        }
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+
+    static function getSeasonFullMatchByTitle(string $title){
+        $matching = array();
+        foreach (self::$seasonList as $season){
+            if (strcasecmp($season->getTitle(), $title) == 0 || strcasecmp($season->getOriginalTitle(), $title) == 0) {
+                array_push($matching, $season);
+            }
+        }
+
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+    static function getSeasonPartialMatchByTitle(string $title){
+        // full match only at start.
+        $matching = array();
+        array_push($matching, ...self::getSeasonFullMatchByTitle($title));
+        foreach (self::$seasonList as $season){
+            if (stripos($season->getTitle(), $title)!==false || stripos($season->getOriginalTitle(), $title)!==false ) {
+                array_push($matching, $season);
+            }
+        }
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+
+    static function getEpisodeFullMatchByTitle(string $title){
+        $matching = array();
+        foreach (self::$episodeList as $episode){
+            if (strcasecmp($episode->getTitle(), $title) == 0 || strcasecmp($episode->getOriginalTitle(), $title) == 0) {
+                array_push($matching, $episode);
+            }
+        }
+
+        return array_unique($matching,SORT_REGULAR );
+
+    }
+
+    static function getEpisodePartialMatchByTitle(string $title){
+        // full match only at start.
+        $matching = array();
+        array_push($matching, ...self::getEpisodeFullMatchByTitle($title));
+        foreach (self::$episodeList as $episode){
+            if (stripos($episode->getTitle(), $title)!==false || stripos($episode->getOriginalTitle(), $title)!==false ) {
+                array_push($matching, $episode);
+            }
+        }
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+
+    static function getMovieFullMatchByTitle(string $title){
+        $matching = array();
+        foreach (self::$movieList as $movie){
+            if (strcasecmp($movie->getTitle(), $title) == 0 || strcasecmp($movie->getOriginalTitle(), $title) == 0) {
+                array_push($matching, $movie);
+            }
+        }
+
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+    static function getMoviePartialMatchByTitle(string $title){
+        // full match only at start.
+        $matching = array();
+        array_push($matching, ...self::getMovieFullMatchByTitle($title));
+        foreach (self::$movieList as $movie){
+            if (stripos($movie->getTitle(), $title)!==false || stripos($movie->getOriginalTitle(), $title)!==false ) {
+                array_push($matching, $movie);
+            }
+        }
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+
+    static function getAllFullMatchByGenre(string $genre){
+        $matching = array();
+
+        array_push($matching, ...self::getMovieFullMatchByGenre($genre));
+        array_push($matching, ...self::getShowFullMatchByGenre($genre));
+
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+    static function getShowFullMatchByGenre(string $genre){
+        $matching = array();
+        foreach (self::$showList as $show){
+            foreach ($show->getGenre() as $showGenre){
+                if (strcasecmp($showGenre->getName(), $genre) == 0) {
+                    array_push($matching, $show);
+                }
+            }
+
+        }
+
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+    static function getMovieFullMatchByGenre(string $genre){
+        $matching = array();
+        foreach (self::$movieList as $movie){
+            foreach ($movie->getGenre() as $movieGenre){
+                if (strcasecmp($movieGenre->getName(), $genre) == 0) {
+                    array_push($matching, $movie);
+                }
+            }
+
+        }
+        return array_unique($matching,SORT_REGULAR );
+    }
+
+
+
+
+
     // redundant Code to insure correct types (e.g. no episodes in movies)
     // Methods add object to list, if not already exists
 

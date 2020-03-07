@@ -73,13 +73,13 @@ include_once 'includes/htmlElements.inc.php';
 							</a>
                             <h3>
                                 <?php
-                                    if(isset($_GET['movie'])){
+                                    if(isset($_GET['movie']) || isset($_GET['Movie'])){
                                         $movieId = $_GET['id'];
                                         $movie = NullClasses::getMovie();
                                         $movie = Controller::getMovie($movieId);
                                         echo $movie->getTitle();
                                     }
-                                    if(isset($_GET['episode'])){
+                                    if(isset($_GET['episode']) || isset($_GET['Episode'])){
                                         $episodeId = $_GET['id'];
                                         $episode = NullClasses::getEpisode();
                                         $episode= Controller::getEpisode($episodeId);

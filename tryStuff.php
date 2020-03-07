@@ -28,7 +28,7 @@ include_once 'includes/NullClasses.inc.php';
 
 */
 
-
+/*
 
 function post(){
     $url = 'http://localhost/api/api/Show';
@@ -49,6 +49,8 @@ function post(){
     var_dump($response);
     curl_close($ch);
 }
+*/
 
 
-echo post();
+Controller::loadAll();
+print_r(Controller::getShowPartialMatchByTitle("Tensei Shitara slime datta ken")[0]);
