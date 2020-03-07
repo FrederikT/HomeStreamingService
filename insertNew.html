@@ -68,116 +68,132 @@ include_once 'includes/htmlElements.inc.php';
 					</div>
 
 				</div>
-				<div class="portfolio-area ptb-100">
+
+                <?php
+                // define variables and set to empty values
+                $durationErr = $genreErr = $nameErr = $seasonIdErr = $showIdErr = $titleErr = $typeErr = "";
+                $description = $duration = $franchiseId = $filePath = $genre = $id = $name = $originalTitle = $seasonId = $showId = $title = $type = "";
+                $url = 'http://localhost/api/api/';
+
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                    if (empty($_POST["description"])) {
+                        // do nothing
+                    } else {
+                        $description = clean_input($_POST["description"]);
+                    }
+
+                    if (empty($_POST["duration"])) {
+                        $durationErr = "Duration is required";
+                    } else {
+                        $duration = clean_input($_POST["duration"]);
+                    }
+
+                    if (empty($_POST["franchiseID"])) {
+                        //do nothing
+                    } else {
+                        $franchiseId = clean_input($_POST["franchiseID"]);
+                    }
+
+
+                    if (empty($_POST["filePath"])) {
+                        // do nothing
+                    } else {
+                        $filePath = clean_input($_POST["filePath"]);
+                    }
+
+                    if (empty($_POST["genre"])) {
+                        $genreErr = "Genre is required";
+                    } else {
+                        $genre = clean_input($_POST["genre"]);
+                    }
+
+                    if (empty($_POST["id"])) {
+                        $id= "-5"; // in API <0 will use next available id
+                    } else {
+                        $id = clean_input($_POST["id"]);
+                    }
+
+                    if (empty($_POST["name"])) {
+                        $nameErr = "Name is required";
+                    } else {
+                        $name = clean_input($_POST["name"]);
+                    }
+
+                    if (empty($_POST["originalTitle"])) {
+                        // do nothing
+                    } else {
+                        $originalTitle = clean_input($_POST["originalTitle"]);
+                    }
+
+                    if (empty($_POST["seasonId"])) {
+                        $seasonIdErr= "Season ID is required";
+                    } else {
+                        $seasonId = clean_input($_POST["seasonId"]);
+                    }
+
+                    if (empty($_POST["showId"])) {
+                        $seasonIdErr = "Show ID is required";
+                    } else {
+                        $showId = clean_input($_POST["showId"]);
+                    }
+
+                    if (empty($_POST["title"])) {
+                        $titleErr = "Title is required";
+                    } else {
+                        $title = clean_input($_POST["title"]);
+                    }
+
+                    if (empty($_POST["type"])) {
+                        $typeErr = "Error : no Type";
+                    } else {
+                        $type = clean_input($_POST["type"]);
+                    }
+
+
+
+                }
+
+                function clean_input($data) {
+                    $data = trim($data);
+                    $data = stripslashes($data);
+                    $data = htmlspecialchars($data);
+                    return $data;
+                }
+                ?>
+
+
+                <div class="portfolio-area ptb-100">
 					<div class="container">
 						<div class="portfolio-filter clearfix text-center">
 							<ul class="list-inline" id="filter">
-                                <li><a class="active" data-group="Show">Show</a></li>
-                                <li><a data-group="Season">Season</a>
-                                <li><a data-group="Episode">Episode</a></li>
-                                <li><a data-group="Movie">Movie</a></li>
-                                <li><a data-group="Franchise">Franchise</a></li>
-                                <li><a data-group="Genre">Genre</a></li>
+                                <?php
+                                //When submitting the form page will be reloaded. Following code is for showing the submitted form after reloading
+                                $types = ["Show", "Season", "Episode", "Movie", "Franchise", "Genre"];
+                                if(empty($type)){
+                                    print ' <li><a class="active" data-group="'; print $types[0]; print '">'; print $types[0]; print '</a></li>';
+
+                                    for($i = 1; $i < count($types); $i++){
+                                        print '<li><a data-group="'; print $types[$i]; print '">'; print $types[$i]; print '</a></li>';
+                                    }
+                                }else{
+                                    foreach ($types as $typ){
+                                        if($type == $typ){
+                                            print ' <li><a class="active" data-group="'; print $typ; print '">'; print $typ; print '</a></li>';
+                                        }else{
+                                            print '<li><a data-group="'; print $typ; print '">'; print $typ; print '</a></li>';
+                                        }
+                                    }
+                                }
+
+                                ?>
 							</ul>
 						</div>
 						<div class="row three-column">
 
-                            <?php
-                            // define variables and set to empty values
-                            $durationErr = $genreErr = $nameErr = $seasonIdErr = $showIdErr = $titleErr = $typeErr = "";
-                            $description = $duration = $franchiseId = $filePath = $genre = $id = $name = $originalTitle = $seasonId = $showId = $title = $type = "";
-
-                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-                                if (empty($_POST["description"])) {
-                                    // do nothing
-                                } else {
-                                    $description = clean_input($_POST["description"]);
-                                }
-
-                                if (empty($_POST["duration"])) {
-                                    $durationErr = "Duration is required";
-                                } else {
-                                    $description = clean_input($_POST["duration"]);
-                                }
-
-                                if (empty($_POST["franchiseID"])) {
-                                    //do nothing
-                                } else {
-                                    $franchiseId = clean_input($_POST["franchiseID"]);
-                                }
-
-
-                                if (empty($_POST["filePath"])) {
-                                    // do nothing
-                                } else {
-                                    $filePath = clean_input($_POST["filePath"]);
-                                }
-
-                                if (empty($_POST["genre"])) {
-                                    $genreErr = "Genre is required";
-                                } else {
-                                    $genre = clean_input($_POST["genre"]);
-                                }
-
-                                if (empty($_POST["id"])) {
-                                    $id= "-5"; // in API <0 will use next available id
-                                } else {
-                                    $id = clean_input($_POST["id"]);
-                                }
-
-                                if (empty($_POST["name"])) {
-                                    $nameErr = "Name is required";
-                                } else {
-                                    $name = clean_input($_POST["name"]);
-                                }
-
-                                if (empty($_POST["originalTitle"])) {
-                                   // do nothing
-                                } else {
-                                    $originalTitle = clean_input($_POST["originalTitle"]);
-                                }
-
-                                if (empty($_POST["seasonId"])) {
-                                    $originalTitleErr = "Season ID is required";
-                                } else {
-                                    $originalTitle = clean_input($_POST["seasonId"]);
-                                }
-
-                                if (empty($_POST["showId"])) {
-                                    $originalTitleErr = "Show ID is required";
-                                } else {
-                                    $originalTitle = clean_input($_POST["showId"]);
-                                }
-
-                                if (empty($_POST["title"])) {
-                                    $titleErr = "Title is required";
-                                } else {
-                                    $title = clean_input($_POST["title"]);
-                                }
-
-                                if (empty($_POST["type"])) {
-                                    $originalTitleErr = "Error : no Type";
-                                } else {
-                                    $originalTitle = clean_input($_POST["originalTitle"]);
-                                }
-
-
-
-                            }
-
-                            function clean_input($data) {
-                                $data = trim($data);
-                                $data = stripslashes($data);
-                                $data = htmlspecialchars($data);
-                                return $data;
-                            }
-                            ?>
-
-
 							<div id="gridWrapper" class="clearfix">
 
-                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper III_column" data-groups='["Show"]'>
+                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper" data-groups='["Show"]'>
                                     <p><span class="error">* required field</span></p>
                                     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                                         ID: <input type="text" name="id">
@@ -194,6 +210,7 @@ include_once 'includes/htmlElements.inc.php';
                                         <br><br>
                                         Genres: <input type="text" name="genre">
                                         <br><br>
+                                        <input type="hidden"  name="type" value="Show">
                                         <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
                                     </form>
                                     <?php
@@ -218,8 +235,7 @@ include_once 'includes/htmlElements.inc.php';
                                     if(!empty($genre))
                                         $postfields['Genre'] = $genre;
 
-                                    $url = 'http://localhost/api/api/Show';
-                                    $ch = curl_init($url);
+                                    $ch = curl_init($url.'Show');
                                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                     curl_setopt($ch, CURLOPT_POST, true);
                                     curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
@@ -245,10 +261,313 @@ include_once 'includes/htmlElements.inc.php';
                                     </div>-->
                                  </div>
 
+                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper" data-groups='["Season"]'>
+                                    <p><span class="error">* required field</span></p>
+                                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                                        ID: <input type="text" name="id">
+                                        <br><br>
+                                        Title: <input type="text" name="title">
+                                        <span class="error">* <?php echo $titleErr;?></span>
+                                        <br><br>
+                                        Original Title: <input type="text" name="originalTitle">
+                                        <span class="error">
+                                        <br><br>
+                                        Description: <textarea name="description" rows="5" cols="40"></textarea>
+                                        <br><br>
+                                        Show-ID: <input type="text" name="showID">
+                                        <span class="error">* <?php echo $showIdErr;?></span>
+                                        <br><br>
+                                        <input type="hidden"  name="type" value="Season">
+                                        <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
+                                    </form>
+                                    <?php
+                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($showIdErr)){
+
+                                        $postfields = array();
+                                        if(!empty($id))
+                                            $postfields['Id'] = $id;
+
+                                        $postfields['Title'] = $title;
+                                        $postfields['ShowID'] = $showId;
+
+                                        if(!empty($originalTitle))
+                                            $postfields['OriginalTitle'] = $originalTitle;
+
+                                        if(!empty($description))
+                                            $postfields['Description'] = $description;
+
+
+                                        $ch = curl_init($url.'Season');
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_POST, true);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+                                        $response = curl_exec($ch);
+                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
+                                        var_dump($response);
+                                        curl_close($ch);
+                                    }
+                                    ?>
+
+                                    <!--steal format/css from here:
+                                    <div>
+                                        <h3>Add Show</h3>
+                                        <div class="st_profile_input float_left">
+                                            <label>Title</label>
+                                            <input type="text" placeholder="Title">
+                                        </div>
+
+
+                                        <div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">ADD</a>
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper" data-groups='["Episode"]'>
+                                    <p><span class="error">* required field</span></p>
+                                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                                        ID: <input type="text" name="id">
+                                        <br><br>
+                                        Title: <input type="text" name="title">
+                                        <span class="error">* <?php echo $titleErr;?></span>
+                                        <br><br>
+                                        Original Title: <input type="text" name="originalTitle">
+                                        <span class="error">
+                                        <br><br>
+                                        Description: <textarea name="description" rows="5" cols="40"></textarea>
+                                        <br><br>
+                                        Duration: <input type="text" name="duration">
+                                        <span class="error">* <?php echo $durationErr;?></span>
+                                        <br><br>
+                                        Season-ID: <input type="text" name="seasonID">
+                                        <span class="error">* <?php echo $seasonIdErr;?></span>
+                                        <br><br>
+                                        FilePath: <input type="text" name="filePath">
+                                        <br><br>
+                                        <input type="hidden"  name="type" value="Episode">
+                                        <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
+                                    </form>
+                                    <?php
+                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($durationErr) && empty($seasonIdErr)){
+
+                                        $postfields = array();
+                                        if(!empty($id))
+                                            $postfields['Id'] = $id;
+
+                                        $postfields['Title'] = $title;
+                                        $postfields['Duration'] = $duration;
+                                        $postfields['SeasonID'] = $seasonId;
+
+                                        if(!empty($originalTitle))
+                                            $postfields['OriginalTitle'] = $originalTitle;
+
+                                        if(!empty($description))
+                                            $postfields['Description'] = $description;
+
+                                        if(!empty($filePath))
+                                            $postfields['filePath'] = $filePath;
+
+
+                                        $ch = curl_init($url.'Episode');
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_POST, true);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+                                        $response = curl_exec($ch);
+                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
+                                        var_dump($response);
+                                        curl_close($ch);
+                                    }
+                                    ?>
+
+                                    <!--steal format/css from here:
+                                    <div>
+                                        <h3>Add Show</h3>
+                                        <div class="st_profile_input float_left">
+                                            <label>Title</label>
+                                            <input type="text" placeholder="Title">
+                                        </div>
+
+
+                                        <div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">ADD</a>
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper" data-groups='["Movie"]'>
+                                    <p><span class="error">* required field</span></p>
+                                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                                        ID: <input type="text" name="id">
+                                        <br><br>
+                                        Title: <input type="text" name="title">
+                                        <span class="error">* <?php echo $titleErr;?></span>
+                                        <br><br>
+                                        Original Title: <input type="text" name="originalTitle">
+                                        <span class="error">
+                                        <br><br>
+                                        Description: <textarea name="description" rows="5" cols="40"></textarea>
+                                        <br><br>
+                                        Duration: <input type="text" name="duration">
+                                        <span class="error">* <?php echo $durationErr;?></span>
+                                        <br><br>
+                                        Franchise-ID: <input type="text" name="franchiseID">
+                                        <br><br>
+                                        Genre: <input type="text" name="genre">
+                                        <span class="error">* <?php echo $genreErr;?></span>
+                                        <br><br>
+                                        FilePath: <input type="text" name="filePath">
+                                        <br><br>
+
+                                        <input type="hidden"  name="type" value="Movie">
+                                        <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
+                                    </form>
+                                    <?php
+                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($durationErr) && empty($genreErr)){
+
+                                        $postfields = array();
+                                        if(!empty($id))
+                                            $postfields['Id'] = $id;
+
+                                        $postfields['Title'] = $title;
+                                        $postfields['Genre']=$genre;
+                                        $postfields['Duration'] = $duration;
+
+                                        if(!empty($originalTitle))
+                                            $postfields['OriginalTitle'] = $originalTitle;
+
+                                        if(!empty($description))
+                                            $postfields['Description'] = $description;
+
+                                        if(!empty($seasonId))
+                                            $postfields['FranchiseID'] = $franchiseId;
+
+                                        if(!empty($filePath))
+                                            $postfields['filePath'] = $filePath;
+
+
+                                        $ch = curl_init($url.'Movie');
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_POST, true);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+                                        $response = curl_exec($ch);
+                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
+                                        var_dump($response);
+                                        curl_close($ch);
+                                    }
+                                    ?>
+
+                                    <!--steal format/css from here:
+                                    <div>
+                                        <h3>Add Show</h3>
+                                        <div class="st_profile_input float_left">
+                                            <label>Title</label>
+                                            <input type="text" placeholder="Title">
+                                        </div>
+
+
+                                        <div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">ADD</a>
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper" data-groups='["Franchise"]'>
+                                    <p><span class="error">* required field</span></p>
+                                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                                        ID: <input type="text" name="id">
+                                        <br><br>
+                                        Name: <input type="text" name="name">
+                                        <span class="error">* <?php echo $nameErr;?></span>
+                                        <input type="hidden"  name="type" value="Franchise">
+                                        <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
+                                    </form>
+                                    <?php
+                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($nameErr)){
+
+                                        $postfields = array();
+                                        if(!empty($id))
+                                            $postfields['Id'] = $id;
+
+                                        $postfields['Name'] = $name;
+
+                                        $ch = curl_init($url.'Franchise');
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_POST, true);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+                                        $response = curl_exec($ch);
+                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
+                                        var_dump($response);
+                                        curl_close($ch);
+                                    }
+                                    ?>
+
+                                    <!--steal format/css from here:
+                                    <div>
+                                        <h3>Add Show</h3>
+                                        <div class="st_profile_input float_left">
+                                            <label>Title</label>
+                                            <input type="text" placeholder="Title">
+                                        </div>
+
+
+                                        <div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">ADD</a>
+                                        </div>
+                                    </div>-->
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 portfolio-wrapper" data-groups='["Genre"]'>
+                                    <p><span class="error">* required field</span></p>
+                                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                                        Genre: <input type="text" name="genre">
+                                        <span class="error">* <?php echo $genreErr;?></span>
+                                        <input type="hidden"  name="type" value="Genre">
+                                        <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
+                                    </form>
+                                    <?php
+                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($genreErr)){
+
+                                        $postfields = array();
+
+                                        $postfields['Genre'] = $genre;
+
+                                        $ch = curl_init($url.'Genre');
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_POST, true);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+                                        $response = curl_exec($ch);
+                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
+                                        var_dump($response);
+                                        curl_close($ch);
+
+                                    }
+                                    ?>
+
+                                    <!--steal format/css from here:
+                                    <div>
+                                        <h3>Add Show</h3>
+                                        <div class="st_profile_input float_left">
+                                            <label>Title</label>
+                                            <input type="text" placeholder="Title">
+                                        </div>
+
+
+                                        <div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">ADD</a>
+                                        </div>
+                                    </div>-->
+                                </div>
 
 
 
-							</div>
+
+
+                            </div>
 							<!--/#gridWrapper-->
 						</div>
 						<!-- /.row -->

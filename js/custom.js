@@ -693,9 +693,10 @@ $(window).load(function() {
         /* initialize shuffle plugin */
         var $grid = $('#gridWrapper');
 
-        $grid.shuffle({
-            itemSelector: '.portfolio-wrapper' // the selector for the items in the grid
-        });
+        var filterElements = document.getElementById("filter").getElementsByClassName('active');
+
+
+         $grid.shuffle('shuffle', filterElements.item(0).getAttribute("data-group") );
 
         /* reshuffle when user clicks a filter item */
         $('#filter a').on('click', function (e) {
@@ -710,6 +711,7 @@ $(window).load(function() {
 
             // reshuffle grid
             $grid.shuffle('shuffle', groupName );
+
         });
     }
 });
