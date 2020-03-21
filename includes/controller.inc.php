@@ -557,7 +557,7 @@ class Controller{
         $matching = array();
         foreach (self::$showList as $show){
             foreach ($show->getGenre() as $showGenre){
-                if (strcasecmp($showGenre->getName(), $genre) == 0) {
+                if (strcasecmp($showGenre["Name"], $genre) == 0) {
                     array_push($matching, $show);
                 }
             }
@@ -571,7 +571,7 @@ class Controller{
         $matching = array();
         foreach (self::$movieList as $movie){
             foreach ($movie->getGenre() as $movieGenre){
-                if (strcasecmp($movieGenre->getName(), $genre) == 0) {
+                if (strcasecmp($movieGenre["Name"], $genre) == 0) {
                     array_push($matching, $movie);
                 }
             }

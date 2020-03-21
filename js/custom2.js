@@ -205,7 +205,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		 $(document).ready(function() {
@@ -237,7 +237,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		 $(document).ready(function() {
             $('.prs_vp_center_slider .owl-carousel').owlCarousel({
@@ -268,7 +268,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 	
 	
 	
@@ -301,7 +301,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		
@@ -334,7 +334,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 	
 	 $(document).ready(function() {
             $('.prs_pn_slider_wraper .owl-carousel').owlCarousel({
@@ -365,7 +365,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		
@@ -398,7 +398,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		$(document).ready(function() {
@@ -430,7 +430,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		$(document).ready(function() {
             $('.prs_navi_slider_wraper .owl-carousel').owlCarousel({
@@ -452,7 +452,7 @@ nice Select active
 			}
                 }
             })
-        })
+        });
 		
 		
 		$(document).ready(function() {
@@ -475,7 +475,7 @@ nice Select active
 			}
                 }
             })
-        })
+        });
 		
 		
 		$(document).ready(function() {
@@ -503,7 +503,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 	
 	$(".album-slider").bxSlider({
 		minSlides: 1,

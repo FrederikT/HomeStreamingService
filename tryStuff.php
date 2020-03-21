@@ -53,4 +53,4 @@ function post(){
 
 
 Controller::loadAll();
-print_r(Controller::getShowPartialMatchByTitle("Tensei Shitara slime datta ken")[0]);
+print_r(Controller::getMovieFullMatchByGenre("Anime"));

@@ -216,7 +216,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		 $(document).ready(function() {
@@ -248,7 +248,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		 $(document).ready(function() {
             $('.prs_vp_center_slider .owl-carousel').owlCarousel({
@@ -279,7 +279,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 	
 	
 	
@@ -312,7 +312,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		
@@ -345,7 +345,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 	
 	 $(document).ready(function() {
             $('.prs_pn_slider_wraper .owl-carousel').owlCarousel({
@@ -376,7 +376,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		
@@ -409,7 +409,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		
 		$(document).ready(function() {
@@ -441,7 +441,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		$(document).ready(function() {
             $('.prs_navi_slider_wraper .owl-carousel').owlCarousel({
@@ -463,7 +463,7 @@ nice Select active
 			}
                 }
             })
-        })
+        });
 		
 		
 		$(document).ready(function() {
@@ -486,7 +486,7 @@ nice Select active
 			}
                 }
             })
-        })
+        });
 		
 		
 		$(document).ready(function() {
@@ -514,7 +514,7 @@ nice Select active
                     }
                 }
             })
-        })
+        });
 		
 		$(document).ready(function() {
               $('.st_md_summ_client_slider .owl-carousel').owlCarousel({
@@ -541,7 +541,7 @@ nice Select active
                   }
                 }
               })
-            })
+            });
 			
 	
 	$(".album-slider").bxSlider({
