@@ -223,12 +223,12 @@ include_once 'includes/htmlElements.inc.php';
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
                                                 if(strcasecmp($type, "Adaptation") == 0){
-                                                    print "gallery.html?show=";
+                                                    print "show.html?show=";
                                                     print $title;
                                                     print "&id=";
                                                     print $id;
                                                 }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
-                                                    print "movie_single_second.html?".$type."=";
+                                                    print "streaming.html?".$type."=";
                                                     print $title;
                                                     print "&id=";
                                                     print $id;
@@ -265,12 +265,12 @@ include_once 'includes/htmlElements.inc.php';
                                                                     <div class="prs_mcc_list_left_cont_wrapper">
                                                                         <h2><a href="');
                                                                                 if(strcasecmp($type, "Adaptation") == 0){
-                                                                                    print "gallery.html?show=";
+                                                                                    print "show.html?show=";
                                                                                     print $title;
                                                                                     print "&id=";
                                                                                     print $id;
                                                                                 }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
-                                                                                    print "movie_single_second.html?".$type."=";
+                                                                                    print "streaming.html?".$type."=";
                                                                                     print $title;
                                                                                     print "&id=";
                                                                                     print $id;

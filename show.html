@@ -107,6 +107,7 @@ include_once 'includes/htmlElements.inc.php';
                                     print($season->getId());
                                     print('">Season 1</a></li>');
                                     for($i=1; $i < count($seasons); $i++){
+                                        $season = $seasons[$i];
                                         print('<li><a data-group="');
                                         print($season->getId());
                                         print('">Season ');
@@ -130,7 +131,7 @@ include_once 'includes/htmlElements.inc.php';
                                                        print(' <div class="portfolio-thumb">
                                                             <div class="gc_filter_cont_overlay_wrapper prs_ms_scene_slider_img">
                                                                 <img src="images/content/gallery/g1.jpg" class="zoom image img-responsive" alt="service_img" />
-                                                                <div class="prs_ms_scene_img_overlay">	<a href="movie_single_second.html?episode=');
+                                                                <div class="prs_ms_scene_img_overlay">	<a href="streaming.html?episode=');
                                                                                                         print($episode->getTitle());
                                                                                                         print('&id=');
                                                                                                         print($episode->getId());

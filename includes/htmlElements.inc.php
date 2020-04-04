@@ -40,7 +40,7 @@ class HtmlElements
         for ($i = 0; $i < 10; $i++) {
             if ($i < count($movieList)) {
                 $movie = $movieList[$i];
-                print('<li class="ar_left"><i class="fa fa-film"></i><a href="movie_single_second.html?movie=');
+                print('<li class="ar_left"><i class="fa fa-film"></i><a href="streaming.html?movie=');
                             print($movie->getTitle());
                             print('&id=');
                             print($movie->getId());
@@ -61,7 +61,7 @@ class HtmlElements
         for ($i = 0; $i < 10; $i++) {
             if ($i < count($showList)) {
                 $show = $showList[$i];
-                print('<li><a href="gallery.html?show=');
+                print('<li><a href="show.html?show=');
                 print($show->getTitle());
                 print('&id=');
                 print($show->getId());
@@ -148,7 +148,7 @@ class HtmlElements
                                         </li>
                                         <li><a href="event_single.html">EVENT</a>
                                         </li>
-                                        <li><a href="gallery.html">GALLERY</a>
+                                        <li><a href="show.html">GALLERY</a>
                                         </li>
                                         <li><a href="blog_single.html">BLOG</a>
                                         </li>
