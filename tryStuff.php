@@ -54,3 +54,4 @@ function post(){
 
 Controller::loadAll();
 print_r(Controller::getMovieFullMatchByGenre("Anime"));
+

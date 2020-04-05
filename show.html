@@ -125,12 +125,18 @@ include_once 'includes/htmlElements.inc.php';
                                         $episodes = Controller::getEpisodesForSeason($ssn->getId());
                                         $episode = NullClasses::getEpisode();
                                         foreach ($episodes as $episode){
+                                            //ToDO: work on filepath
+                                            $path = explode('\\', $episode->getFilePath());
+                                            array_pop($path);
+                                            $path = implode('/', $path);
+                                            $path.= '/folder.jpg';
+                                            $path = 'stream/Filme/Akira/folder.jpg';
                                             print('
                                                     <!-- Episode..  datagroup = season id-->
                                                     <div class="col-xs-12 col-sm-6 col-md-4 portfolio-wrapper III_column" data-groups=\'["'); print($ssn->getId()); print('"]\'>');
                                                        print(' <div class="portfolio-thumb">
                                                             <div class="gc_filter_cont_overlay_wrapper prs_ms_scene_slider_img">
-                                                                <img src="images/content/gallery/g1.jpg" class="zoom image img-responsive" alt="service_img" />
+                                                                <img src="');print($path); print('" class="zoom image img-responsive" alt="service_img" />
                                                                 <div class="prs_ms_scene_img_overlay">	<a href="streaming.html?episode=');
                                                                                                         print($episode->getTitle());
                                                                                                         print('&id=');
