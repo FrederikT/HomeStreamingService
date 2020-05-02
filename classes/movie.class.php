@@ -46,7 +46,7 @@ class Movie extends Adaptation
         $path = explode('\\', $this->filePath);
         array_pop($path); // remove file from path
         $folderName = array_pop($path); // get folder name of movie
-        $pathToThumbnail = 'stream/Filme/'.$folderName.'/folder.jpg';
+        $pathToThumbnail = 'stream/movie/'.$folderName.'/folder.jpg';
         return $pathToThumbnail;
     }
 

@@ -11,7 +11,12 @@ function myAutoLoader($classname){
         $path="classes/";
     }
 
+    //because of linux server (case sensitive)
+    $classname = strtolower($classname);
 
+    if($classname=="metadata"){
+        $classname = "metaData";
+    }
 
 
     $extention =".class.php";

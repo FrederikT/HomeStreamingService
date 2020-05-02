@@ -638,7 +638,11 @@ class Controller{
 
     //gets JSON From API
     static function getJson(string $endUrl){
-        $data = file_get_contents('http://localhost/api/api/'.$endUrl);
+        //API Address:
+        //develop
+        //$data = file_get_contents('http://localhost/api/api/'.$endUrl);
+        //raspberry pi server
+        $data = file_get_contents('http://localhost:5000/api/'.$endUrl);
         return $data;
     }
 }

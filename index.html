@@ -72,7 +72,6 @@ Controller::loadAll();
 			<div id="rev_slider_41_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.1">
 				<ul>
                     <?php
-                        Controller::loadAll();
                         if(sizeof(Controller::$movieList) > 10) {
                             $lastTenMovies = array_slice(Controller::$movieList, sizeof(Controller::$movieList)-10 );
                         }else{
