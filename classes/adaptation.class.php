@@ -1,57 +1,50 @@
-public class Adaptation : MetaData
-{
-private List<Genre> genre = new List<Genre>();
-        private Franchise franchise;
+<?php
+    class Adaptation extends MetaData {
+        private array $genre;
+        private Franchise $franchise;
 
-        public Adaptation(int id, string title, string originalTitle, string description, List<Genre> genre, Franchise franchise) : base(id, title, originalTitle, description)
-            {
-            this.genre = genre;
-            this.franchise = franchise;
+        public function __construct(int $id, string $title, string $originalTitle = "", string $description = "", array $genre = array(),  $franchise = null)
+        {
+            parent::__construct($id, $title, $originalTitle, $description);
+            if(!is_null($franchise)){
+                $this->franchise = $franchise;
             }
 
-            public Adaptation(int id, string title, List<Genre> genre, Franchise franchise) : base(id, title)
-                {
-                this.genre = genre;
-                this.franchise = franchise;
-                }
+            $this->genre = $genre;
 
-                public Adaptation(int id, string title, string originalTitle, string description, List<Genre> genre) : base(id, title, originalTitle, description)
-                    {
-                    this.genre = genre;
-                    }
+        }
 
-                    public Adaptation(int id, string title, List<Genre> genre) : base(id, title)
-                        {
-                        this.genre = genre;
-                        }
-                        public Adaptation(int id, string title, string originalTitle) : base(id, title)
-                        {
-                        this.OriginalTitle = originalTitle;
-                        }
+        public function setGenre(array $genre)
+        {
+            $this->genre = $genre;
+        }
 
-                        public Adaptation(MetaData meta, Franchise adaptationFranchise) : base(meta)
-                        {
-                        this.franchise = adaptationFranchise;
-                        }
+        public function setFranchise(string $franchise)
+        {
+            $this->franchise = $franchise;
+        }
 
-                        protected Adaptation(Adaptation adaptation) : base((MetaData) adaptation)
-                        {
-                        this.genre = adaptation.genre;
-                        this.franchise = adaptation.franchise;
-                        }
+        public function getGenre()
+        {
+            return $this->genre;
+        }
 
-                        public List<Genre> Genre => genre;
+        public function getFranchise()
+        {
+            return $this->franchise;
+        }
 
-                            public Franchise Franchise => franchise;
+        public function addGenre(Genre $genre){
+            array_push($this->genre, $genre);
+        }
 
-                            public override string ToString()
-                            {
-                            return base.ToString();
-                            }
+        /**
+         * since Variables need instance of object and null is not possible - return sample object, which is Invalid and therefore can be handled as default
+         */
+        public function getNull()
+        {
+            return new Adaptation(-1, "");
+        }
+ }
 
-                            public override bool Equals(object obj)
-                            {
-                            //should compare by id
-                            return base.Equals(obj);
-                            }
-                            }
+ ?>

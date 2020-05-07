@@ -1,74 +1,60 @@
-public class Movie : Adaptation
+<?php
+
+class Movie extends Adaptation
 {
-private int duration;
-private string filePath;
+    private int $duration;
+    private string $filePath;
 
-public Movie(int id, string title, string originalTitle, string description, List<Genre> genre, Franchise franchise, int duration) : base(id, title, originalTitle, description, genre, franchise)
+    public function __construct(int $id, string $title, string $originalTitle = "", string $description = "", array $genre = array(),  $franchise = null, int $duration = -1, string $filePath = "")
     {
-    this.duration = duration;
-    }
-
-    public Movie(int id, string title, List<Genre> genre, Franchise franchise, int duration) : base(id, title, genre, franchise)
-        {
-        this.duration = duration;
+        try {
+            parent::__construct($id, $title, $originalTitle, $description, $genre, $franchise);
+        }catch (TypeError $e){
+            //Only $franchise can be of wrong type [if null defenitly is]
+            $fra = NullClasses::getFranchise();
+            parent::__construct($id, $title, $originalTitle, $description, $genre, $fra);
         }
 
-        public Movie(int id, string title, string originalTitle, string description, List<Genre> genre, int duration) : base(id, title, originalTitle, description, genre)
-            {
-            this.duration = duration;
-            }
-
-            public Movie(int id, string title, List<Genre> genre, int duration) : base(id, title, genre)
-                {
-                this.duration = duration;
-                }
-
-                public Movie(int id, string title, string originalTitle, string description, List<Genre> genre, Franchise franchise, int duration, string filePath) : base(id, title, originalTitle, description, genre, franchise)
-                    {
-                    this.duration = duration;
-                    this.filePath = filePath;
-                    }
-
-                    public Movie(int id, string title, List<Genre> genre, Franchise franchise, int duration, string filePath) : base(id, title, genre, franchise)
-                        {
-                        this.duration = duration;
-                        this.filePath = filePath;
-                        }
-
-                        public Movie(int id, string title, string originalTitle, string description, List<Genre> genre, int duration, string filePath) : base(id, title, originalTitle, description, genre)
-                            {
-                            this.duration = duration;
-                            this.filePath = filePath;
-                            }
-
-                            public Movie(int id, string title, List<Genre> genre, int duration, string filePath) : base(id, title, genre)
-                                {
-                                this.duration = duration;
-                                this.filePath = filePath;
-                                }
-
-                                public Movie(Adaptation adaptation, int duration) : base(adaptation)
-                                {
-                                this.duration = duration;
-                                }
-
-                                public string FilePath
-                                {
-                                get => filePath;
-                                set => filePath = value;
-                                }
+        $this->filePath = $filePath;
+        $this->duration = $duration;
+    }
 
 
-                                public int Duration => duration;
+    public function setDuration(int $duration)
+    {
+        $this->duration = $duration;
+    }
+
+    public function setFilePath(string $filePath)
+    {
+        $this->filePath = $filePath;
+    }
+
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    public function getFilePath()
+    {
+        return $this->filePath;
+    }
+
+    public function  getPathToThumbnail()
+    {
+        //ToDO still needs work
+        $path = explode('\\', $this->filePath);
+        array_pop($path); // remove file from path
+        $folderName = array_pop($path); // get folder name of movie
+        $pathToThumbnail = 'media/movies/'.$folderName.'/folder.jpg'; //ToDO: ffmpeg ? this does not exist anymore
+        return $pathToThumbnail;
+    }
+
+    public function toString()
+    {
+        return parent::toString() . "  duration: " . duration;
+    }
 
 
-                                public override bool Equals(object obj)
-                                {
-                                return base.Equals(obj);
-                                }
+}
 
-                                public override string ToString()
-                                {
-                                return base.ToString()+"  duration: "+duration;
-                                }
-                                }

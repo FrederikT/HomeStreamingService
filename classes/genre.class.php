@@ -1,38 +1,28 @@
-public class Genre
-{
-private string name;
 
-public Genre(string name)
-{
-this.name = name ?? throw new ArgumentNullException(nameof(name));
-}
+<?php
+    class Genre {
+        private string $name;
 
-public string Name
-{
-get => name;
-set => name = value;
-}
+        public function __construct(string $name)
+        {
+            $this->name = $name;
+        }
 
+        public function setName(string $name)
+        {
+            $this->name = $name;
+        }
 
-public override bool Equals(object obj)
-{
-Genre genre = null;
-try
-{
-genre = (Genre)obj;
-}
-catch
-{
-return false;
-}
+        public function getName()
+        {
+            return $this->name;
+        }
 
-if (this.name == genre.name)
-{
-return true;
-}
-
-return false;
-
-}
-
-}
+        public function equals(Genre $genre){
+            if($this->name == $genre->getName()){
+                return true;
+            }
+            return false;
+        }
+    }
+?>

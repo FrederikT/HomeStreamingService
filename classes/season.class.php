@@ -1,46 +1,34 @@
 <?php
-include 'includes/metaData.inc.php';
 
 class Season extends MetaData {
-    private $show; //Type: Adaptation
+    private adaptation $show;
 
-    public function __construct()
+    public function __construct(int $id, string $title, string $originalTitle = "", string $description = "", $show=null)
     {
-        parent::__construct();
+        parent::__construct($id, $title, $originalTitle, $description);
+        if(!is_null($show)){
+            $this->show = $show;
+        }
 
-        $this->name = $name
     }
 
+    public function setShow(Adaptation $show)
+    {
+        $this->show = $show;
+    }
 
-    // Überladen nicht Möglich!!
+    public function getShow()
+    {
+        return $this->show;
+    }
 
+    /**
+     * since Variables need instance of object and null is not possible - return sample object, which is Invalid and therefore can be handled as default
+     */
+    public function getNull()
+    {
+        return new Season(-1, "");
+    }
 
-    public Season(int id, Adaptation show,  string title, string originalTitle, string description) : base(id, title, originalTitle, description)
-{
-this.show = show;
-}
-
-public Season(int id, Adaptation show, string title) : base(id, title)
-{
-this.show = show;
-}
-
-public Season(MetaData meta, Adaptation show) : base(meta)
-{
-this.show = show;
-}
-
-
-public Adaptation Show
-{
-get => show;
-set => show = value;
-}
-
-public Adaptation Show1
-{
-get => show;
-set => show = value;
-}
 }
 ?>
