@@ -71,7 +71,7 @@ include_once 'includes/htmlElements.inc.php';
 
                 <?php
                 // define variables and set to empty values
-                $durationErr = $genreErr = $nameErr = $seasonIdErr = $showIdErr = $titleErr = $typeErr = "";
+                $durationErr = $genreErr = $franchiseIdErr = $nameErr = $seasonIdErr = $showIdErr = $titleErr = $typeErr = "";
                 $description = $duration = $franchiseId = $filePath = $genre = $id = $name = $originalTitle = $seasonId = $showId = $title = $type = "";
                 $url = 'http://localhost/api/api/';
 
@@ -89,10 +89,10 @@ include_once 'includes/htmlElements.inc.php';
                         $duration = clean_input($_POST["duration"]);
                     }
 
-                    if (empty($_POST["franchiseID"])) {
-                        //do nothing
+                    if (empty($_POST["franchiseId"])) {
+                        $franchiseIdErr = "Franchise Id is required";
                     } else {
-                        $franchiseId = clean_input($_POST["franchiseID"]);
+                        $franchiseId = clean_input($_POST["franchiseId"]);
                     }
 
 
@@ -133,7 +133,7 @@ include_once 'includes/htmlElements.inc.php';
                     }
 
                     if (empty($_POST["showId"])) {
-                        $seasonIdErr = "Show ID is required";
+                        $showIdErr = "Show ID is required";
                     } else {
                         $showId = clean_input($_POST["showId"]);
                     }
@@ -152,9 +152,12 @@ include_once 'includes/htmlElements.inc.php';
 
 
 
+
+
                 }
 
                 function clean_input($data) {
+                    $data = str_replace("'", "", $data);
                     $data = trim($data);
                     $data = stripslashes($data);
                     $data = htmlspecialchars($data);
@@ -206,44 +209,43 @@ include_once 'includes/htmlElements.inc.php';
                                         <br><br>
                                         Description: <textarea name="description" rows="5" cols="40"></textarea>
                                         <br><br>
-                                        Franchise-ID: <input type="text" name="franchiseID">
+                                        Franchise-ID: <input type="text" name="franchiseId">
+                                        <span class="error">* <?php echo $franchiseIdErr;?></span>
                                         <br><br>
-                                        Genres: <input type="text" name="genre">
+                                        Genres: <input type="text" name="genre"> (multiple separated by ;)
                                         <br><br>
                                         <input type="hidden"  name="type" value="Show">
                                         <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
                                     </form>
                                     <?php
                                     //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
-                                if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr)){
+                                if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($franchiseIdErr) && $type == "Show"){
 
                                     $postfields = array();
                                     if(!empty($id))
-                                        $postfields['Id'] = $id;
+                                        $postfields['id'] = $id;
 
-                                    $postfields['Title'] = $title;
+                                    $postfields['title'] = $title;
+                                    $postfields['franchiseId'] = $franchiseId;
 
                                     if(!empty($originalTitle))
-                                        $postfields['OriginalTitle'] = $originalTitle;
+                                        $postfields['originalTitle'] = $originalTitle;
 
                                     if(!empty($description))
-                                        $postfields['Description'] = $description;
+                                        $postfields['description'] = $description;
 
-                                    if(!empty($franchiseId))
-                                        $postfields['FranchiseID'] = $franchiseId;
 
                                     if(!empty($genre))
-                                        $postfields['Genre'] = $genre;
+                                        $postfields['genre'] = $genre;
 
                                     $ch = curl_init($url.'Show');
                                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                     curl_setopt($ch, CURLOPT_POST, true);
                                     curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
                                     $response = curl_exec($ch);
-                                    echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                                    echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
-                                    var_dump($response);
+                                    echo "<script type='text/javascript'>alert('$response');</script>";
                                     curl_close($ch);
+                                    $_SERVER["REQUEST_METHOD"] = "GET";
                                     }
                                     ?>
 
@@ -274,39 +276,36 @@ include_once 'includes/htmlElements.inc.php';
                                         <br><br>
                                         Description: <textarea name="description" rows="5" cols="40"></textarea>
                                         <br><br>
-                                        Show-ID: <input type="text" name="showID">
+                                        Show-ID: <input type="text" name="showId">
                                         <span class="error">* <?php echo $showIdErr;?></span>
                                         <br><br>
                                         <input type="hidden"  name="type" value="Season">
                                         <input class="st_form_pop_facebook_btn float_left" type="submit" name="submit" value="Submit">
                                     </form>
                                     <?php
-                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
-                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($showIdErr)){
 
+                                    //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($showIdErr)  && $type == "Season"){
                                         $postfields = array();
                                         if(!empty($id))
-                                            $postfields['Id'] = $id;
+                                            $postfields['id'] = $id;
 
-                                        $postfields['Title'] = $title;
-                                        $postfields['ShowID'] = $showId;
+                                        $postfields['title'] = $title;
+                                        $postfields['showId'] = $showId;
 
                                         if(!empty($originalTitle))
-                                            $postfields['OriginalTitle'] = $originalTitle;
+                                            $postfields['originalTitle'] = $originalTitle;
 
                                         if(!empty($description))
-                                            $postfields['Description'] = $description;
-
-
+                                            $postfields['description'] = $description;
                                         $ch = curl_init($url.'Season');
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                         curl_setopt($ch, CURLOPT_POST, true);
                                         curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
                                         $response = curl_exec($ch);
-                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
-                                        var_dump($response);
+                                        echo "<script type='text/javascript'>alert('$response');</script>";
                                         curl_close($ch);
+                                        $_SERVER["REQUEST_METHOD"] = "GET";
                                     }
                                     ?>
 
@@ -340,7 +339,7 @@ include_once 'includes/htmlElements.inc.php';
                                         Duration: <input type="text" name="duration">
                                         <span class="error">* <?php echo $durationErr;?></span>
                                         <br><br>
-                                        Season-ID: <input type="text" name="seasonID">
+                                        Season-ID: <input type="text" name="seasonId">
                                         <span class="error">* <?php echo $seasonIdErr;?></span>
                                         <br><br>
                                         FilePath: <input type="text" name="filePath">
@@ -350,21 +349,21 @@ include_once 'includes/htmlElements.inc.php';
                                     </form>
                                     <?php
                                     //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
-                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($durationErr) && empty($seasonIdErr)){
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($durationErr) && empty($seasonIdErr)  && $type == "Episode"){
 
                                         $postfields = array();
                                         if(!empty($id))
-                                            $postfields['Id'] = $id;
+                                            $postfields['id'] = $id;
 
-                                        $postfields['Title'] = $title;
-                                        $postfields['Duration'] = $duration;
-                                        $postfields['SeasonID'] = $seasonId;
+                                        $postfields['title'] = $title;
+                                        $postfields['duration'] = $duration;
+                                        $postfields['seasonId'] = $seasonId;
 
                                         if(!empty($originalTitle))
-                                            $postfields['OriginalTitle'] = $originalTitle;
+                                            $postfields['originalTitle'] = $originalTitle;
 
                                         if(!empty($description))
-                                            $postfields['Description'] = $description;
+                                            $postfields['description'] = $description;
 
                                         if(!empty($filePath))
                                             $postfields['filePath'] = $filePath;
@@ -375,10 +374,9 @@ include_once 'includes/htmlElements.inc.php';
                                         curl_setopt($ch, CURLOPT_POST, true);
                                         curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
                                         $response = curl_exec($ch);
-                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
-                                        var_dump($response);
+                                        echo "<script type='text/javascript'>alert('$response');</script>";
                                         curl_close($ch);
+                                        $_SERVER["REQUEST_METHOD"] = "GET";
                                     }
                                     ?>
 
@@ -412,9 +410,10 @@ include_once 'includes/htmlElements.inc.php';
                                         Duration: <input type="text" name="duration">
                                         <span class="error">* <?php echo $durationErr;?></span>
                                         <br><br>
-                                        Franchise-ID: <input type="text" name="franchiseID">
+                                        Franchise-ID: <input type="text" name="franchiseId">
+                                        <span class="error">* <?php echo $franchiseIdErr;?></span>
                                         <br><br>
-                                        Genre: <input type="text" name="genre">
+                                        Genre: <input type="text" name="genre"> (multiple separated by ;)
                                         <span class="error">* <?php echo $genreErr;?></span>
                                         <br><br>
                                         FilePath: <input type="text" name="filePath">
@@ -425,38 +424,38 @@ include_once 'includes/htmlElements.inc.php';
                                     </form>
                                     <?php
                                     //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
-                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($durationErr) && empty($genreErr)){
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($titleErr) && empty($durationErr) && empty($genreErr) && empty($franchiseIdErr) && $type == "Movie"){
 
                                         $postfields = array();
                                         if(!empty($id))
-                                            $postfields['Id'] = $id;
+                                            $postfields['id'] = $id;
 
-                                        $postfields['Title'] = $title;
-                                        $postfields['Genre']=$genre;
-                                        $postfields['Duration'] = $duration;
+                                        $postfields['title'] = $title;
+                                        $postfields['genre']=$genre;
+                                        $postfields['duration'] = $duration;
+                                        $postfields['franchiseId'] = $franchiseId;
 
                                         if(!empty($originalTitle))
-                                            $postfields['OriginalTitle'] = $originalTitle;
+                                            $postfields['originalTitle'] = $originalTitle;
 
                                         if(!empty($description))
-                                            $postfields['Description'] = $description;
+                                            $postfields['description'] = $description;
 
-                                        if(!empty($seasonId))
-                                            $postfields['FranchiseID'] = $franchiseId;
 
                                         if(!empty($filePath))
                                             $postfields['filePath'] = $filePath;
-
 
                                         $ch = curl_init($url.'Movie');
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                         curl_setopt($ch, CURLOPT_POST, true);
                                         curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
                                         $response = curl_exec($ch);
-                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
-                                        var_dump($response);
+                                        echo "<script type='text/javascript'>alert('$response');</script>";
                                         curl_close($ch);
+                                        $_SERVER["REQUEST_METHOD"] = "GET";
+                                        print_r($postfields);
+
+
                                     }
                                     ?>
 
@@ -490,19 +489,18 @@ include_once 'includes/htmlElements.inc.php';
 
                                         $postfields = array();
                                         if(!empty($id))
-                                            $postfields['Id'] = $id;
+                                            $postfields['id'] = $id;
 
-                                        $postfields['Name'] = $name;
+                                        $postfields['name'] = $name;
 
                                         $ch = curl_init($url.'Franchise');
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                         curl_setopt($ch, CURLOPT_POST, true);
                                         curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
                                         $response = curl_exec($ch);
-                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
-                                        var_dump($response);
+                                        echo "<script type='text/javascript'>alert('$response');</script>";
                                         curl_close($ch);
+                                        $_SERVER["REQUEST_METHOD"] = "GET";
                                     }
                                     ?>
 
@@ -530,22 +528,20 @@ include_once 'includes/htmlElements.inc.php';
                                     </form>
                                     <?php
                                     //MAYBE: This needs to be below all Forms -> use $type || delete $type if not
-                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($genreErr)){
+                                    if($_SERVER["REQUEST_METHOD"] == "POST" && empty($genreErr)  && $type == "Genre"){
 
                                         $postfields = array();
 
-                                        $postfields['Genre'] = $genre;
+                                        $postfields['genre'] = $genre;
 
                                         $ch = curl_init($url.'Genre');
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                         curl_setopt($ch, CURLOPT_POST, true);
                                         curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
                                         $response = curl_exec($ch);
-                                        echo 'Status-Code: ' . curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                                        echo '<pre>';print_r(json_decode($response, true));echo'</pre>';
-                                        var_dump($response);
+                                        echo "<script type='text/javascript'>alert('$response');</script>";
                                         curl_close($ch);
-
+                                        $_SERVER["REQUEST_METHOD"] = "GET";
                                     }
                                     ?>
 

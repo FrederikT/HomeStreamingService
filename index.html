@@ -155,7 +155,7 @@ Controller::loadAll();
                                             $cardIndex = 0;
                                             for($row=0; $row<2; $row++) {
                                                 for ($card = 0; $card < 4; $card++) {
-                                                    if ($cardIndex <= $numberOfShows) {
+                                                    if ($cardIndex < $numberOfShows) {
 
                                                         $objectClass = get_class($showList[$cardIndex]);
                                                         $title = $showList[$cardIndex]->getTitle();

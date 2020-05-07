@@ -18,7 +18,6 @@ function myAutoLoader($classname){
         $classname = "metaData";
     }
 
-
     $extention =".class.php";
     $fullPath = $path . $classname . $extention;
     include_once $fullPath;
