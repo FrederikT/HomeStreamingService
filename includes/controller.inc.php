@@ -642,7 +642,10 @@ class Controller{
         //develop
         $data = file_get_contents('http://localhost/api/api/'.$endUrl);
         //raspberry pi server
-       // $data = file_get_contents('http://192.168.0.37/api/'.$endUrl);
+       //$data = file_get_contents('http://192.168.0.37/api/'.$endUrl);
+        //on server
+        //$data = file_get_contents('http://localhost/api/'.$endUrl);
+
         return $data;
     }
 }
