@@ -413,9 +413,14 @@ class HtmlElements
     static function printCard($type, $title, $id){
         print ('<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 prs_upcom_slide_first">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
-                                                                <div class="prs_upcom_movie_img_box">
-                                                                    <img src="images/content/movie_category/up1.jpg" alt="movie_img" />
-                                                                    <div class="prs_upcom_movie_img_overlay"></div>
+                                                                <div class="prs_upcom_movie_img_box">');
+                                                                $path = HtmlElements::getImagePath($type, $id);
+                                                                if(isset($path)){
+                                                                    print(' <img src="'.$path.'" alt="movie_img" />');
+                                                                }else{
+                                                                    print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
+                                                                }
+                                                                  print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>
                                                                             <li><a href="#">View Trailer</a>
@@ -464,9 +469,14 @@ class HtmlElements
     static function printSmallCard($type, $title, $id){
         print ('<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
-                                                                <div class="prs_upcom_movie_img_box">
-                                                                    <img src="images/content/movie_category/up5.jpg" alt="movie_img" />
-                                                                    <div class="prs_upcom_movie_img_overlay"></div>
+                                                                <div class="prs_upcom_movie_img_box">');
+                                                                $path = HtmlElements::getImagePath($type, $id);
+                                                                if(isset($path)){
+                                                                    print(' <img src="'.$path.'" alt="movie_img" />');
+                                                                }else{
+                                                                    print(' <img src="images/content/movie_category/up5.jpg" alt="movie_img" />');
+                                                                }
+                                                                  print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>
                                                                             <li><a href="#">View Trailer</a>
@@ -557,7 +567,61 @@ class HtmlElements
 
 
 
+    private static function getImagePath($type, $id){
+        try {
+            //for movie, episode, show, season
+            // Assumtion: File structure: /media/movies/title/file.mp4 (+folder.jpg)
+            ///media/shows/ShowTitle/Seasons (+folder.jpg)/ Episodes.mp4 (+folder.jpg)
+            $path = "";
+            if ($type == "Movie") {
+                $movie = NullClasses::getMovie();
+                $movie = Controller::getMovie($id);
+                $path = "media/movies/" . dirname($movie->getFilePath()) . '/folder.jpg';
 
+
+
+            } else if ($type == "Episode") {
+                $episode = NullClasses::getEpisode();
+                $episode = Controller::getEpisode($id);
+                $path = "media/shows/" . dirname($episode->getFilePath()) . '/folder.jpg';
+            } else if ($type == "Season") {
+                $season = NullClasses::getSeason();
+                $season = Controller::getSeason($id);
+                foreach (Controller::$episodeList as $episode) {
+                    if ($episode->$season == $season) {
+                        break;
+                    }
+                }
+                $path = "media/shows/" . dirname($episode->getFilePath()) . '/folder.jpg';
+
+            } else if ($type == "Adaptation") {
+                $show = NullClasses::getAdaptation();
+                $show = Controller::getShow($id);
+                $season = NullClasses::getSeason();
+                foreach (Controller::$seasonList as $season) {
+                    if ($season->getShow() == $show) {
+                        break;
+                    }
+                }
+                foreach (Controller::$episodeList as $episode) {
+                    if ($episode->getSeason() == $season) {
+                        break;
+                    }
+                }
+
+                $path = explode('/', $episode->getFilePath());
+                array_pop($path); // remove file
+                array_pop($path); // remove Season Dir -> now in show dir
+                $path = implode('/', $path);
+                $path .= '/folder.jpg';
+                $path = "media/shows/" . $path;
+            }
+            return $path;
+        }catch (Exception $e){
+            print($e);
+            return null;
+        }
+    }
 
 
 
