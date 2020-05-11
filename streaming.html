@@ -100,8 +100,24 @@ if(isset($episode)){
                             echo $streamingItem->getTitle();
                             ?>
                         </h3>
-                        <p>ENGLISH, HINDI, TAMIL</p>
-                        <h4>ACTION | Adventure | Fantasy</h4>
+                        <h4>
+                            <?php
+                                if(isset($movie)){
+                                   $genre = $movie->getGenre();
+                                }
+                                if(isset($episode)){
+                                    $season = $episode->getSeason();
+                                    $show = $season->getShow();
+                                    $genre = $show->getGenre();
+                                }
+                                $genreTag = "";
+                                foreach ($genre as $item){
+                                    $genreTag .= $item['Name'];
+                                    $genreTag .= " | ";
+                                }
+                                print( mb_substr($genreTag, 0, -3));
+                            ?>
+                        </h4>
                         <h5><span>2d</span> <span>3d</span> <span>D 4DX</span> <span>Imax 3D</span></h5>
                     </div>
                     <div class="st_video_slide_social float_left">
