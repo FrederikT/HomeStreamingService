@@ -89,7 +89,7 @@ if(isset($episode)){
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="st_video_slider_inner_wrapper float_left" style="background-image: url('img_girl.jpg');">
+                <div class="st_video_slider_inner_wrapper float_left" style="background-image: url('<?php echo HtmlElements::ffmpeg($prePath.$streamingItem->getFilePath()); ?>');">
                     <div class="st_video_slider_overlay"></div>
                     <div class="st_video_slide_sec float_left">
                         <a rel='external' href='<?php print($prePath.$streamingItem->getFilePath()); ?>' title='title' class="test-popup-link">
