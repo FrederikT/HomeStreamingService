@@ -1,7 +1,7 @@
 <?php
 class HtmlElements
 {
-    
+
 
     static function printHeader()
     {
@@ -41,10 +41,10 @@ class HtmlElements
             if ($i < count($movieList)) {
                 $movie = $movieList[$i];
                 print('<li class="ar_left"><i class="fa fa-film"></i><a href="streaming.html?movie=');
-                            print($movie->getTitle());
-                            print('&id=');
-                            print($movie->getId());
-                            print('">');
+                print($movie->getTitle());
+                print('&id=');
+                print($movie->getId());
+                print('">');
                 echo $movie->getTitle();
                 print('</a></li>');
             }
@@ -104,8 +104,8 @@ class HtmlElements
                                         </select>
                                        
                                          <form id="searchForm" method="get" action="');
-                                                echo htmlspecialchars("search.html");
-                                                print('"><input type="text" placeholder="Search Movie , Show, Episode" name="Title">
+        echo htmlspecialchars("search.html");
+        print('"><input type="text" placeholder="Search Movie , Show, Episode" name="Title">
                                         </form>
                                         <button form="searchForm" type="submit" ><i class="flaticon-tool"></i> 
                                         </button>
@@ -388,7 +388,7 @@ class HtmlElements
     }
 
     static  function printLogin(){
-       print( '
+        print( '
 	<!-- st login wrapper Start -->
 	<div class="modal fade st_pop_form_wrapper" id="myModal" role="dialog">
 		<div class="modal-dialog">
@@ -499,42 +499,32 @@ class HtmlElements
     }
 
     static function printCard($type, $title, $id){
+        $cardValues = self::getDataForCard($type, $id);
+        $linkUrl = self::getUrlLink($type, $title, $id);
         print ('<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 prs_upcom_slide_first">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
                                                                 <div class="prs_upcom_movie_img_box">');
-                                                                $path = HtmlElements::getImagePath($type, $id);
-                                                                if(isset($path)){
-                                                                    print(' <img src="'.$path.'" alt="movie_img" />');
-                                                                }else{
-                                                                    print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
-                                                                }
-                                                                  print('<div class="prs_upcom_movie_img_overlay"></div>
+        $path = HtmlElements::getImagePath($type, $id);
+        if(isset($path)){
+            print(' <img src="'.$path.'" alt="movie_img" />');
+        }else{
+            print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
+        }
+        print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>
-                                                                            <li><a href="#">View Trailer</a>
-                                                                            </li>
-                                                                            <li><a href="#">View Details</a>
-                                                                            </li>
+                                                                            <li><a href="'.$linkUrl.'">Stream Now</a>
+                                                                            </li>                                                                            
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                                 <div class="prs_upcom_movie_content_box">
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
-        if(strcasecmp($type, "Adaptation") == 0){
-            print "show.html?show=";
-            print $title;
-            print "&id=";
-            print $id;
-        }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
-            print "streaming.html?".$type."=";
-            print $title;
-            print "&id=";
-            print $id;
-        }
+        print($linkUrl);
         print ('">');
         print $title; print ('</a></h2>
-                                                                        <p>Drama , Acation</p>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print('</p>
                                                                         <!--
                                                                         <i class="fa fa-star"></i>
                                                                         <i class="fa fa-star"></i>
@@ -555,21 +545,21 @@ class HtmlElements
     }
 
     static function printSmallCard($type, $title, $id){
+        $linkUrl = self::getUrlLink($type, $title, $id);
+        $cardValues = self::getDataForCard($type, $id);
         print ('<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
                                                                 <div class="prs_upcom_movie_img_box">');
-                                                                $path = HtmlElements::getImagePath($type, $id);
-                                                                if(isset($path)){
-                                                                    print(' <img src="'.$path.'" alt="movie_img" />');
-                                                                }else{
-                                                                    print(' <img src="images/content/movie_category/up5.jpg" alt="movie_img" />');
-                                                                }
-                                                                  print('<div class="prs_upcom_movie_img_overlay"></div>
+        $path = HtmlElements::getImagePath($type, $id);
+        if(isset($path)){
+            print(' <img src="'.$path.'" alt="movie_img" />');
+        }else{
+            print(' <img src="images/content/movie_category/up5.jpg" alt="movie_img" />');
+        }
+        print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
-                                                                        <ul>
-                                                                            <li><a href="#">View Trailer</a>
-                                                                            </li>
-                                                                            <li><a href="#">View Details</a>
+                                                                        <ul>                                                                            
+                                                                            <li><a href="'.$linkUrl.'">Stream Now</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -577,20 +567,11 @@ class HtmlElements
                                                                 <div class="prs_upcom_movie_content_box">
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
-        if(strcasecmp($type, "Adaptation") == 0){
-            print "show.html?show=";
-            print $title;
-            print "&id=";
-            print $id;
-        }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
-            print "streaming.html?".$type."=";
-            print $title;
-            print "&id=";
-            print $id;
-        }
+
+        print($linkUrl);
         print ('">');
         print $title; print ('</a></h2>
-                                                                        <p>Drama , Acation</p>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print('</p>
                                                                         <!--
                                                                         <i class="fa fa-star"></i>
                                                                         <i class="fa fa-star"></i>
@@ -611,39 +592,37 @@ class HtmlElements
     }
 
     static function printListCard($type, $title, $id){
+        $linkUrl = self::getUrlLink($type, $title, $id);
+        $cardValues = self::getDataForCard($type, $id);
         print('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                             <div class="prs_mcc_list_movie_main_wrapper">
-                                                                <div class="prs_mcc_list_movie_img_wrapper">
-                                                                    <img src="images/content/movie_category/up1.jpg" alt="categoty_img">
-                                                                </div>
+                                                                <div class="prs_mcc_list_movie_img_wrapper">');
+                                                                  $path = HtmlElements::getImagePath($type, $id);
+                                                                    if(isset($path)){
+                                                                        print(' <img src="'.$path.'" alt="movie_img" />');
+                                                                    }else{
+                                                                        print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
+                                                                    }
+                                                               print('</div>
                                                                 <div class="prs_mcc_list_movie_img_cont_wrapper">
                                                                     <div class="prs_mcc_list_left_cont_wrapper">
                                                                         <h2><a href="');
-        if(strcasecmp($type, "Adaptation") == 0){
-            print "show.html?show=";
-            print $title;
-            print "&id=";
-            print $id;
-        }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
-            print "streaming.html?".$type."=";
-            print $title;
-            print "&id=";
-            print $id;
-        }
+        print($linkUrl);
         print ('">');
         print $title; print ('</a></h2>
-                                                                        <p>Drama , Acation &nbsp;&nbsp;&nbsp;<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-                                                                        </p>
-                                                                        <h4>Movie Director - Jhon Doe</h4>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print(' </p>
+                                                                        <!-- 
+                                                                        Data currently unavailable
+                                                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
+                                                                        
+                                                                        <h4>Movie Director - Jhon Doe</h4>-->
                                                                     </div>
                                                                     <div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
                                                                     </div>
                                                                     <div class="prs_mcc_list_bottom_cont_wrapper">
-                                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis trud exercitation ullamco.</p>
+                                                                        <p>'.$cardValues[Description].'</p>
                                                                         <ul>
-                                                                            <li><a href="#">View Trailer</a>
-                                                                            </li>
-                                                                            <li><a href="#">View Details</a>
+                                                                        <li><a href="'.$linkUrl.'">Stream Now</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -655,7 +634,27 @@ class HtmlElements
 
 
 
+
+    private static function getUrlLink($type, $title, $id){
+        $linkUrl = "";
+        if(strcasecmp($type, "Adaptation") == 0){
+            $linkUrl .= "show.html?show=";
+            $linkUrl .=  $title;
+            $linkUrl .=  "&id=";
+            $linkUrl .=  $id;
+        }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
+            $linkUrl .=  "streaming.html?".$type."=";
+            $linkUrl .=  $title;
+            $linkUrl .=  "&id=";
+            $linkUrl .=  $id;
+        }
+        return $linkUrl;
+    }
+
     private static function getImagePath($type, $id){
+        if(isset(Controller::$metaDataList)){
+            Controller::loadAll();
+        }
         try {
             //for movie, episode, show, season
             // Assumtion: File structure: /media/movies/title/file.mp4 (+folder.jpg)
@@ -665,9 +664,6 @@ class HtmlElements
                 $movie = NullClasses::getMovie();
                 $movie = Controller::getMovie($id);
                 $path = "media/movies/" . dirname($movie->getFilePath()) . '/folder.jpg';
-
-
-
             } else if ($type == "Episode") {
                 $episode = NullClasses::getEpisode();
                 $episode = Controller::getEpisode($id);
@@ -688,15 +684,16 @@ class HtmlElements
                 $season = NullClasses::getSeason();
                 foreach (Controller::$seasonList as $season) {
                     if ($season->getShow() == $show) {
+
                         break;
                     }
                 }
+
                 foreach (Controller::$episodeList as $episode) {
                     if ($episode->getSeason() == $season) {
                         break;
                     }
                 }
-
                 $path = explode('/', $episode->getFilePath());
                 array_pop($path); // remove file
                 array_pop($path); // remove Season Dir -> now in show dir
@@ -711,6 +708,42 @@ class HtmlElements
         }
     }
 
+    private static function getDataForCard($type, $id){
+        if(isset(Controller::$metaDataList)){
+            Controller::loadAll();
+        }
+        try {
+            $path = "";
+            if ($type == "Movie") {
+                $movie = NullClasses::getMovie();
+                $movie = Controller::getMovie($id);
+                $returnValues['Genre'] = $movie->getGenre();
+                $returnValues['Description'] = $movie->getDescription();
+            } else if ($type == "Episode") {
+                $episode = NullClasses::getEpisode();
+                $episode = Controller::getEpisode($id);
+                $season = $episode->getSeason();
+                $show = $season->getShow();
+                $returnValues['Genre'] = $show->getGenre();
+                $returnValues['Description'] = $episode->getDescription();
+            } else if ($type == "Season") {
+                $season = NullClasses::getSeason();
+                $season = Controller::getSeason($id);
+                $returnValues['Genre'] = $season->getShow()->getGenre();
+                $returnValues['Description'] = $season->getDescription();
+            } else if ($type == "Adaptation") {
+                $show = NullClasses::getAdaptation();
+                $show = Controller::getShow($id);
+                $season = NullClasses::getSeason();
+                $returnValues['Genre'] = $show->getGenre();
+                $returnValues['Description'] = $show->getDescription();
+            }
+            return $returnValues;
+        }catch (Exception $e){
+            print($e);
+            return null;
+        }
+    }
 
 
 
