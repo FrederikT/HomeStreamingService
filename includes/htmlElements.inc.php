@@ -814,20 +814,24 @@ class HtmlElements
         $sec = 100;
         $thumbnail = 'images/thumbnails/'.$filename;
 
-        try{
-            $ffmpeg = FFMpeg\FFMpeg::create(array(
-                'ffmpeg.binaries' => '/usr/bin//ffmpeg',
-                'ffprobe.binaries' => '/usr/bin/ffprobe',
-                'timeout' => 3600, // The timeout for the underlying process
-                'ffmpeg.threads' => 12, // The number of threads that FFMpeg should use
-            ));
+        if(!file_exists($thumbnail)){
+            try{
+                $ffmpeg = FFMpeg\FFMpeg::create(array(
+                    'ffmpeg.binaries' => '/usr/bin//ffmpeg',
+                    'ffprobe.binaries' => '/usr/bin/ffprobe',
+                    'timeout' => 3600, // The timeout for the underlying process
+                    'ffmpeg.threads' => 12, // The number of threads that FFMpeg should use
+                ));
 
-            $video = $ffmpeg->open($filepath);
-            $frame = $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($sec));
-            $frame->save($thumbnail);
+                $video = $ffmpeg->open($filepath);
+                $frame = $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($sec));
+                $frame->save($thumbnail);
+                return $thumbnail;
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+        }else{
             return $thumbnail;
-        }catch(Exception $e){
-            return $e->getMessage();
         }
 
     }
