@@ -2,6 +2,12 @@
 class HtmlElements
 {
 
+    #####################################################################################################################
+    // Functions that print reoccurring HTML elements. Changes can be done in one place instead of various.
+    // Function names are self explanatory, since they have neither parameters nor return values php doc is not needed
+    #####################################################################################################################
+
+
 
     static function printHeader()
     {
@@ -187,8 +193,6 @@ class HtmlElements
                     <!-- prs navigation End -->
 	');
     }
-
-
 
     static function  printFooter(){
         print('	
@@ -607,7 +611,6 @@ class HtmlElements
 											     ');
     }
 
-
     static function printStyleSwitcher(){
         print('<!-- color picker start -->
                 <div id="style-switcher">
@@ -641,7 +644,15 @@ class HtmlElements
     }
 
 
-    //not perfect - maybe add size + variable sec
+    #####################################################################################################################
+    // Functions without category
+    #####################################################################################################################
+
+    /**
+     * Creates an image from an Video (at second 100), saves it to the webserver and returns the path
+     * @param string $filepath path to a videofile
+     * @return string path to the created image
+     */
     static function ffmpeg($filepath){
         require 'vendor/autoload.php';
         $filename = basename($filepath);
@@ -673,9 +684,7 @@ class HtmlElements
     }
 
 
-
-
-    ####################################################################################################################
+   #####################################################################################################################
     // Help functions that deliver data for other functions in this class
    #####################################################################################################################
 
@@ -765,9 +774,10 @@ class HtmlElements
     }
 
     /**
-     *@param String $type  Class of an Element (Movie, Adaptation, Season, Episode)
+     * gets data that is printed in the cards
+     * @param String $type  Class of an Element (Movie, Adaptation, Season, Episode)
      * @param Integer $id Id of the element
-     * @return array|null
+     * @return array|null associative array with values for 'Genre' and 'Description' or null if error occurred
      */
     private static function getDataForCard($type, $id){
         if(isset(Controller::$metaDataList)){
