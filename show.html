@@ -92,88 +92,69 @@ Controller::loadAll();
                         ?>
                     </h2>
                 </div>
-
             </div>
-            <div class="portfolio-area ptb-100">
+
+            <!-- prs new Slider Start -->
+            <div class="prs_upcom_slider_main_wrapper">
                 <div class="container">
-                    <div class="portfolio-filter clearfix text-center">
-                        <ul class="list-inline" id="filter">
-                            <!-- seasons - group = id; -->
-                            <?php
-                            Controller::loadAll();
-                            $seasons = Controller::getSeasonsForShow($showId);
-                            $season = NullClasses::getSeason();
-                            $season = $seasons[0];
-                            print('<li><a class="active" data-group="');
-                            print($season->getId());
-                            print('">Season 1</a></li>');
-                            for($i=1; $i < count($seasons); $i++){
-                                $season = $seasons[$i];
-                                print('<li><a data-group="');
-                                print($season->getId());
-                                print('">Season ');
-                                print($i+1);
-                                print('</a></li>');
-                            }
-
-                            ?>
-                        </ul>
-                    </div>
-                    <div class="row three-column">
-                        <div id="gridWrapper" class="clearfix">
-                            <?php
-                            foreach ($seasons as $ssn){
-                                $episodes = Controller::getEpisodesForSeason($ssn->getId());
-                                $episode = NullClasses::getEpisode();
-                                foreach ($episodes as $episode){
-                                    //ToDo replace with ffmpeg?
-                                    $path = 'media/shows/'.dirname($episode->getFilePath()).'/folder.jpg';
-                                    print('
-                                                    <!-- Episode..  datagroup = season id-->
-                                                    <div class="col-xs-12 col-sm-6 col-md-4 portfolio-wrapper III_column" data-groups=\'["'); print($ssn->getId()); print('"]\'>');
-                                    print(' <div class="portfolio-thumb">
-                                                            <div class="gc_filter_cont_overlay_wrapper prs_ms_scene_slider_img">
-                                                                <img src="');print($path); print('" class="zoom image img-responsive" alt="service_img" />
-                                                                <div class="prs_ms_scene_img_overlay">	<a href="streaming.html?episode=');
-                                    print($episode->getTitle());
-                                    print('&id=');
-                                    print($episode->getId());
-                                    print( '"> <i class="flaticon-tool"></i></a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /.portfolio-thumb -->
-                                                    </div>
-								            ');
-                                }
-                            }
-
-
-
-                            ?>
-
-
-
-
-                        </div>
-                        <!--/#gridWrapper-->
-                    </div>
-                    <!-- /.row -->
-                    <!--
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="prs_animate_btn1 prs_upcom_main_wrapper prs_gallery_btn_wrapper">
-                                <ul>
-                                    <li><a href="#" class="button button--tamaya prs_upcom_main_btn" data-text="view all"><span>View All</span></a>
-                                    </li>
+                            <div class="prs_upcome_tabs_wrapper">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <?php
+                                    Controller::loadAll();
+                                    $seasons = Controller::getSeasonsForShow($showId);
+                                    $season = NullClasses::getSeason();
+                                    $season = $seasons[0];
+                                    print('<li role="presentation" class="active"><a href="#'.$season->getId().'" role="tab" data-toggle="tab" aria-controls="'.$season->getId().'">Season 1</a></li>');
+                                    for($i=1; $i < count($seasons); $i++){
+                                        $season = $seasons[$i];
+                                        $j = $i+1;
+                                        print('<li role="presentation"><a href="#'.$season->getId().'"aria-controls="'.$season->getId().'" role="tab" data-toggle="tab">Season '.$j.'</a></li>');
+                                    }
+
+                                    ?>
                                 </ul>
                             </div>
                         </div>
-                    </div>-->
+
+                        <div class="tab-content">
+
+
+                            <?php
+                            $first = true;
+                            foreach ($seasons as $ssn){
+                                if($first){
+                                    print('<div role="tabpanel" class="tab-pane fade in active" id="'.$ssn->getId().'">');
+                                    $first = false;
+                                }else {
+                                    print('<div role="tabpanel" class="tab-pane fade" id="' . $ssn->getId() . '">');
+                                }
+                                      print('<div class="prs_upcom_slider_slides_wrapper">
+                                                <div class="owl-theme">
+                                                    <div class="item">
+                                                        <div class="row">');
+                                                        $episodes = Controller::getEpisodesForSeason($ssn->getId());
+                                                        $episode = NullClasses::getEpisode();
+                                                        foreach ($episodes as $episode){
+                                                           HtmlElements::printSmallCard("Episode", $episode->getTitle(), $episode->getId());
+                                                        }
+                                                 print('</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>');
+                            }
+                            ?>
+
+
+
+                        </div>
+                    </div>
                 </div>
-                <!-- /.container -->
             </div>
-            <!--/.portfolio-area-->
+            <!-- prs new Slider End -->
+
         </div>
     </div>
 </div>
