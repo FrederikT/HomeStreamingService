@@ -359,7 +359,7 @@ class HtmlElements
 	    ');
     }
 
-    //currently not implemented.
+    //currently no Login possibility. When implemented call function at end of page
     static  function printLogin(){
         print( '
 	<!-- st login wrapper Start -->
@@ -608,124 +608,6 @@ class HtmlElements
     }
 
 
-
-
-    private static function getUrlLink($type, $title, $id){
-        $linkUrl = "";
-        if(strcasecmp($type, "Adaptation") == 0){
-            $linkUrl .= "show.html?show=";
-            $linkUrl .=  $title;
-            $linkUrl .=  "&id=";
-            $linkUrl .=  $id;
-        }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
-            $linkUrl .=  "streaming.html?".$type."=";
-            $linkUrl .=  $title;
-            $linkUrl .=  "&id=";
-            $linkUrl .=  $id;
-        }
-        return $linkUrl;
-    }
-
-    private static function getImagePath($type, $id){
-        if(isset(Controller::$metaDataList)){
-            Controller::loadAll();
-        }
-        try {
-            //for movie, episode, show, season
-            // Assumtion: File structure: /media/movies/title/file.mp4 (+folder.jpg)
-            ///media/shows/ShowTitle/Seasons (+folder.jpg)/ Episodes.mp4 (+folder.jpg)
-            $path = "";
-            if ($type == "Movie") {
-                $movie = NullClasses::getMovie();
-                $movie = Controller::getMovie($id);
-                $path = "media/movies/" . dirname($movie->getFilePath()) . '/folder.jpg';
-            } else if ($type == "Episode") {
-                $episode = NullClasses::getEpisode();
-                $episode = Controller::getEpisode($id);
-                $path = "media/shows/" . dirname($episode->getFilePath()) . '/folder.jpg';
-            } else if ($type == "Season") {
-                $season = NullClasses::getSeason();
-                $season = Controller::getSeason($id);
-                foreach (Controller::$episodeList as $episode) {
-                    if ($episode->getSeason() == $season) {
-                        break;
-                    }
-                }
-                $path = "media/shows/" . dirname($episode->getFilePath()) . '/folder.jpg';
-
-            } else if ($type == "Adaptation") {
-                $show = NullClasses::getAdaptation();
-                $show = Controller::getShow($id);
-                $season = NullClasses::getSeason();
-                foreach (Controller::$seasonList as $season) {
-                    if ($season->getShow() == $show) {
-
-                        break;
-                    }
-                }
-
-                foreach (Controller::$episodeList as $episode) {
-                    if ($episode->getSeason() == $season) {
-                        break;
-                    }
-                }
-                $path = explode('/', $episode->getFilePath());
-                array_pop($path); // remove file
-                array_pop($path); // remove Season Dir -> now in show dir
-                $path = implode('/', $path);
-                $path .= '/folder.jpg';
-                $path = "media/shows/" . $path;
-            }
-            return $path;
-        }catch (Exception $e){
-            print($e);
-            return null;
-        }
-    }
-
-    private static function getDataForCard($type, $id){
-        if(isset(Controller::$metaDataList)){
-            Controller::loadAll();
-        }
-        try {
-            $path = "";
-            if ($type == "Movie") {
-                $movie = NullClasses::getMovie();
-                $movie = Controller::getMovie($id);
-                $returnValues['Genre'] = $movie->getGenre();
-                $returnValues['Description'] = $movie->getDescription();
-            } else if ($type == "Episode") {
-                $episode = NullClasses::getEpisode();
-                $episode = Controller::getEpisode($id);
-                $season = $episode->getSeason();
-                $show = $season->getShow();
-                $returnValues['Genre'] = $show->getGenre();
-                $returnValues['Description'] = $episode->getDescription();
-            } else if ($type == "Season") {
-                $season = NullClasses::getSeason();
-                $season = Controller::getSeason($id);
-                $returnValues['Genre'] = $season->getShow()->getGenre();
-                $returnValues['Description'] = $season->getDescription();
-            } else if ($type == "Adaptation") {
-                $show = NullClasses::getAdaptation();
-                $show = Controller::getShow($id);
-                $season = NullClasses::getSeason();
-                $returnValues['Genre'] = $show->getGenre();
-                $returnValues['Description'] = $show->getDescription();
-            }
-            return $returnValues;
-        }catch (Exception $e){
-            print($e);
-            return null;
-        }
-    }
-
-
-
-
-
-
-
     static function printStyleSwitcher(){
         print('<!-- color picker start -->
                 <div id="style-switcher">
@@ -757,27 +639,6 @@ class HtmlElements
 	           <!-- color picker end --> 
 	');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //not perfect - maybe add size + variable sec
@@ -814,6 +675,136 @@ class HtmlElements
 
 
 
+    ####################################################################################################################
+    // Help functions that deliver data for other functions in this class
+   #####################################################################################################################
+
+    /**
+     * Gets the link to the page of the show or movie
+     * @param String $type  Class of an Element ( Adaptation or Movie)
+     * @param String $title Title of the Show or Moviw
+     * @param Integer $id Id of the element
+     * @return string Link to the show or movie
+     */
+    private static function getUrlLink($type, $title, $id){
+        $linkUrl = "";
+        if(strcasecmp($type, "Adaptation") == 0){
+            $linkUrl .= "show.html?show=";
+            $linkUrl .=  $title;
+            $linkUrl .=  "&id=";
+            $linkUrl .=  $id;
+        }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
+            $linkUrl .=  "streaming.html?".$type."=";
+            $linkUrl .=  $title;
+            $linkUrl .=  "&id=";
+            $linkUrl .=  $id;
+        }
+        return $linkUrl;
+    }
+
+    /**
+     * gets the Path to an Image (folder.jpg) for any relating Item (Movie, Show, Season, Episode)
+     * @param String $type  Class of an Element (Movie, Adaptation, Season, Episode)
+     * @param Integer $id Id of the element
+     * @return string|null path to image or null if error occurred
+     */
+    private static function getImagePath($type, $id){
+        if(isset(Controller::$metaDataList)){
+            Controller::loadAll();
+        }
+        try {
+            //for movie, episode, show, season
+            // Assumtion: File structure: /media/movies/title/file.mp4 (+folder.jpg)
+            ///media/shows/ShowTitle/Seasons (+folder.jpg)/ Episodes.mp4 (+folder.jpg)
+            $path = "";
+            if ($type == "Movie") {
+                $movie = NullClasses::getMovie();
+                $movie = Controller::getMovie($id);
+                $path = "media/movies/" . dirname($movie->getFilePath()) . '/folder.jpg';
+            } else if ($type == "Episode") {
+                $episode = NullClasses::getEpisode();
+                $episode = Controller::getEpisode($id);
+                $path = "media/shows/" . dirname($episode->getFilePath()) . '/folder.jpg';
+            } else if ($type == "Season") {
+                $season = NullClasses::getSeason();
+                $season = Controller::getSeason($id);
+                foreach (Controller::$episodeList as $episode) {
+                    if ($episode->getSeason() == $season) {
+                        break;
+                    }
+                }
+                $path = "media/shows/" . dirname($episode->getFilePath()) . '/folder.jpg';
+
+            } else if ($type == "Adaptation") {
+                $show = NullClasses::getAdaptation();
+                $show = Controller::getShow($id);
+                $season = NullClasses::getSeason();
+                foreach (Controller::$seasonList as $season) {
+                    if ($season->getShow() == $show) {
+                        break;
+                    }
+                }
+
+                foreach (Controller::$episodeList as $episode) {
+                    if ($episode->getSeason() == $season) {
+                        break;
+                    }
+                }
+                $path = explode('/', $episode->getFilePath());
+                array_pop($path); // remove file
+                array_pop($path); // remove Season Dir -> now in show dir
+                $path = implode('/', $path);
+                $path .= '/folder.jpg';
+                $path = "media/shows/" . $path;
+            }
+            return $path;
+        }catch (Exception $e){
+            print($e);
+            return null;
+        }
+    }
+
+    /**
+     *@param String $type  Class of an Element (Movie, Adaptation, Season, Episode)
+     * @param Integer $id Id of the element
+     * @return array|null
+     */
+    private static function getDataForCard($type, $id){
+        if(isset(Controller::$metaDataList)){
+            Controller::loadAll();
+        }
+        try {
+            $path = "";
+            if ($type == "Movie") {
+                $movie = NullClasses::getMovie();
+                $movie = Controller::getMovie($id);
+                $returnValues['Genre'] = $movie->getGenre();
+                $returnValues['Description'] = $movie->getDescription();
+            } else if ($type == "Episode") {
+                $episode = NullClasses::getEpisode();
+                $episode = Controller::getEpisode($id);
+                $season = $episode->getSeason();
+                $show = $season->getShow();
+                $returnValues['Genre'] = $show->getGenre();
+                $returnValues['Description'] = $episode->getDescription();
+            } else if ($type == "Season") {
+                $season = NullClasses::getSeason();
+                $season = Controller::getSeason($id);
+                $returnValues['Genre'] = $season->getShow()->getGenre();
+                $returnValues['Description'] = $season->getDescription();
+            } else if ($type == "Adaptation") {
+                $show = NullClasses::getAdaptation();
+                $show = Controller::getShow($id);
+                $season = NullClasses::getSeason();
+                $returnValues['Genre'] = $show->getGenre();
+                $returnValues['Description'] = $show->getDescription();
+            }
+            return $returnValues;
+        }catch (Exception $e){
+            print($e);
+            return null;
+        }
+    }
 
 
 
