@@ -137,10 +137,11 @@ class HtmlElements
                                                         C37.652,36.448,45.953,40,45.953,40l1.043-8.658C41.41,30.454,38.125,32.244,35.314,34.585z"/>
                                                 </g>
                                             </g>
-                                        </svg><span>Movie Pro</span>
+                                        </svg><span>Home Streaming Service</span>
                                         </a>	
                                         <a href="#" class="manu-close"><i class="fa fa-times"></i></a>
                                     </div>
+                                    <!-- ToDo optimize Links, i.e. link to all movies, all shows, etc. -->
                                     <ul class="mobile-list-nav">
                                         <li><a href="about.html">OVERVIEW</a>
                                         </li>
@@ -157,40 +158,20 @@ class HtmlElements
                                     </ul>
                                     <div class="product-heading prs_slidebar_searchbar_wrapper">
                                         <div class="con">
-                                            <select>
-                                                <option>All Categories</option>
-                                                <option>Movie</option>
-                                                <option>Video</option>
-                                                <option>Music</option>
-                                                <option>TV-Show</option>
-                                            </select>
-                                            <input type="text" placeholder="Search Movie , Video , Music">
-                                            <button type="submit"><i class="flaticon-tool"></i>
-                                            </button>
-                                        </div>
+                                        <select name="category" form="searchForm">
+                                            <option value="All">All Categories</option>
+                                            <option value="movie">Movie</option>
+                                            <option value="show">TV-Show</option>
+                                        </select>
+                                       
+                                         <form id="searchForm" method="get" action="\');
+                                            echo htmlspecialchars("search.html");
+                                            print(\'"><input type="text" placeholder="Search Movie , Show, Episode" name="Title">
+                                        </form>
+                                        <button form="searchForm" type="submit" ><i class="flaticon-tool"></i> 
+                                        </button>
                                     </div>
-                                    <div class="achivement-blog">
-                                        <ul class="flat-list">
-                                            <li>
-                                                <a href="#">	<i class="fa fa-facebook"></i>
-                                                    <h6>Facebook</h6>
-                                                    <span class="counter">12546</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">	<i class="fa fa-twitter"></i>
-                                                    <h6>Twiter</h6>
-                                                    <span class="counter">12546</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">	<i class="fa fa-pinterest"></i>
-                                                    <h6>Pinterest</h6>
-                                                    <span class="counter">12546</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    </div>                                 
                                     <div class="prs_top_login_btn_wrapper prs_slidebar_searchbar_btn_wrapper">
                                         <div class="prs_animate_btn1">
                                             <ul>
@@ -214,8 +195,8 @@ class HtmlElements
                 <div class="prs_footer_main_section_wrapper">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_1">
+                       <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_1">
                                 <h2>LANGUAGE MOVIES</h2>
                                 <ul>
                                     <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">English movie</a>
@@ -234,29 +215,19 @@ class HtmlElements
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_2">
-                                <h2>MOVIES by presenter</h2>
-                                <ul>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Action movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Romantic movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Adult movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Comedy movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Drama movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Musical movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Classical movie</a>
-                                    </li>
+                                <h2>Movies by genre</h2>\');
+                                $genres = Controller::getGenre();
+                                foreach($genres as $genre){
+                                    // # of entries(placed within a) <span>23,124</span>
+                                    print(\'<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=\');print $genre->getName(); print (\'">\'); print $genre->getName(); print (\'</a> </li>\');
+                                }print(\'
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_3">
                                 <h2>BOOKING ONLINE</h2>
                                 <ul>
@@ -276,8 +247,8 @@ class HtmlElements
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>-->
+                       <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_4">
                                 <h2>App available on</h2>
                                 <p>Download App and Get Free Movie Ticket !</p>
@@ -295,7 +266,7 @@ class HtmlElements
                                 </ul>
                                 <h5><span>$50</span> Payback on App Download</h5>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -309,11 +280,11 @@ class HtmlElements
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
                                 <div class="prs_bottom_footer_cont_wrapper">
-                                    <p>Copyright 2019-20 <a href="#">Movie Pro</a> . All rights reserved - Design by <a href="#">Webstrot</a>
+                                    <p>Copyright 2020 <a href="#">Frederik Thuss</a> . All rights reserved - Design by <a href="#">Webstrot</a>
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                            <!--<div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
                                 <div class="prs_footer_social_wrapper">
                                     <ul>
                                         <li><a href="#"><i class="fa fa-facebook"></i></a>
@@ -326,13 +297,14 @@ class HtmlElements
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>'
         );
     }
 
+    // Currently Unused. Nice feature if good use can be found
     static function printPartnerSlider(){
         print ('	
                     <!-- prs patner slider Start -->
@@ -387,6 +359,7 @@ class HtmlElements
 	    ');
     }
 
+    //currently not implemented.
     static  function printLogin(){
         print( '
 	<!-- st login wrapper Start -->
@@ -476,7 +449,7 @@ class HtmlElements
     }
 
 
-
+    // Still static
     static function printPaginator(){
         print ('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<div class="pager_wrapper gc_blog_pagination">
