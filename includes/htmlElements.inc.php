@@ -672,7 +672,7 @@ class HtmlElements
                 $season = NullClasses::getSeason();
                 $season = Controller::getSeason($id);
                 foreach (Controller::$episodeList as $episode) {
-                    if ($episode->$season == $season) {
+                    if ($episode->getSeason() == $season) {
                         break;
                     }
                 }

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-Template Name: Movie Pro
-Version: 1.0.0
-Author: Webstrot
-
+Home Streaming Service Version 0.8
+Author: Frederik Thuss
 -->
+
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -15,9 +14,9 @@ Author: Webstrot
 	<meta charset="utf-8" />
 	<title>Home Streaming Service</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	<meta name="description" content="Movie Pro" />
-	<meta name="keywords" content="Movie Pro" />
-	<meta name="author" content="" />
+	<meta name="description" content="Home Streaming Service" />
+	<meta name="keywords" content="Home Streaming Service" />
+	<meta name="author" content="Frederik Thuss" />
 	<meta name="MobileOptimized" content="320" />
 	<!--Template style -->
 	<link rel="stylesheet" type="text/css" href="css/animate.css" />
@@ -47,9 +46,7 @@ include_once 'includes/controller.inc.php';
 include_once 'includes/autoloader.inc.php';
 include_once 'includes/NullClasses.inc.php';
 include_once 'includes/htmlElements.inc.php';
-Controller::loadAll();
 ?>
-
 
 <body>
 	<!-- preloader Start -->
@@ -60,10 +57,12 @@ Controller::loadAll();
 	</div>
 
     <?php
+        Controller::loadAll();
         HtmlElements::printStyleSwitcher();
         HtmlElements::printHeader();
-
     ?>
+
+
 	<!-- prs Slider Start -->
 	<div class="prs_main_slider_wrapper">
 		<div id="rev_slider_41_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="food-carousel26" data-source="gallery" style="margin:0px auto;padding:0px;margin-top:0px;margin-bottom:0px;">
