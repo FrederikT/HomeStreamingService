@@ -498,6 +498,8 @@ class HtmlElements
 											</div>');
     }
 
+    //ToDo For Episode: replace with ffmpeg?
+
     static function printCard($type, $title, $id){
         $cardValues = self::getDataForCard($type, $id);
         $linkUrl = self::getUrlLink($type, $title, $id);

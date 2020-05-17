@@ -161,9 +161,7 @@ include_once 'includes/htmlElements.inc.php';
                                                    $objectClass = get_class($searchResultItem);
                                                    $title = $searchResultItem->getTitle();
                                                    $id = $searchResultItem->getId();
-                                                   //TODO Add information (currently private - how do I reach it?)
-                                                  // print_r($searchResultItem);
-                                                    HtmlElements::printCard($objectClass, $title, $id);
+                                                   HtmlElements::printCard($objectClass, $title, $id);
 
                                                 }
 
