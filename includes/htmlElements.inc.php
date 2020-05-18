@@ -708,7 +708,7 @@ class HtmlElements
      * @param Integer $id Id of the element
      * @return string|null path to image or null if error occurred
      */
-    private static function getImagePath($type, $id){
+    static function getImagePath($type, $id){
         if(isset(Controller::$metaDataList)){
             Controller::loadAll();
         }

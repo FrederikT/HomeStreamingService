@@ -65,15 +65,14 @@ $show = Controller::getShow($showId);
 ?>
 <!-- prs title wrapper Start -->
 <div class="prs_title_main_sec_wrapper">
-    <div class="prs_title_img_overlay"></div>
+    <div class="prs_title_img_overlay"  style="background-image: url(<?php echo dirname(HtmlElements::getImagePath("Adaptation", $showId)); echo'/show.jpg' ?>"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="prs_title_heading_wrapper">
-                    <h2>our gallery</h2>
+                    <h2><?php echo $show->getTitle(); ?></h2>
                     <ul>
-                        <li><a href="#">Home</a>
-                        </li>
+                        <li>Home</li>
                         <li>&nbsp;&nbsp; >&nbsp;&nbsp; Show</li>
                         <li>&nbsp;&nbsp; :&nbsp;&nbsp; <?php
                             echo $show->getTitle();
@@ -86,21 +85,11 @@ $show = Controller::getShow($showId);
 </div>
 <!-- prs title wrapper End -->
 <!-- prs gallery wrapper Start -->
-<div class="prs_gallery_main_section_wrapper">
+<div class="prs_gallery_main_section_wrapper" style="padding-top:0px">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="prs_heading_section_wrapper">
-                    <h2>
-                        <?php
-                        echo $show->getTitle();
-                        ?>
-                    </h2>
-                </div>
-            </div>
-
             <!-- prs new Slider Start -->
-            <div class="prs_upcom_slider_main_wrapper">
+            <div class="prs_upcom_slider_main_wrapper" style="padding-top:0px">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -135,25 +124,22 @@ $show = Controller::getShow($showId);
                                 }else {
                                     print('<div role="tabpanel" class="tab-pane fade" id="' . $ssn->getId() . '">');
                                 }
-                                      print('<div class="prs_upcom_slider_slides_wrapper">
+                                print('<div class="prs_upcom_slider_slides_wrapper">
                                                 <div class="owl-theme">
                                                     <div class="item">
                                                         <div class="row">');
-                                                        $episodes = Controller::getEpisodesForSeason($ssn->getId());
-                                                        $episode = NullClasses::getEpisode();
-                                                        foreach ($episodes as $episode){
-                                                           HtmlElements::printSmallCard("Episode", $episode->getTitle(), $episode->getId());
-                                                        }
-                                                 print('</div>
+                                $episodes = Controller::getEpisodesForSeason($ssn->getId());
+                                $episode = NullClasses::getEpisode();
+                                foreach ($episodes as $episode){
+                                    HtmlElements::printSmallCard("Episode", $episode->getTitle(), $episode->getId());
+                                }
+                                print('</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>');
                             }
                             ?>
-
-
-
                         </div>
                     </div>
                 </div>
