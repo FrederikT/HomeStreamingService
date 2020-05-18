@@ -36,9 +36,9 @@ class HtmlElements
                                             </div>
                                             <div class="clearfix"></div>
                                             <ul class="dl-menu">
-                                                <li class="parent"><a>movie</a>
+                                                <li class="parent"><a href="search.html?category=movie&Title=SHOW_ALL">movie</a>
                                                     <ul class="lg-submenu">
-                                                        <ul class="lg-submenu">
+                                                        
         ');
         $controller = new Controller();
         $movieList = $controller::getMovies();
@@ -46,7 +46,7 @@ class HtmlElements
         for ($i = 0; $i < 10; $i++) {
             if ($i < count($movieList)) {
                 $movie = $movieList[$i];
-                print('<li class="ar_left"><i class="fa fa-film"></i><a href="streaming.html?movie=');
+                print('<li><a href="streaming.html?movie=');
                 print($movie->getTitle());
                 print('&id=');
                 print($movie->getId());
@@ -56,10 +56,10 @@ class HtmlElements
             }
         }
         print('                                  
-                                                        </ul>
+                                                        
                                                     </ul>
                                                 </li>
-                                                <li class="parent"><a>tv show</a>
+                                                <li class="parent"><a href="search.html?category=show&Title=SHOW_ALL">tv show</a>
                                                     <ul class="lg-submenu">
         ');
         $showList = $controller::getShows();
@@ -214,11 +214,11 @@ class HtmlElements
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_2">
                                 <h2>Movies by genre</h2><ul>');
-                                $genres = Controller::getGenre();
-                                foreach($genres as $genre){
-                                    // # of entries(placed within a) <span>23,124</span>
-                                    print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print $genre->getName(); print ('">'); print $genre->getName(); print ('</a> </li>');
-                                }print('
+        $genres = Controller::getGenre();
+        foreach($genres as $genre){
+            // # of entries(placed within a) <span>23,124</span>
+            print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print $genre->getName(); print ('">'); print $genre->getName(); print ('</a> </li>');
+        }print('
                                 </ul>
                             </div>
                         </div>
@@ -567,13 +567,13 @@ class HtmlElements
         print('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                             <div class="prs_mcc_list_movie_main_wrapper">
                                                                 <div class="prs_mcc_list_movie_img_wrapper">');
-                                                                  $path = HtmlElements::getImagePath($type, $id);
-                                                                    if(isset($path)){
-                                                                        print(' <img src="'.$path.'" alt="movie_img" />');
-                                                                    }else{
-                                                                        print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
-                                                                    }
-                                                               print('</div>
+        $path = HtmlElements::getImagePath($type, $id);
+        if(isset($path)){
+            print(' <img src="'.$path.'" alt="movie_img" />');
+        }else{
+            print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
+        }
+        print('</div>
                                                                 <div class="prs_mcc_list_movie_img_cont_wrapper">
                                                                     <div class="prs_mcc_list_left_cont_wrapper">
                                                                         <h2><a href="');
@@ -675,9 +675,9 @@ class HtmlElements
     }
 
 
-   #####################################################################################################################
+    #####################################################################################################################
     // Help functions that deliver data for other functions in this class
-   #####################################################################################################################
+    #####################################################################################################################
 
     /**
      * Gets the link to the page of the show or movie
