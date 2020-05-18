@@ -212,6 +212,44 @@ class HtmlElements
                                 </ul>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_2">
+                                <h2>Top 10 Movies</h2><ul>');
+        $movieList = Controller::getMovies();
+        $movie = NullClasses::getMovie();
+        for ($i = 0; $i < 10; $i++) {
+            if ($i < count($movieList)) {
+                $movie = $movieList[$i];
+                print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="streaming.html?movie=');
+                print($movie->getTitle());
+                print('&id=');
+                print($movie->getId());
+                print('">'); print $movie->getTitle(); print ('</a> </li>');
+            }
+        }
+        print('
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_2">
+                                <h2>Top 10 Shows</h2><ul>');
+        $showList = Controller::getShows();
+        $show = NullClasses::getAdaptation();
+        for ($i = 0; $i < 10; $i++) {
+            if ($i < count($showList)) {
+                $show = $showList[$i];
+                print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="show.html?show=');
+                print($show->getTitle());
+                print('&id=');
+                print($show->getId());
+                print('">'); print $show->getTitle(); print ('</a> </li>');
+            }
+        }
+        print('
+                                </ul>
+                            </div>
+                        </div>
                       <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_4">
                                 <h2>App available on</h2>
@@ -559,7 +597,7 @@ class HtmlElements
                                                                     <div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
                                                                     </div>
                                                                     <div class="prs_mcc_list_bottom_cont_wrapper">
-                                                                        <p>'.$cardValues[Description].'</p>
+                                                                        <p>'.$cardValues['Description'].'</p>
                                                                         <ul>
                                                                         <li><a href="'.$linkUrl.'">Stream Now</a>
                                                                             </li>
