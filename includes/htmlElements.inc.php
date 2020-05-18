@@ -493,7 +493,10 @@ class HtmlElements
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>
                                                                             <li><a href="'.$linkUrl.'">Stream Now</a>
-                                                                            </li>                                                                            
+                                                                            </li>     
+                                                                            <li style="display:none">
+                                                                            <a></a>
+                                                                            </li>                                                                         
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -538,7 +541,9 @@ class HtmlElements
         print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>                                                                            
-                                                                            <li><a href="'.$linkUrl.'">Stream Now</a>
+                                                                            <li><a href="'.$linkUrl.'">Stream Now</a></li>
+                                                                            <li style="display:none">
+                                                                            <a></a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
