@@ -113,7 +113,21 @@ include_once 'includes/htmlElements.inc.php';
                                                 } else {
                                                     array_push($searchResult, "ERROR");
                                                 }
-                                            } elseif (strcasecmp($searchType, "Title") == 0) {
+                                            } elseif (strcasecmp($searchType, "Title") == 0 && strcasecmp($searchValue, "SHOW_ALL") == 0 ) {
+                                                if (strcasecmp($searchCategory, 'All') == 0) {
+                                                    $searchResult = Controller::getAll();
+                                                } elseif (strcasecmp($searchCategory, 'Movie') == 0) {
+                                                    $searchResult = Controller::getMovies();
+                                                } elseif (strcasecmp($searchCategory, 'Show') == 0) {
+                                                    $searchResult = Controller::getShows();
+                                                } elseif (strcasecmp($searchCategory, 'Season') == 0) {
+                                                    $searchResult = Controller::getSeasons();
+                                                } elseif (strcasecmp($searchCategory, 'Episode') == 0) {
+                                                    $searchResult = Controller::getEpisodes();
+                                                } else {
+                                                    array_push($searchResult, "ERROR");
+                                                }
+                                            }elseif (strcasecmp($searchType, "Title") == 0) {
                                                 if (strcasecmp($searchCategory, 'All') == 0) {
                                                     $searchResult = Controller::getAllPartialMatchByTitle($searchValue);
                                                 } elseif (strcasecmp($searchCategory, 'Movie') == 0) {

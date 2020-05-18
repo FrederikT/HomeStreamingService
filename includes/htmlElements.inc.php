@@ -109,9 +109,8 @@ class HtmlElements
                                             <option value="show">TV-Show</option>
                                         </select>
                                        
-                                         <form id="searchForm" method="get" action="');
-        echo htmlspecialchars("search.html");
-        print('"><input type="text" placeholder="Search Movie , Show, Episode" name="Title">
+                                         <form id="searchForm" method="get" action="search.html">
+                                         <input type="text" placeholder="Search Movie , Show, Episode" name="Title">
                                         </form>
                                         <button form="searchForm" type="submit" ><i class="flaticon-tool"></i> 
                                         </button>
@@ -147,32 +146,24 @@ class HtmlElements
                                         </a>	
                                         <a href="#" class="manu-close"><i class="fa fa-times"></i></a>
                                     </div>
-                                    <!-- ToDo optimize Links, i.e. link to all movies, all shows, etc. -->
-                                    <ul class="mobile-list-nav">
-                                        <li><a href="about.html">OVERVIEW</a>
+                                    <ul class="mobile-list-nav" >
+                                        <li><a href="index.html">Main Page</a>
                                         </li>
-                                        <li><a href="movie_single.html">MOVIE</a>
+                                        <li><a href="search.html?category=movie&Title=SHOW_ALL">All Movies</a>
                                         </li>
-                                        <li><a href="event_single.html">EVENT</a>
-                                        </li>
-                                        <li><a href="show.html">GALLERY</a>
-                                        </li>
-                                        <li><a href="blog_single.html">BLOG</a>
-                                        </li>
-                                        <li><a href="contact.html">CONTACT</a>
-                                        </li>
+                                        <li><a href="search.html?category=show&Title=SHOW_ALL">EVENT</a>
+                                        </li>                              
                                     </ul>
                                     <div class="product-heading prs_slidebar_searchbar_wrapper">
                                         <div class="con">
-                                        <select name="category" form="searchForm">
+                                        <select name="category" form="mobileSearchForm">
                                             <option value="All">All Categories</option>
                                             <option value="movie">Movie</option>
                                             <option value="show">TV-Show</option>
                                         </select>
                                        
-                                         <form id="searchForm" method="get" action="\');
-                                            echo htmlspecialchars("search.html");
-                                            print(\'"><input type="text" placeholder="Search Movie , Show, Episode" name="Title">
+                                         <form id="mobileSearchForm" method="get" action="search.html">
+                                         <input type="text" placeholder="Search Movie , Show, Episode" name="Title">
                                         </form>
                                         <button form="searchForm" type="submit" ><i class="flaticon-tool"></i> 
                                         </button>
@@ -222,12 +213,12 @@ class HtmlElements
                         </div>-->
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_2">
-                                <h2>Movies by genre</h2>\');
+                                <h2>Movies by genre</h2><ul>');
                                 $genres = Controller::getGenre();
                                 foreach($genres as $genre){
                                     // # of entries(placed within a) <span>23,124</span>
-                                    print(\'<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=\');print $genre->getName(); print (\'">\'); print $genre->getName(); print (\'</a> </li>\');
-                                }print(\'
+                                    print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print $genre->getName(); print ('">'); print $genre->getName(); print ('</a> </li>');
+                                }print('
                                 </ul>
                             </div>
                         </div>
