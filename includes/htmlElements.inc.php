@@ -58,7 +58,7 @@ class HtmlElements
         print('                                  
                                                         
                                                     </ul>
-                                                </li>
+                                                </li> <!--ToDo fix unaligned menu - already broken in template -->
                                                 <li class="parent"><a href="search.html?category=show&Title=SHOW_ALL">tv show</a>
                                                     <ul class="lg-submenu">
         ');
@@ -444,7 +444,7 @@ class HtmlElements
     }
 
 
-    // Still static
+    // Still static && unused
     static function printPaginator(){
         print ('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<div class="pager_wrapper gc_blog_pagination">
