@@ -282,7 +282,7 @@ class HtmlElements
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
                                 <div class="prs_bottom_footer_cont_wrapper">
-                                    <p>Copyright 2020 <a href="#">Frederik Thuss</a> . All rights reserved - Design by <a href="#">Webstrot</a>
+                                    <p>Copyright 2020 <a href="#">Frederik Thuss</a> . All rights reserved - Design by <a href="http://preview.themeforest.net/item/movie-pro-film-and-tv-show-html-template/full_screen_preview/21859136">Webstrot</a>
                                     </p>
                                 </div>
                             </div>
