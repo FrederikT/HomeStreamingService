@@ -58,6 +58,11 @@ HtmlElements::printStyleSwitcher();
 HtmlElements::printHeader();
 Controller::loadAll();
 ?>
+<?php
+$showId = $_GET['id'];
+$show = NullClasses::getAdaptation();
+$show = Controller::getShow($showId);
+?>
 <!-- prs title wrapper Start -->
 <div class="prs_title_main_sec_wrapper">
     <div class="prs_title_img_overlay"></div>
@@ -69,7 +74,10 @@ Controller::loadAll();
                     <ul>
                         <li><a href="#">Home</a>
                         </li>
-                        <li>&nbsp;&nbsp; >&nbsp;&nbsp; Gallery</li>
+                        <li>&nbsp;&nbsp; >&nbsp;&nbsp; Show</li>
+                        <li>&nbsp;&nbsp; :&nbsp;&nbsp; <?php
+                            echo $show->getTitle();
+                            ?></li>
                     </ul>
                 </div>
             </div>
@@ -85,9 +93,6 @@ Controller::loadAll();
                 <div class="prs_heading_section_wrapper">
                     <h2>
                         <?php
-                        $showId = $_GET['id'];
-                        $show = NullClasses::getAdaptation();
-                        $show = Controller::getShow($showId);
                         echo $show->getTitle();
                         ?>
                     </h2>
