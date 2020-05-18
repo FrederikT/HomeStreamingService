@@ -353,6 +353,7 @@ class Controller{
     //TODO return something if not exist.. should be clear that it doesnt exits -> null? (--> type errors)
     //Get Specific of Each Type
     //From List instead of API (Faster)
+
     static function getEpisode(int $id){
 
         foreach (self::$episodeList as $episode){
@@ -422,6 +423,14 @@ class Controller{
     }
 
 
+    static function getAll(){
+        $all = array();
+        array_push($all, ...self::$movieList);
+        array_push($all, ...self::$showList);
+        array_push($all, ...self::$seasonList);
+        array_push($all, ...self::$episodeList);
+        return $all;
+    }
 
     static function getAllFullMatchByTitle(string $title){
         $matching = array();
@@ -642,7 +651,10 @@ class Controller{
         //develop
         $data = file_get_contents('http://localhost/api/api/'.$endUrl);
         //raspberry pi server
-       // $data = file_get_contents('http://192.168.0.37/api/'.$endUrl);
+       //$data = file_get_contents('http://192.168.0.37/api/'.$endUrl);
+        //on server
+        //$data = file_get_contents('http://localhost/api/'.$endUrl);
+
         return $data;
     }
 }

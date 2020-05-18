@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-Template Name: Movie Pro
-Version: 1.0.0
-Author: Webstrot
-
+Home Streaming Service Version 0.8
+Author: Frederik Thuss
 -->
+
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -12,33 +11,33 @@ Author: Webstrot
 <!--[endif]-->
 
 <head>
-	<meta charset="utf-8" />
-	<title>Movie Pro Responsive HTML Template</title>
-	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	<meta name="description" content="Movie Pro" />
-	<meta name="keywords" content="Movie Pro" />
-	<meta name="author" content="" />
-	<meta name="MobileOptimized" content="320" />
-	<!--Template style -->
-	<link rel="stylesheet" type="text/css" href="css/animate.css" />
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-	<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
-	<link rel="stylesheet" type="text/css" href="css/fonts.css" />
-	<link rel="stylesheet" type="text/css" href="css/flaticon.css" />
-	<link rel="stylesheet" type="text/css" href="css/owl.carousel.css" />
-	<link rel="stylesheet" type="text/css" href="css/owl.theme.default.css" />
-	<link rel="stylesheet" type="text/css" href="css/dl-menu.css" />
-	<link rel="stylesheet" type="text/css" href="css/nice-select.css" />
-	<link rel="stylesheet" type="text/css" href="css/magnific-popup.css" />
-	<link rel="stylesheet" type="text/css" href="css/venobox.css" />
-	<link rel="stylesheet" type="text/css" href="js/plugin/rs_slider/layers.css" />
-	<link rel="stylesheet" type="text/css" href="js/plugin/rs_slider/navigation.css" />
-	<link rel="stylesheet" type="text/css" href="js/plugin/rs_slider/settings.css" />
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<link rel="stylesheet" type="text/css" href="css/responsive.css" />
-	<link rel="stylesheet" id="theme-color" type="text/css" href="#"/>
-	<!-- favicon links -->
-	<link rel="shortcut icon" type="image/png" href="images/header/favicon.ico" />
+    <meta charset="utf-8" />
+    <title>Home Streaming Service</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description" content="Home Streaming Service" />
+    <meta name="keywords" content="Home Streaming Service" />
+    <meta name="author" content="Frederik Thuss" />
+    <meta name="MobileOptimized" content="320" />
+    <!--Template style -->
+    <link rel="stylesheet" type="text/css" href="css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="css/fonts.css" />
+    <link rel="stylesheet" type="text/css" href="css/flaticon.css" />
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.css" />
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.css" />
+    <link rel="stylesheet" type="text/css" href="css/dl-menu.css" />
+    <link rel="stylesheet" type="text/css" href="css/nice-select.css" />
+    <link rel="stylesheet" type="text/css" href="css/magnific-popup.css" />
+    <link rel="stylesheet" type="text/css" href="css/venobox.css" />
+    <link rel="stylesheet" type="text/css" href="js/plugin/rs_slider/layers.css" />
+    <link rel="stylesheet" type="text/css" href="js/plugin/rs_slider/navigation.css" />
+    <link rel="stylesheet" type="text/css" href="js/plugin/rs_slider/settings.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/responsive.css" />
+    <link rel="stylesheet" id="theme-color" type="text/css" href="#"/>
+    <!-- favicon links -->
+    <link rel="shortcut icon" type="image/png" href="images/header/favicon.ico" />
 </head>
 
 <!--  Autoloader automatically includes all used classes (.class.php not .inc.php)-->
@@ -47,312 +46,210 @@ include_once 'includes/controller.inc.php';
 include_once 'includes/autoloader.inc.php';
 include_once 'includes/NullClasses.inc.php';
 include_once 'includes/htmlElements.inc.php';
+?>
+
+<body>
+<!-- preloader Start -->
+<div id="preloader">
+    <div id="status">
+        <img src="images/header/horoscope.gif" id="preloader_image" alt="loader">
+    </div>
+</div>
+
+<?php
 Controller::loadAll();
+HtmlElements::printStyleSwitcher();
+HtmlElements::printHeader();
 ?>
 
 
-<body>
-	<!-- preloader Start -->
-	<div id="preloader">
-		<div id="status">
-			<img src="images/header/horoscope.gif" id="preloader_image" alt="loader">
-		</div>
-	</div>
-
-    <?php
-        HtmlElements::printStyleSwitcher();
-        HtmlElements::printHeader();
-
-    ?>
-	<!-- prs Slider Start -->
-	<div class="prs_main_slider_wrapper">
-		<div id="rev_slider_41_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="food-carousel26" data-source="gallery" style="margin:0px auto;padding:0px;margin-top:0px;margin-bottom:0px;">
-			<div class="prs_slider_overlay"></div>
-			<!-- START REVOLUTION SLIDER 5.4.1 fullwidth mode -->
-			<div id="rev_slider_41_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.1">
-				<ul>
-                    <?php
-                        if(sizeof(Controller::$movieList) > 10) {
-                            $lastTenMovies = array_slice(Controller::$movieList, sizeof(Controller::$movieList)-10 );
-                        }else{
-                            $lastTenMovies = Controller::$movieList;
-                        }
-
-                        foreach ($lastTenMovies as $movie){
-                            print ('<!-- SLIDE  -->
-                                    <li data-index="rs-145" data-transition="fade" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="Movie" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="" onclick="window.location.href=');
-                            $link = '\'streaming.html?movie=';
-                            $title = str_replace(" ", "%20", $movie->getTitle());
-                            $link .=   str_replace("'", "%27", $title);
-                            $link .='&id=';
-                            $link .= $movie->getId();
-                            print($link);
-                            print('\'">
-                                        <!-- MAIN IMAGE -->
+<!-- prs Slider Start -->
+<div class="prs_main_slider_wrapper">
+    <div id="rev_slider_41_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="food-carousel26" data-source="gallery" style="margin:0px auto;padding:0px;margin-top:0px;margin-bottom:0px;">
+        <div class="prs_slider_overlay"></div>
+        <!-- START REVOLUTION SLIDER 5.4.1 fullwidth mode -->
+        <div id="rev_slider_41_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.1">
+            <ul>
+                <?php
+                if(sizeof(Controller::$movieList) > 10) {
+                    $lastTenMovies = array_slice(Controller::$movieList, sizeof(Controller::$movieList)-10 );
+                }else{
+                    $lastTenMovies = Controller::$movieList;
+                }
+                $carouselIndex = 140;
+                foreach ($lastTenMovies as $movie){
+                    print ('<!-- SLIDE  -->
+                                    <li data-index="rs-'.$carouselIndex.'" data-transition="fade" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="Movie" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="" onclick="window.location.href=');
+                    $link = '\'streaming.html?movie=';
+                    $title = str_replace(" ", "%20", $movie->getTitle());
+                    $link .=   str_replace("'", "%27", $title);
+                    $link .='&id=';
+                    $link .= $movie->getId();
+                    print($link);
+                    print('\'">
+                            
+                                        <!-- MAIN IMAGE --><h1 style="position: absolute;
+    top: 70%;
+    left: 50%;z-index:5000;transform: translate(-50%, -50%);font-size: 32px;color:#ff4444;letter-spacing: 2px;
+    font-weight: bold;">'.$movie->getTitle().'</h1>
                                         <img src="');
-                            print($movie->getPathToThumbnail());
-                            print('" alt="" data-bgposition="center center" data-bgfit="contain" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                    print(HtmlElements::ffmpeg('media/movies/'.$movie->getFilePath()));
+                    print('" alt="" data-bgposition="center center" data-bgfit="contain" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
                                         <!-- LAYERS -->
                                         <!-- LAYER NR. 3 -->
                                         <div class="tp-caption FoodCarousel-CloseButton rev-btn  tp-resizeme" id="slide-145-layer-5" data-x="441" data-y="110" data-width="[\'auto\']" data-height="[\'auto\']" data-type="button" data-actions=\'[{"event":"click","action":"stoplayer","layer":"slide-145-layer-3","delay":""},{"event":"click","action":"stoplayer","layer":"slide-145-layer-5","delay":""},{"event":"click","action":"startlayer","layer":"slide-145-layer-1","delay":""}]\' data-responsive_offset="on" data-frames=\'[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":800,"to":"o:1;","delay":"bytrigger","ease":"Power3.easeInOut"},{"delay":"bytrigger","speed":500,"to":"auto:auto;","ease":"nothing"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(255,255,255,1);bg:rgba(41,46,49,1);bw:1px 1px 1px 1px;"}]\' data-textAlign="[\'left\',\'left\',\'left\',\'left\']" data-paddingtop="[14,14,14,14]" data-paddingright="[14,14,14,14]" data-paddingbottom="[14,14,14,14]" data-paddingleft="[16,16,16,16]" data-lasttriggerstate="reset" style="z-index: 7; white-space: nowrap;border-color:transparent;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;"><i class="fa-icon-remove"></i>
                                         </div>
                                     </li>
                                     ');
-                        }
-                    ?>
+                    $carouselIndex++;
+                }
+                ?>
+            </ul>
+            <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
+        </div>
+    </div>
+    <!-- END REVOLUTION SLIDER -->
+</div>
+<!-- prs Slider End -->
 
 
 
+<!-- prs new Slider Start -->
+<div class="prs_upcom_slider_main_wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="prs_heading_section_wrapper">
+                    <h2>Newest Additions</h2>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="prs_upcome_tabs_wrapper">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#shows" aria-controls="shows" role="tab" data-toggle="tab">Shows</a>
+                        </li>
+                        <li role="presentation"><a href="#movies" aria-controls="movies" role="tab" data-toggle="tab">Movies</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
+            <div class="tab-content">
+                <!-- Newest 8 shows-->
+                <div role="tabpanel" class="tab-pane fade in active" id="shows">
+                    <div class="prs_upcom_slider_slides_wrapper">
+                        <div class="owl-theme">
+                            <div class="item">
+                                <div class="row">
+                                    <?php
+                                    $showList = array();
+                                    $numberOfShows = sizeof(Controller::$showList);
+                                    if($numberOfShows > 8){
+                                        $startIndex =  ($numberOfShows-8);
+                                        $showList = array_slice(Controller::$showList, $startIndex, 8);
+                                    }else{
+                                        $showList = Controller::$showList;
+                                    }
+                                    $numberOfShows = sizeof($showList);
+                                    $cardIndex = 0;
+                                    for($row=0; $row<2; $row++) {
+                                        for ($card = 0; $card < 4; $card++) {
+                                            if ($cardIndex < $numberOfShows) {
 
-
-
-
-				</ul>
-				<div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
-			</div>
-		</div>
-		<!-- END REVOLUTION SLIDER -->
-	</div>
-	<!-- prs Slider End -->
-	<!-- prs upcomung Slider Start -->
-	<div class="prs_upcom_slider_main_wrapper">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="prs_heading_section_wrapper">
-						<h2>Newest Additions</h2>
-					</div>
-				</div>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="prs_upcome_tabs_wrapper">
-						<ul class="nav nav-tabs" role="tablist">
-							<li role="presentation" class="active"><a href="#shows" aria-controls="shows" role="tab" data-toggle="tab">Shows</a>
-							</li>
-							<li role="presentation"><a href="#movies" aria-controls="movies" role="tab" data-toggle="tab">Movies</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-                <div class="tab-content">
-                    <!-- Newest 8 shows-->
-                    <div role="tabpanel" class="tab-pane fade in active" id="shows">
-						<div class="prs_upcom_slider_slides_wrapper">
-							<div class="owl-theme">
-								<div class="item">
-									<div class="row">
-                                        <?php
-                                            $showList = array();
-                                            $numberOfShows = sizeof(Controller::$showList);
-                                            if($numberOfShows > 8){
-                                                $startIndex =  ($numberOfShows-8);
-                                                $showList = array_slice(Controller::$showList, $startIndex, 8);
-                                            }else{
-                                                $showList = Controller::$showList;
+                                                $objectClass = get_class($showList[$cardIndex]);
+                                                $title = $showList[$cardIndex]->getTitle();
+                                                $id = $showList[$cardIndex]->getId();
+                                                HtmlElements::printSmallCard($objectClass, $title, $id);
+                                                $cardIndex++;
                                             }
-                                            $numberOfShows = sizeof($showList);
-                                            $cardIndex = 0;
-                                            for($row=0; $row<2; $row++) {
-                                                for ($card = 0; $card < 4; $card++) {
-                                                    if ($cardIndex < $numberOfShows) {
-
-                                                        $objectClass = get_class($showList[$cardIndex]);
-                                                        $title = $showList[$cardIndex]->getTitle();
-                                                        $id = $showList[$cardIndex]->getId();
-                                                        HtmlElements::printSmallCard($objectClass, $title, $id);
-                                                        $cardIndex++;
-                                                    }
-                                                }
-                                                if($row==0){
-                                                    print('<div class="cc_featured_second_section">');
-                                                }
-                                            }
-                                            print('</div>');
-                                        ?>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-                    <!-- newest 8 movies-->
-                    <div role="tabpanel" class="tab-pane fade" id="movies">
-						<div class="prs_upcom_slider_slides_wrapper">
-							<div class="owl-theme">
-								<div class="item">
-                                    <div class="row">
-                                        <?php
-                                        $movieList = array();
-                                        $numberOfMovies = sizeof(Controller::$movieList);
-                                        if($numberOfMovies > 8){
-                                            $startIndex =  ($numberOfMovies-8);
-                                            $movieList = array_slice(Controller::$movieList, $startIndex, 8);
-                                        }else{
-                                            $movieList = Controller::$movieList;
                                         }
-                                        $numberOfMovies = sizeof($movieList);
-                                        $cardIndex = 0;
-                                        for($row=0; $row<2; $row++) {
-                                            for ($card = 0; $card < 4; $card++) {
-                                                if ($cardIndex < $numberOfMovies) {
-                                                    $objectClass = get_class($movieList[$cardIndex]);
-                                                    $title = $movieList[$cardIndex]->getTitle();
-                                                    $id = $movieList[$cardIndex]->getId();
-                                                    HtmlElements::printSmallCard($objectClass, $title, $id);
-                                                    $cardIndex++;
-                                                }
-                                            }
+                                        if($row==0){
                                             print('<div class="cc_featured_second_section">');
                                         }
-                                        print('</div>');
-                                        ?>
-                                    </div>
-								</div>
-							</div>
-						</div>
-					</div>
+                                    }
+                                    print('</div>');
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- prs upcomung Slider End -->
+                <!-- newest 8 movies-->
+                <div role="tabpanel" class="tab-pane fade" id="movies">
+                    <div class="prs_upcom_slider_slides_wrapper">
+                        <div class="owl-theme">
+                            <div class="item">
+                                <div class="row">
+                                    <?php
+                                    $movieList = array();
+                                    $numberOfMovies = sizeof(Controller::$movieList);
+                                    if($numberOfMovies > 8){
+                                        $startIndex =  ($numberOfMovies-8);
+                                        $movieList = array_slice(Controller::$movieList, $startIndex, 8);
+                                    }else{
+                                        $movieList = Controller::$movieList;
+                                    }
+                                    $numberOfMovies = sizeof($movieList);
+                                    $cardIndex = 0;
+                                    for($row=0; $row<2; $row++) {
+                                        for ($card = 0; $card < 4; $card++) {
+                                            if ($cardIndex < $numberOfMovies) {
+                                                $objectClass = get_class($movieList[$cardIndex]);
+                                                $title = $movieList[$cardIndex]->getTitle();
+                                                $id = $movieList[$cardIndex]->getId();
+                                                HtmlElements::printSmallCard($objectClass, $title, $id);
+                                                $cardIndex++;
+                                            }
+                                        }
+                                        print('<div class="cc_featured_second_section">');
+                                    }
+                                    print('</div>');
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <?php
-     HtmlElements::printFooter();
-     HtmlElements::printCopyRightFooter();
-    ?>
-
-	<!-- st login wrapper Start -->
-	<div class="modal fade st_pop_form_wrapper" id="myModal" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<div class="st_pop_form_heading_wrapper float_left">
-					<h3>Log in</h3>
-				</div>
-				<div class="st_profile_input float_left">
-					<label>Email / Mobile Number</label>
-					<input type="text">
-				</div>
-				<div class="st_profile__pass_input st_profile__pass_input_pop float_left">
-					<input type="password" placeholder="Password">
-				</div>
-				<div class="st_form_pop_fp float_left">
-					<h3><a href="#" data-toggle="modal" data-target="#myModa2" target="_blank">Forgot Password?</a></h3>
-				</div>
-				<div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">LOGIN</a>
-				</div>
-				<div class="st_form_pop_or_btn float_left">
-					<h4>or</h4>
-				</div>
-				<div class="st_form_pop_facebook_btn float_left">	<a href="#"> Connect with Facebook</a>
-				</div>
-				<div class="st_form_pop_gmail_btn float_left">	<a href="#"> Connect with Google</a>
-				</div>
-				<div class="st_form_pop_signin_btn float_left">
-					<h4>Don’t have an account? <a href="#" data-toggle="modal" data-target="#myModa3" target="_blank">Sign Up</a></h4>
-					<h5>I agree to the <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy</a></h5>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade st_pop_form_wrapper" id="myModa2" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<div class="st_pop_form_heading_wrapper st_pop_form_heading_wrapper_fpass float_left">
-					<h3>Forgot Password</h3>
-					<p>We can help! All you need to do is enter your email ID and follow the instructions!</p>
-				</div>
-				<div class="st_profile_input float_left">
-					<label>Email Address</label>
-					<input type="text">
-				</div>
-				<div class="st_form_pop_fpass_btn float_left">	<a href="#">Verify</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade st_pop_form_wrapper" id="myModa3" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<div class="st_pop_form_heading_wrapper float_left">
-					<h3>Sign Up</h3>
-				</div>
-				<div class="st_profile_input float_left">
-					<label>Email / Mobile Number</label>
-					<input type="text">
-				</div>
-				<div class="st_profile__pass_input st_profile__pass_input_pop float_left">
-					<input type="password" placeholder="Password">
-				</div>
-				<div class="st_form_pop_fp float_left">
-					<h3><a href="#" data-toggle="modal" data-target="#myModa2" target="_blank">Forgot Password?</a></h3>
-				</div>
-				<div class="st_form_pop_login_btn float_left">	<a href="page-1-7_profile_settings.html">LOGIN</a>
-				</div>
-				<div class="st_form_pop_or_btn float_left">
-					<h4>or</h4>
-				</div>
-				<div class="st_form_pop_facebook_btn float_left">	<a href="#"><i class="fab fa-facebook-f"></i> Connect with Facebook</a>
-				</div>
-				<div class="st_form_pop_gmail_btn float_left">	<a href="#"><i class="fab fa-google-plus-g"></i> Connect with Google</a>
-				</div>
-				<div class="st_form_pop_signin_btn st_form_pop_signin_btn_signup float_left">
-					<h5>I agree to the <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy</a></h5>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- st login wrapper End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- prs new Slider End -->
 
 
-
-
-
-    <!--main js file start-->
-	<script src="js/jquery_min.js"></script>
-	<script src="js/modernizr.js"></script>
-	<script src="js/bootstrap.js"></script>
-	<script src="js/owl.carousel.js"></script>
-	<script src="js/jquery.dlmenu.js"></script>
-	<script src="js/jquery.sticky.js"></script>
-	<script src="js/jquery.nice-select.min.js"></script>
-	<script src="js/jquery.magnific-popup.js"></script>
-	<script src="js/jquery.bxslider.min.js"></script>
-	<script src="js/venobox.min.js"></script>
-	<script src="js/smothscroll_part1.js"></script>
-	<script src="js/smothscroll_part2.js"></script>
-	<script src="js/plugin/rs_slider/jquery.themepunch.revolution.min.js"></script>
-	<script src="js/plugin/rs_slider/jquery.themepunch.tools.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.addon.snow.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.actions.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.carousel.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.kenburn.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.layeranimation.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.migration.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.navigation.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.parallax.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.slideanims.min.js"></script>
-	<script src="js/plugin/rs_slider/revolution.extension.video.min.js"></script>
-	<script src="js/custom.js"></script>
-	<!--main js file end-->
+<?php
+HtmlElements::printFooter();
+HtmlElements::printCopyRightFooter();
+?>
+<!--main js file start-->
+<script src="js/jquery_min.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/owl.carousel.js"></script>
+<script src="js/jquery.dlmenu.js"></script>
+<script src="js/jquery.sticky.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.magnific-popup.js"></script>
+<script src="js/jquery.bxslider.min.js"></script>
+<script src="js/venobox.min.js"></script>
+<script src="js/smothscroll_part1.js"></script>
+<script src="js/smothscroll_part2.js"></script>
+<script src="js/plugin/rs_slider/jquery.themepunch.revolution.min.js"></script>
+<script src="js/plugin/rs_slider/jquery.themepunch.tools.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.addon.snow.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.actions.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.carousel.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.kenburn.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.layeranimation.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.migration.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.navigation.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.parallax.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.slideanims.min.js"></script>
+<script src="js/plugin/rs_slider/revolution.extension.video.min.js"></script>
+<script src="js/custom.js"></script>
+<!--main js file end-->
 </body>
 
 </html>
