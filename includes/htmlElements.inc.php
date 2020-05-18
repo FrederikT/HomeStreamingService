@@ -16,8 +16,11 @@ class HtmlElements
                     <div class="prs_navigation_main_wrapper">
                         <div class="container-fluid">
                             <div id="search_open" class="gc_search_box">
-                                <input type="text" placeholder="Search here">
-                                <button><i class="fa fa-search" aria-hidden="true"></i>
+                            <form id="mobileSearchForm2" method="get" action="search.html">
+                                <input type="hidden"  name="category" value="All">
+                                <input type="text" name="Title" placeholder="Search here">
+                                </form>
+                                <button form="mobileSearchForm2" type="submit" ><i class="fa fa-search" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="prs_navi_left_main_wrapper">
@@ -151,7 +154,7 @@ class HtmlElements
                                         </li>
                                         <li><a href="search.html?category=movie&Title=SHOW_ALL">All Movies</a>
                                         </li>
-                                        <li><a href="search.html?category=show&Title=SHOW_ALL">EVENT</a>
+                                        <li><a href="search.html?category=show&Title=SHOW_ALL">All Shows</a>
                                         </li>                              
                                     </ul>
                                     <div class="product-heading prs_slidebar_searchbar_wrapper">
@@ -473,7 +476,6 @@ class HtmlElements
 											</div>');
     }
 
-    //ToDo For Episode: replace with ffmpeg?
 
     static function printCard($type, $title, $id){
         $cardValues = self::getDataForCard($type, $id);
