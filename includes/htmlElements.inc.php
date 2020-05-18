@@ -165,7 +165,7 @@ class HtmlElements
                                          <form id="mobileSearchForm" method="get" action="search.html">
                                          <input type="text" placeholder="Search Movie , Show, Episode" name="Title">
                                         </form>
-                                        <button form="searchForm" type="submit" ><i class="flaticon-tool"></i> 
+                                        <button form="mobileSearchForm" type="submit" ><i class="flaticon-tool"></i> 
                                         </button>
                                     </div>
                                     </div>                                 
