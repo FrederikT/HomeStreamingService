@@ -190,30 +190,10 @@ class HtmlElements
                 <div class="prs_footer_main_section_wrapper">
                 <div class="container">
                     <div class="row">
-                       <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_1">
-                                <h2>LANGUAGE MOVIES</h2>
-                                <ul>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">English movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Tamil movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Punjabi Movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Hindi movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Malyalam movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">English Action movie</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">Hindi Action movie</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>-->
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_2">
-                                <h2>Movies by genre</h2><ul>');
+                                <h2>Movies by genre</h2>
+                                <ul>');
         $genres = Controller::getGenre();
         foreach($genres as $genre){
             // # of entries(placed within a) <span>23,124</span>
@@ -222,28 +202,17 @@ class HtmlElements
                                 </ul>
                             </div>
                         </div>
-                        <!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_3">
-                                <h2>BOOKING ONLINE</h2>
-                                <ul>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">www.example.com</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">www.hello.com</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">www.example.com</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">www.hello.com</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">www.example.com</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">www.hello.com</a>
-                                    </li>
-                                    <li><i class="fa fa-circle"></i> &nbsp;&nbsp;<a href="#">www.example.com</a>
-                                    </li>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_2">
+                                <h2>Franchises</h2><ul>');
+        $franchises = Controller::getFranchises();
+        foreach($franchises as $franchise){
+            print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="#">'); print $franchise->getName(); print ('</a> </li>');
+        }print('
                                 </ul>
                             </div>
-                        </div>-->
-                       <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
+                      <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="prs_footer_cont1_wrapper prs_footer_cont1_wrapper_4">
                                 <h2>App available on</h2>
                                 <p>Download App and Get Free Movie Ticket !</p>
