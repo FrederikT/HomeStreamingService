@@ -704,6 +704,7 @@ class HtmlElements
 
     /**
      * gets the Path to an Image (folder.jpg) for any relating Item (Movie, Show, Season, Episode)
+     * For Episode it delivers an ffmpeg image
      * @param String $type  Class of an Element (Movie, Adaptation, Season, Episode)
      * @param Integer $id Id of the element
      * @return string|null path to image or null if error occurred
@@ -724,7 +725,7 @@ class HtmlElements
             } else if ($type == "Episode") {
                 $episode = NullClasses::getEpisode();
                 $episode = Controller::getEpisode($id);
-                $path = "media/shows/" . dirname($episode->getFilePath()) . '/folder.jpg';
+                $path = self::ffmpeg($episode->getFilePath());
             } else if ($type == "Season") {
                 $season = NullClasses::getSeason();
                 $season = Controller::getSeason($id);
