@@ -693,6 +693,14 @@ class HtmlElements
             $linkUrl .=  $title;
             $linkUrl .=  "&id=";
             $linkUrl .=  $id;
+        }else if(strcasecmp($type, "Season") == 0){
+            $season = NullClasses::getSeason();
+            $season = Controller::getSeason($id);
+            $show = $season->getShow();
+            $linkUrl .= "show.html?show=";
+            $linkUrl .=  $show->getTitle();
+            $linkUrl .=  "&id=";
+            $linkUrl .=  $show->getId();
         }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
             $linkUrl .=  "streaming.html?".$type."=";
             $linkUrl .=  $title;
