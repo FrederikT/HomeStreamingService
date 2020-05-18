@@ -90,8 +90,8 @@ HtmlElements::printHeader();
                             
                                         <!-- MAIN IMAGE --><h1 style="position: absolute;
     top: 70%;
-    left: 50%;z-index:5000;transform: translate(-50%, -50%);font-size: 50px;color:#ff4444;letter-spacing: 2px;
-    font-weight: 700;">'.$movie->getTitle().'</h1>
+    left: 50%;z-index:5000;transform: translate(-50%, -50%);font-size: 32px;color:#ff4444;letter-spacing: 2px;
+    font-weight: bold;">'.$movie->getTitle().'</h1>
                                         <img src="');
                     print(HtmlElements::ffmpeg('media/movies/'.$movie->getFilePath()));
                     print('" alt="" data-bgposition="center center" data-bgfit="contain" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
