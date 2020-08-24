@@ -647,13 +647,19 @@ class Controller{
 
     //gets JSON From API
     static function getJson(string $endUrl){
+        $arrContextOptions=array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        );
         //API Address:
         //develop
-        $data = file_get_contents('http://localhost/api/api/'.$endUrl);
+        $data = file_get_contents('http://localhost/api/api/'.$endUrl, false, stream_context_create($arrContextOptions));
         //raspberry pi server
-       //$data = file_get_contents('http://192.168.0.37/api/'.$endUrl);
+       //$data = file_get_contents('http://192.168.0.37/api/'.$endUrl, false, stream_context_create($arrContextOptions));
         //on server
-        //$data = file_get_contents('http://localhost/api/'.$endUrl);
+        //$data = file_get_contents('http://localhost/api/'.$endUrl, false, stream_context_create($arrContextOptions));
 
         return $data;
     }
