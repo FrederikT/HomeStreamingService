@@ -1,0 +1,11 @@
+{
+    "require": {
+        "ext-curl": "*",
+        "php-ffmpeg/php-ffmpeg": "^1.4"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        }
+    }
+}

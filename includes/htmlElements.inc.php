@@ -654,38 +654,42 @@ class HtmlElements
     #####################################################################################################################
 
     /**
-     * Creates an image from an Video (at second 100), saves it to the webserver and returns the path
+     * Creates a cached video thumbnail at 100 seconds or halfway through a shorter video.
      * @param string $filepath path to a videofile
-     * @return string path to the created image
+     * @return string Relative thumbnail path or an empty string when unavailable.
      */
     static function ffmpeg($filepath){
-        require 'vendor/autoload.php';
-        $filename = basename($filepath);
-        $filename = mb_substr($filename, 0, -4); // remove .mp4
-        $filename .= '.png';
-        $sec = 100;
-        $thumbnail = 'images/thumbnails/'.$filename;
+        $filename = pathinfo($filepath, PATHINFO_FILENAME);
+        $directory = dirname(__DIR__) . '/images/thumbnails';
+        $thumbnail = 'images/thumbnails/' . $filename . '.png';
+        $output = $directory . '/' . $filename . '.png';
 
-        if(!file_exists($thumbnail)){
-            try{
-                $ffmpeg = FFMpeg\FFMpeg::create(array(
-                    'ffmpeg.binaries' => '/usr/bin//ffmpeg',
-                    'ffprobe.binaries' => '/usr/bin/ffprobe',
-                    'timeout' => 3600, // The timeout for the underlying process
-                    'ffmpeg.threads' => 12, // The number of threads that FFMpeg should use
-                ));
-
-                $video = $ffmpeg->open($filepath);
-                $frame = $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($sec));
-                $frame->save($thumbnail);
-                return $thumbnail;
-            }catch(Exception $e){
-                return $e->getMessage();
-            }
-        }else{
+        if (is_file($output)) {
             return $thumbnail;
         }
 
+        $autoload = dirname(__DIR__) . '/vendor/autoload.php';
+        if (!is_file($autoload) || !is_file($filepath)) {
+            return '';
+        }
+
+        try {
+            require_once $autoload;
+            if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
+                return '';
+            }
+
+            $ffmpeg = FFMpeg\FFMpeg::create();
+            $video = $ffmpeg->open($filepath);
+            $duration = (float) $video->getFormat()->get('duration');
+            $second = $duration > 100 ? 100 : (int) floor($duration / 2);
+            $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($second))->save($output);
+
+            return $thumbnail;
+        } catch (Exception $exception) {
+            error_log($exception->getMessage());
+            return '';
+        }
     }
 
 
@@ -747,7 +751,7 @@ class HtmlElements
             } else if ($type == "Episode") {
                 $episode = NullClasses::getEpisode();
                 $episode = Controller::getEpisode($id);
-                $path = self::ffmpeg($episode->getFilePath());
+                $path = self::ffmpeg("media/shows/" . $episode->getFilePath());
             } else if ($type == "Season") {
                 $season = NullClasses::getSeason();
                 $season = Controller::getSeason($id);
