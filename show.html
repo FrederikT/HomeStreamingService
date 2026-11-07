@@ -70,7 +70,7 @@ HtmlElements::printHeader();
 ?>
 <!-- prs title wrapper Start -->
 <div class="prs_title_main_sec_wrapper">
-    <div class="prs_title_img_overlay"  style="background-image: url(<?php echo HtmlElements::pathUrl(dirname(HtmlElements::getImagePath("Adaptation", $showId)) . "/show.jpg"); ?>"></div>
+    <div class="prs_title_img_overlay"  style="background-image: url(<?php echo HtmlElements::mediaUrl(dirname(HtmlElements::getImagePath("Adaptation", $showId) ?? "") . "/show.jpg"); ?>"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

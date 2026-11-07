@@ -491,9 +491,9 @@ class HtmlElements
         print ('<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 prs_upcom_slide_first">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
                                                                 <div class="prs_upcom_movie_img_box">');
-        $path = HtmlElements::getImagePath($type, $id);
-        if(isset($path)){
-            print(' <img src="'.self::pathUrl($path).'" alt="movie_img" />');
+        $path = self::getCardImageUrl($type, $id);
+        if ($path !== "") {
+            print(' <img src="'.$path.'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
         }
@@ -540,9 +540,9 @@ class HtmlElements
         print ('<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
                                                                 <div class="prs_upcom_movie_img_box">');
-        $path = HtmlElements::getImagePath($type, $id);
-        if(isset($path)){
-            print(' <img src="'.self::pathUrl($path).'" alt="movie_img" />');
+        $path = self::getCardImageUrl($type, $id);
+        if ($path !== "") {
+            print(' <img src="'.$path.'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up5.jpg" alt="movie_img" />');
         }
@@ -589,9 +589,9 @@ class HtmlElements
         print('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                             <div class="prs_mcc_list_movie_main_wrapper">
                                                                 <div class="prs_mcc_list_movie_img_wrapper">');
-        $path = HtmlElements::getImagePath($type, $id);
-        if(isset($path)){
-            print(' <img src="'.self::pathUrl($path).'" alt="movie_img" />');
+        $path = self::getCardImageUrl($type, $id);
+        if ($path !== "") {
+            print(' <img src="'.$path.'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
         }
@@ -661,42 +661,80 @@ class HtmlElements
     // Functions without category
     #####################################################################################################################
 
+    private static function getCardImageUrl($type, $id){
+        $path = self::getImagePath($type, $id) ?? "";
+        return $type === "Episode" ? self::pathUrl($path) : self::mediaUrl($path);
+    }
+
+    private static function resolveMediaFile($path){
+        if (!str_starts_with($path, "media/") || strpbrk($path, "\\:\0") !== false
+            || in_array("..", explode("/", $path), true)) {
+            return null;
+        }
+
+        $root = realpath(dirname(__DIR__) . "/media");
+        if ($root === false) {
+            return null;
+        }
+
+        $file = realpath($root . "/" . substr($path, strlen("media/")));
+        if ($file === false || !str_starts_with($file, $root . DIRECTORY_SEPARATOR) || !is_file($file)) {
+            return null;
+        }
+
+        return $file;
+    }
+
+    static function mediaUrl($path){
+        return self::resolveMediaFile($path) === null ? "" : self::pathUrl($path);
+    }
+
     /**
      * Creates a cached video thumbnail at 100 seconds or halfway through a shorter video.
-     * @param string $filepath path to a videofile
+     * @param string $filepath Path relative to the application root.
      * @return string Relative thumbnail path or an empty string when unavailable.
      */
     static function ffmpeg($filepath){
-        $filename = pathinfo($filepath, PATHINFO_FILENAME);
-        $directory = dirname(__DIR__) . '/images/thumbnails';
-        $thumbnail = 'images/thumbnails/' . $filename . '.png';
-        $output = $directory . '/' . $filename . '.png';
+        $file = self::resolveMediaFile($filepath);
+        if ($file === null) {
+            return "";
+        }
+
+        $directory = dirname(__DIR__) . "/images/thumbnails";
+        $name = hash("sha256", $filepath) . ".png";
+        $thumbnail = "images/thumbnails/" . $name;
+        $output = $directory . "/" . $name;
 
         if (is_file($output)) {
             return $thumbnail;
         }
 
-        $autoload = dirname(__DIR__) . '/vendor/autoload.php';
-        if (!is_file($autoload) || !is_file($filepath)) {
-            return '';
+        $autoload = dirname(__DIR__) . "/vendor/autoload.php";
+        if (!is_file($autoload)) {
+            return "";
         }
 
+        $temporary = $directory . "/" . bin2hex(random_bytes(12)) . ".png";
         try {
             require_once $autoload;
             if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-                return '';
+                return "";
             }
 
             $ffmpeg = FFMpeg\FFMpeg::create();
-            $video = $ffmpeg->open($filepath);
-            $duration = (float) $video->getFormat()->get('duration');
+            $video = $ffmpeg->open($file);
+            $duration = (float) $video->getFormat()->get("duration");
             $second = $duration > 100 ? 100 : (int) floor($duration / 2);
-            $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($second))->save($output);
+            $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($second))->save($temporary);
 
-            return $thumbnail;
+            return is_file($output) || rename($temporary, $output) ? $thumbnail : "";
         } catch (Exception $exception) {
             error_log($exception->getMessage());
-            return '';
+            return "";
+        } finally {
+            if (is_file($temporary)) {
+                unlink($temporary);
+            }
         }
     }
 

@@ -80,9 +80,12 @@ HtmlElements::printHeader();
                 <div class="st_video_slider_inner_wrapper float_left" style="background-image: url('<?php echo HtmlElements::pathUrl(HtmlElements::ffmpeg($prePath.$streamingItem->getFilePath())); ?>');">
                     <div class="st_video_slider_overlay"></div>
                     <div class="st_video_slide_sec float_left">
-                        <a rel='external' href='<?php print(HtmlElements::pathUrl($prePath.$streamingItem->getFilePath())); ?>' title='title' class="test-popup-link">
-                            <img src="images/index_III/icon.png" alt="img">
-                        </a>
+                        <?php $mediaUrl = HtmlElements::mediaUrl($prePath . $streamingItem->getFilePath()); ?>
+                        <?php if ($mediaUrl !== "") { ?>
+                            <a rel='external' href='<?php echo $mediaUrl; ?>' title='title' class="test-popup-link">
+                                <img src="images/index_III/icon.png" alt="img">
+                            </a>
+                        <?php } ?>
                         <h3>
                             <?php
                             echo HtmlElements::escape($streamingItem->getTitle());
