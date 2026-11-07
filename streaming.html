@@ -1,3 +1,23 @@
+<?php
+include_once 'includes/controller.inc.php';
+include_once 'includes/autoloader.inc.php';
+include_once 'includes/NullClasses.inc.php';
+include_once 'includes/htmlElements.inc.php';
+$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+$isMovie = isset($_GET["movie"]) || isset($_GET["Movie"]);
+$isEpisode = isset($_GET["episode"]) || isset($_GET["Episode"]);
+if (!$id || $isMovie === $isEpisode) {
+    http_response_code(400);
+    exit("Invalid media selection");
+}
+Controller::loadAll();
+$streamingItem = $isMovie ? Controller::getMovie($id) : Controller::getEpisode($id);
+if ($streamingItem === null) {
+    http_response_code(404);
+    exit("Media not found");
+}
+$prePath = $isMovie ? "media/movies/" : "media/shows/";
+?>
 <!DOCTYPE html>
 <!-- 
 Home Streaming Service Version 0.8
@@ -38,12 +58,6 @@ Author: Frederik Thuss
 </head>
 
 <!--  Autoloader automatically includes all used classes (.class.php not .inc.php)-->
-<?php
-include_once 'includes/controller.inc.php';
-include_once 'includes/autoloader.inc.php';
-include_once 'includes/NullClasses.inc.php';
-include_once 'includes/htmlElements.inc.php';
-?>
 
 <body>
 <!-- preloader Start -->
@@ -56,32 +70,6 @@ include_once 'includes/htmlElements.inc.php';
 <?php
 HtmlElements::printStyleSwitcher();
 HtmlElements::printHeader();
-Controller::loadAll();
-?>
-
-<?php
-if(isset($_GET['movie']) || isset($_GET['Movie'])){
-    $movieId = $_GET['id'];
-    $movie = NullClasses::getMovie();
-    $movie = Controller::getMovie($movieId);
-    $prePath = 'media/movies/';
-}
-if(isset($_GET['episode']) || isset($_GET['Episode'])){
-    $episodeId = $_GET['id'];
-    $episode = NullClasses::getEpisode();
-    $episode= Controller::getEpisode($episodeId);
-    $prePath = 'media/shows/';
-}
-
-
-if(isset($movie)){
-    $streamingItem = $movie;
-}
-if(isset($episode)){
-    $streamingItem = $episode;
-}
-
-
 ?>
 
 <!-- prs video top Start -->
@@ -89,26 +77,26 @@ if(isset($episode)){
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="st_video_slider_inner_wrapper float_left" style="background-image: url('<?php echo HtmlElements::ffmpeg($prePath.$streamingItem->getFilePath()); ?>');">
+                <div class="st_video_slider_inner_wrapper float_left" style="background-image: url('<?php echo HtmlElements::pathUrl(HtmlElements::ffmpeg($prePath.$streamingItem->getFilePath())); ?>');">
                     <div class="st_video_slider_overlay"></div>
                     <div class="st_video_slide_sec float_left">
-                        <a rel='external' href='<?php print($prePath.$streamingItem->getFilePath()); ?>' title='title' class="test-popup-link">
+                        <a rel='external' href='<?php print(HtmlElements::pathUrl($prePath.$streamingItem->getFilePath())); ?>' title='title' class="test-popup-link">
                             <img src="images/index_III/icon.png" alt="img">
                         </a>
                         <h3>
                             <?php
-                            echo $streamingItem->getTitle();
+                            echo HtmlElements::escape($streamingItem->getTitle());
                             ?>
                         </h3>
                         <h4>
                             <?php
-                            echo $streamingItem->getOriginalTitle();
+                            echo HtmlElements::escape($streamingItem->getOriginalTitle());
                             print("<br><br><br>");
-                                if(isset($movie)){
-                                   $genre = $movie->getGenre();
+                                if ($isMovie) {
+                                   $genre = $streamingItem->getGenre();
                                 }
-                                if(isset($episode)){
-                                    $season = $episode->getSeason();
+                                if ($isEpisode) {
+                                    $season = $streamingItem->getSeason();
                                     $show = $season->getShow();
                                     $genre = $show->getGenre();
                                 }
@@ -117,7 +105,7 @@ if(isset($episode)){
                                     $genreTag .= $item['Name'];
                                     $genreTag .= " | ";
                                 }
-                                print( mb_substr($genreTag, 0, -3));
+                                echo HtmlElements::escape(mb_substr($genreTag, 0, -3));
                             print("<br><br>");
                             print("<br><br>");
                             ?>
@@ -168,7 +156,7 @@ if(isset($episode)){
                                             <div class="st_md_summ_pera float_left">
                                                 <h5>SYNOPSIS</h5>
                                                 <p><?php
-                                                    print($streamingItem->getDescription());
+                                                    echo HtmlElements::escape($streamingItem->getDescription());
                                                     ?></p>
                                             </div>
                                         </div>

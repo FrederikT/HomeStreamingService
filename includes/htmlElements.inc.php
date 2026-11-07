@@ -1,6 +1,14 @@
 <?php
 class HtmlElements
 {
+    static function escape($value){
+        return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+    }
+
+    static function pathUrl($path){
+        return implode("/", array_map("rawurlencode", explode("/", (string) $path)));
+    }
+
 
     #####################################################################################################################
     // Functions that print reoccurring HTML elements. Changes can be done in one place instead of various.
@@ -50,11 +58,11 @@ class HtmlElements
             if ($i < count($movieList)) {
                 $movie = $movieList[$i];
                 print('<li><a href="streaming.html?movie=');
-                print($movie->getTitle());
+                print(rawurlencode($movie->getTitle()));
                 print('&id=');
                 print($movie->getId());
                 print('">');
-                echo $movie->getTitle();
+                echo self::escape($movie->getTitle());
                 print('</a></li>');
             }
         }
@@ -71,11 +79,11 @@ class HtmlElements
             if ($i < count($showList)) {
                 $show = $showList[$i];
                 print('<li><a href="show.html?show=');
-                print($show->getTitle());
+                print(rawurlencode($show->getTitle()));
                 print('&id=');
                 print($show->getId());
                 print('">');
-                echo $show->getTitle();
+                echo self::escape($show->getTitle());
                 print('</a></li>');
             }
         }
@@ -200,7 +208,7 @@ class HtmlElements
         $genres = Controller::getGenre();
         foreach($genres as $genre){
             // # of entries(placed within a) <span>23,124</span>
-            print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print $genre->getName(); print ('">'); print $genre->getName(); print ('</a> </li>');
+            print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print rawurlencode($genre->getName()); print ('">'); print HtmlElements::escape($genre->getName()); print ('</a> </li>');
         }print('
                                 </ul>
                             </div>
@@ -224,10 +232,10 @@ class HtmlElements
             if ($i < count($movieList)) {
                 $movie = $movieList[$i];
                 print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="streaming.html?movie=');
-                print($movie->getTitle());
+                print(rawurlencode($movie->getTitle()));
                 print('&id=');
                 print($movie->getId());
-                print('">'); print $movie->getTitle(); print ('</a> </li>');
+                print('">'); print self::escape($movie->getTitle()); print ('</a> </li>');
             }
         }
         print('
@@ -243,10 +251,10 @@ class HtmlElements
             if ($i < count($showList)) {
                 $show = $showList[$i];
                 print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="show.html?show=');
-                print($show->getTitle());
+                print(rawurlencode($show->getTitle()));
                 print('&id=');
                 print($show->getId());
-                print('">'); print $show->getTitle(); print ('</a> </li>');
+                print('">'); print self::escape($show->getTitle()); print ('</a> </li>');
             }
         }
         print('
@@ -485,14 +493,14 @@ class HtmlElements
                                                                 <div class="prs_upcom_movie_img_box">');
         $path = HtmlElements::getImagePath($type, $id);
         if(isset($path)){
-            print(' <img src="'.$path.'" alt="movie_img" />');
+            print(' <img src="'.self::pathUrl($path).'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
         }
         print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>
-                                                                            <li><a href="'.$linkUrl.'">Stream Now</a>
+                                                                            <li><a href="'.self::escape($linkUrl).'">Stream Now</a>
                                                                             </li>     
                                                                             <li style="display:none">
                                                                             <a></a>
@@ -503,10 +511,10 @@ class HtmlElements
                                                                 <div class="prs_upcom_movie_content_box">
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
-        print($linkUrl);
+        print(self::escape($linkUrl));
         print ('">');
-        print $title; print ('</a></h2>
-                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print('</p>
+        print self::escape($title); print ('</a></h2>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print(self::escape($gen['Name']).', ');} print('</p>
                                                                         <!--
                                                                         <i class="fa fa-star"></i>
                                                                         <i class="fa fa-star"></i>
@@ -534,14 +542,14 @@ class HtmlElements
                                                                 <div class="prs_upcom_movie_img_box">');
         $path = HtmlElements::getImagePath($type, $id);
         if(isset($path)){
-            print(' <img src="'.$path.'" alt="movie_img" />');
+            print(' <img src="'.self::pathUrl($path).'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up5.jpg" alt="movie_img" />');
         }
         print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>                                                                            
-                                                                            <li><a href="'.$linkUrl.'">Stream Now</a></li>
+                                                                            <li><a href="'.self::escape($linkUrl).'">Stream Now</a></li>
                                                                             <li style="display:none">
                                                                             <a></a>
                                                                             </li>
@@ -552,10 +560,10 @@ class HtmlElements
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
 
-        print($linkUrl);
+        print(self::escape($linkUrl));
         print ('">');
-        print $title; print ('</a></h2>
-                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print('</p>
+        print self::escape($title); print ('</a></h2>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print(self::escape($gen['Name']).', ');} print('</p>
                                                                         <!--
                                                                         <i class="fa fa-star"></i>
                                                                         <i class="fa fa-star"></i>
@@ -583,7 +591,7 @@ class HtmlElements
                                                                 <div class="prs_mcc_list_movie_img_wrapper">');
         $path = HtmlElements::getImagePath($type, $id);
         if(isset($path)){
-            print(' <img src="'.$path.'" alt="movie_img" />');
+            print(' <img src="'.self::pathUrl($path).'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
         }
@@ -591,10 +599,10 @@ class HtmlElements
                                                                 <div class="prs_mcc_list_movie_img_cont_wrapper">
                                                                     <div class="prs_mcc_list_left_cont_wrapper">
                                                                         <h2><a href="');
-        print($linkUrl);
+        print(self::escape($linkUrl));
         print ('">');
-        print $title; print ('</a></h2>
-                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print(' </p>
+        print self::escape($title); print ('</a></h2>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print(self::escape($gen['Name']).', ');} print(' </p>
                                                                         <!-- 
                                                                         Data currently unavailable
                                                                         <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
@@ -604,9 +612,9 @@ class HtmlElements
                                                                     <div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
                                                                     </div>
                                                                     <div class="prs_mcc_list_bottom_cont_wrapper">
-                                                                        <p>'.$cardValues['Description'].'</p>
+                                                                        <p>'.self::escape($cardValues['Description']).'</p>
                                                                         <ul>
-                                                                        <li><a href="'.$linkUrl.'">Stream Now</a>
+                                                                        <li><a href="'.self::escape($linkUrl).'">Stream Now</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -708,7 +716,7 @@ class HtmlElements
         $linkUrl = "";
         if(strcasecmp($type, "Adaptation") == 0){
             $linkUrl .= "show.html?show=";
-            $linkUrl .=  $title;
+            $linkUrl .=  rawurlencode($title);
             $linkUrl .=  "&id=";
             $linkUrl .=  $id;
         }else if(strcasecmp($type, "Season") == 0){
@@ -716,12 +724,12 @@ class HtmlElements
             $season = Controller::getSeason($id);
             $show = $season->getShow();
             $linkUrl .= "show.html?show=";
-            $linkUrl .=  $show->getTitle();
+            $linkUrl .=  rawurlencode($show->getTitle());
             $linkUrl .=  "&id=";
             $linkUrl .=  $show->getId();
         }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
             $linkUrl .=  "streaming.html?".$type."=";
-            $linkUrl .=  $title;
+            $linkUrl .=  rawurlencode($title);
             $linkUrl .=  "&id=";
             $linkUrl .=  $id;
         }

@@ -1,3 +1,20 @@
+<?php
+include_once 'includes/controller.inc.php';
+include_once 'includes/autoloader.inc.php';
+include_once 'includes/NullClasses.inc.php';
+include_once 'includes/htmlElements.inc.php';
+$showId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+if (!$showId) {
+    http_response_code(400);
+    exit("Invalid show ID");
+}
+Controller::loadAll();
+$show = Controller::getShow($showId);
+if ($show === null) {
+    http_response_code(404);
+    exit("Show not found");
+}
+?>
 <!DOCTYPE html>
 <!-- 
 Home Streaming Service Version 0.8
@@ -39,12 +56,6 @@ Author: Frederik Thuss
     <!-- favicon links -->
     <link rel="shortcut icon" type="image/png" href="images/header/favicon.ico" />
 </head>
-<?php
-include_once 'includes/controller.inc.php';
-include_once 'includes/autoloader.inc.php';
-include_once 'includes/NullClasses.inc.php';
-include_once 'includes/htmlElements.inc.php';
-?>
 
 <body>
 <!-- preloader Start -->
@@ -56,26 +67,20 @@ include_once 'includes/htmlElements.inc.php';
 <?php
 HtmlElements::printStyleSwitcher();
 HtmlElements::printHeader();
-Controller::loadAll();
-?>
-<?php
-$showId = $_GET['id'];
-$show = NullClasses::getAdaptation();
-$show = Controller::getShow($showId);
 ?>
 <!-- prs title wrapper Start -->
 <div class="prs_title_main_sec_wrapper">
-    <div class="prs_title_img_overlay"  style="background-image: url(<?php echo dirname(HtmlElements::getImagePath("Adaptation", $showId)); echo'/show.jpg' ?>"></div>
+    <div class="prs_title_img_overlay"  style="background-image: url(<?php echo HtmlElements::pathUrl(dirname(HtmlElements::getImagePath("Adaptation", $showId)) . "/show.jpg"); ?>"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="prs_title_heading_wrapper">
-                    <h2><?php echo $show->getTitle(); ?></h2>
+                    <h2><?php echo HtmlElements::escape($show->getTitle()); ?></h2>
                     <ul>
                         <li>Home</li>
                         <li>&nbsp;&nbsp; >&nbsp;&nbsp; Show</li>
                         <li>&nbsp;&nbsp; :&nbsp;&nbsp; <?php
-                            echo $show->getTitle();
+                            echo HtmlElements::escape($show->getTitle());
                             ?></li>
                     </ul>
                 </div>

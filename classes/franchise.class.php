@@ -4,7 +4,7 @@ class Franchise {
     private string $name;
     private int $id;
 
-    public function __construct(int $id = -1, string $name)
+    public function __construct(int $id, string $name)
     {
         $this->name = $name;
         $this->id = $id;
