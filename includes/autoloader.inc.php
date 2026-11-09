@@ -20,5 +20,7 @@ function myAutoLoader($classname){
 
     $extention =".class.php";
     $fullPath = $path . $classname . $extention;
-    include_once $fullPath;
+    if (is_file($fullPath)) {
+        include_once $fullPath;
+    }
 }

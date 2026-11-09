@@ -1,6 +1,14 @@
 <?php
 class HtmlElements
 {
+    static function escape($value){
+        return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+    }
+
+    static function pathUrl($path){
+        return implode("/", array_map("rawurlencode", explode("/", (string) $path)));
+    }
+
 
     #####################################################################################################################
     // Functions that print reoccurring HTML elements. Changes can be done in one place instead of various.
@@ -50,11 +58,11 @@ class HtmlElements
             if ($i < count($movieList)) {
                 $movie = $movieList[$i];
                 print('<li><a href="streaming.html?movie=');
-                print($movie->getTitle());
+                print(rawurlencode($movie->getTitle()));
                 print('&id=');
                 print($movie->getId());
                 print('">');
-                echo $movie->getTitle();
+                echo self::escape($movie->getTitle());
                 print('</a></li>');
             }
         }
@@ -71,11 +79,11 @@ class HtmlElements
             if ($i < count($showList)) {
                 $show = $showList[$i];
                 print('<li><a href="show.html?show=');
-                print($show->getTitle());
+                print(rawurlencode($show->getTitle()));
                 print('&id=');
                 print($show->getId());
                 print('">');
-                echo $show->getTitle();
+                echo self::escape($show->getTitle());
                 print('</a></li>');
             }
         }
@@ -200,7 +208,7 @@ class HtmlElements
         $genres = Controller::getGenre();
         foreach($genres as $genre){
             // # of entries(placed within a) <span>23,124</span>
-            print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print $genre->getName(); print ('">'); print $genre->getName(); print ('</a> </li>');
+            print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="?category=All&genre=');print rawurlencode($genre->getName()); print ('">'); print HtmlElements::escape($genre->getName()); print ('</a> </li>');
         }print('
                                 </ul>
                             </div>
@@ -224,10 +232,10 @@ class HtmlElements
             if ($i < count($movieList)) {
                 $movie = $movieList[$i];
                 print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="streaming.html?movie=');
-                print($movie->getTitle());
+                print(rawurlencode($movie->getTitle()));
                 print('&id=');
                 print($movie->getId());
-                print('">'); print $movie->getTitle(); print ('</a> </li>');
+                print('">'); print self::escape($movie->getTitle()); print ('</a> </li>');
             }
         }
         print('
@@ -243,10 +251,10 @@ class HtmlElements
             if ($i < count($showList)) {
                 $show = $showList[$i];
                 print('<li><i class="fa fa-caret-right"></i> &nbsp;&nbsp;&nbsp;<a href="show.html?show=');
-                print($show->getTitle());
+                print(rawurlencode($show->getTitle()));
                 print('&id=');
                 print($show->getId());
-                print('">'); print $show->getTitle(); print ('</a> </li>');
+                print('">'); print self::escape($show->getTitle()); print ('</a> </li>');
             }
         }
         print('
@@ -483,8 +491,8 @@ class HtmlElements
         print ('<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 prs_upcom_slide_first">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
                                                                 <div class="prs_upcom_movie_img_box">');
-        $path = HtmlElements::getImagePath($type, $id);
-        if(isset($path)){
+        $path = self::getCardImageUrl($type, $id);
+        if ($path !== "") {
             print(' <img src="'.$path.'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
@@ -492,7 +500,7 @@ class HtmlElements
         print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>
-                                                                            <li><a href="'.$linkUrl.'">Stream Now</a>
+                                                                            <li><a href="'.self::escape($linkUrl).'">Stream Now</a>
                                                                             </li>     
                                                                             <li style="display:none">
                                                                             <a></a>
@@ -503,10 +511,10 @@ class HtmlElements
                                                                 <div class="prs_upcom_movie_content_box">
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
-        print($linkUrl);
+        print(self::escape($linkUrl));
         print ('">');
-        print $title; print ('</a></h2>
-                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print('</p>
+        print self::escape($title); print ('</a></h2>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print(self::escape($gen['Name']).', ');} print('</p>
                                                                         <!--
                                                                         <i class="fa fa-star"></i>
                                                                         <i class="fa fa-star"></i>
@@ -532,8 +540,8 @@ class HtmlElements
         print ('<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                                             <div class="prs_upcom_movie_box_wrapper prs_mcc_movie_box_wrapper">
                                                                 <div class="prs_upcom_movie_img_box">');
-        $path = HtmlElements::getImagePath($type, $id);
-        if(isset($path)){
+        $path = self::getCardImageUrl($type, $id);
+        if ($path !== "") {
             print(' <img src="'.$path.'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up5.jpg" alt="movie_img" />');
@@ -541,7 +549,7 @@ class HtmlElements
         print('<div class="prs_upcom_movie_img_overlay"></div>
                                                                     <div class="prs_upcom_movie_img_btn_wrapper">
                                                                         <ul>                                                                            
-                                                                            <li><a href="'.$linkUrl.'">Stream Now</a></li>
+                                                                            <li><a href="'.self::escape($linkUrl).'">Stream Now</a></li>
                                                                             <li style="display:none">
                                                                             <a></a>
                                                                             </li>
@@ -552,10 +560,10 @@ class HtmlElements
                                                                     <div class="prs_upcom_movie_content_box_inner">
                                                                         <h2><a href="');
 
-        print($linkUrl);
+        print(self::escape($linkUrl));
         print ('">');
-        print $title; print ('</a></h2>
-                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print('</p>
+        print self::escape($title); print ('</a></h2>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print(self::escape($gen['Name']).', ');} print('</p>
                                                                         <!--
                                                                         <i class="fa fa-star"></i>
                                                                         <i class="fa fa-star"></i>
@@ -581,8 +589,8 @@ class HtmlElements
         print('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                             <div class="prs_mcc_list_movie_main_wrapper">
                                                                 <div class="prs_mcc_list_movie_img_wrapper">');
-        $path = HtmlElements::getImagePath($type, $id);
-        if(isset($path)){
+        $path = self::getCardImageUrl($type, $id);
+        if ($path !== "") {
             print(' <img src="'.$path.'" alt="movie_img" />');
         }else{
             print(' <img src="images/content/movie_category/up1.jpg" alt="movie_img" />');
@@ -591,10 +599,10 @@ class HtmlElements
                                                                 <div class="prs_mcc_list_movie_img_cont_wrapper">
                                                                     <div class="prs_mcc_list_left_cont_wrapper">
                                                                         <h2><a href="');
-        print($linkUrl);
+        print(self::escape($linkUrl));
         print ('">');
-        print $title; print ('</a></h2>
-                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print($gen['Name'].', ');} print(' </p>
+        print self::escape($title); print ('</a></h2>
+                                                                        <p>'); foreach ($cardValues['Genre'] as $gen){print(self::escape($gen['Name']).', ');} print(' </p>
                                                                         <!-- 
                                                                         Data currently unavailable
                                                                         <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
@@ -604,9 +612,9 @@ class HtmlElements
                                                                     <div class="prs_mcc_list_right_cont_wrapper">	<a href="#"><i class="flaticon-cart-of-ecommerce"></i></a>
                                                                     </div>
                                                                     <div class="prs_mcc_list_bottom_cont_wrapper">
-                                                                        <p>'.$cardValues['Description'].'</p>
+                                                                        <p>'.self::escape($cardValues['Description']).'</p>
                                                                         <ul>
-                                                                        <li><a href="'.$linkUrl.'">Stream Now</a>
+                                                                        <li><a href="'.self::escape($linkUrl).'">Stream Now</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -653,39 +661,81 @@ class HtmlElements
     // Functions without category
     #####################################################################################################################
 
+    private static function getCardImageUrl($type, $id){
+        $path = self::getImagePath($type, $id) ?? "";
+        return $type === "Episode" ? self::pathUrl($path) : self::mediaUrl($path);
+    }
+
+    private static function resolveMediaFile($path){
+        if (!str_starts_with($path, "media/") || strpbrk($path, "\\:\0") !== false
+            || in_array("..", explode("/", $path), true)) {
+            return null;
+        }
+
+        $root = realpath(dirname(__DIR__) . "/media");
+        if ($root === false) {
+            return null;
+        }
+
+        $file = realpath($root . "/" . substr($path, strlen("media/")));
+        if ($file === false || !str_starts_with($file, $root . DIRECTORY_SEPARATOR) || !is_file($file)) {
+            return null;
+        }
+
+        return $file;
+    }
+
+    static function mediaUrl($path){
+        return self::resolveMediaFile($path) === null ? "" : self::pathUrl($path);
+    }
+
     /**
-     * Creates an image from an Video (at second 100), saves it to the webserver and returns the path
-     * @param string $filepath path to a videofile
-     * @return string path to the created image
+     * Creates a cached video thumbnail at 100 seconds or halfway through a shorter video.
+     * @param string $filepath Path relative to the application root.
+     * @return string Relative thumbnail path or an empty string when unavailable.
      */
     static function ffmpeg($filepath){
-        require 'vendor/autoload.php';
-        $filename = basename($filepath);
-        $filename = mb_substr($filename, 0, -4); // remove .mp4
-        $filename .= '.png';
-        $sec = 100;
-        $thumbnail = 'images/thumbnails/'.$filename;
+        $file = self::resolveMediaFile($filepath);
+        if ($file === null) {
+            return "";
+        }
 
-        if(!file_exists($thumbnail)){
-            try{
-                $ffmpeg = FFMpeg\FFMpeg::create(array(
-                    'ffmpeg.binaries' => '/usr/bin//ffmpeg',
-                    'ffprobe.binaries' => '/usr/bin/ffprobe',
-                    'timeout' => 3600, // The timeout for the underlying process
-                    'ffmpeg.threads' => 12, // The number of threads that FFMpeg should use
-                ));
+        $directory = dirname(__DIR__) . "/images/thumbnails";
+        $name = hash("sha256", $filepath) . ".png";
+        $thumbnail = "images/thumbnails/" . $name;
+        $output = $directory . "/" . $name;
 
-                $video = $ffmpeg->open($filepath);
-                $frame = $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($sec));
-                $frame->save($thumbnail);
-                return $thumbnail;
-            }catch(Exception $e){
-                return $e->getMessage();
-            }
-        }else{
+        if (is_file($output)) {
             return $thumbnail;
         }
 
+        $autoload = dirname(__DIR__) . "/vendor/autoload.php";
+        if (!is_file($autoload)) {
+            return "";
+        }
+
+        $temporary = $directory . "/" . bin2hex(random_bytes(12)) . ".png";
+        try {
+            require_once $autoload;
+            if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
+                return "";
+            }
+
+            $ffmpeg = FFMpeg\FFMpeg::create();
+            $video = $ffmpeg->open($file);
+            $duration = (float) $video->getFormat()->get("duration");
+            $second = $duration > 100 ? 100 : (int) floor($duration / 2);
+            $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds($second))->save($temporary);
+
+            return is_file($output) || rename($temporary, $output) ? $thumbnail : "";
+        } catch (Exception $exception) {
+            error_log($exception->getMessage());
+            return "";
+        } finally {
+            if (is_file($temporary)) {
+                unlink($temporary);
+            }
+        }
     }
 
 
@@ -704,7 +754,7 @@ class HtmlElements
         $linkUrl = "";
         if(strcasecmp($type, "Adaptation") == 0){
             $linkUrl .= "show.html?show=";
-            $linkUrl .=  $title;
+            $linkUrl .=  rawurlencode($title);
             $linkUrl .=  "&id=";
             $linkUrl .=  $id;
         }else if(strcasecmp($type, "Season") == 0){
@@ -712,12 +762,12 @@ class HtmlElements
             $season = Controller::getSeason($id);
             $show = $season->getShow();
             $linkUrl .= "show.html?show=";
-            $linkUrl .=  $show->getTitle();
+            $linkUrl .=  rawurlencode($show->getTitle());
             $linkUrl .=  "&id=";
             $linkUrl .=  $show->getId();
         }else if(strcasecmp($type, "Movie") == 0 || strcasecmp($type, "Episode") == 0){
             $linkUrl .=  "streaming.html?".$type."=";
-            $linkUrl .=  $title;
+            $linkUrl .=  rawurlencode($title);
             $linkUrl .=  "&id=";
             $linkUrl .=  $id;
         }
@@ -747,7 +797,7 @@ class HtmlElements
             } else if ($type == "Episode") {
                 $episode = NullClasses::getEpisode();
                 $episode = Controller::getEpisode($id);
-                $path = self::ffmpeg($episode->getFilePath());
+                $path = self::ffmpeg("media/shows/" . $episode->getFilePath());
             } else if ($type == "Season") {
                 $season = NullClasses::getSeason();
                 $season = Controller::getSeason($id);

@@ -1,4 +1,3 @@
-
 <?php
     class Genre {
         private string $name;
